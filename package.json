@@ -1,0 +1,34 @@
+{
+  "name": "engineer",
+  "version": "1.0.0",
+  "description": "The missing SharePoint configuration tool",
+  "main": "src/engineer.js",
+  "scripts": {
+    "migrate": "NODE_ENV=development node ./src/engineer"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oldrivercreative/engineer.git"
+  },
+  "keywords": [
+    "sharepoint",
+    "config"
+  ],
+  "author": "@kyleschaeffer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/oldrivercreative/engineer/issues"
+  },
+  "homepage": "https://github.com/oldrivercreative/engineer#readme",
+  "dependencies": {
+    "colors": "^1.1.2",
+    "node-sp-auth": "^2.2.1",
+    "path": "^0.12.7",
+    "request-promise": "^4.2.2"
+  },
+  "devDependencies": {
+    "eslint": "^4.8.0",
+    "eslint-config-airbnb-base": "^12.0.1",
+    "eslint-plugin-import": "^2.7.0"
+  }
+}
