@@ -5,17 +5,24 @@ const spauth = require('node-sp-auth');
 
 const Engineer = {
   /**
+   * Authentication headers are stored for subsequent requests
+   * @type {Object}
+   */
+  headers: null,
+
+  /**
    * Authenticate to SharePoint
    * @return {Promise}
    */
   authenticate() {
     log.important(`Authenticating to ${env.site}...`);
     const authPromise = new Promise((resolve) => {
-      spauth.getAuth(env.site, env).then((options) => {
+      spauth.getAuth(env.site, env.auth).then((options) => {
         log.success('Authenticated.');
-        const { headers } = options;
-        headers.Accept = 'application/json;odata=verbose';
-        resolve(headers);
+        this.headers = options.headers;
+        this.headers.Accept = 'application/json;odata=verbose';
+        this.headers['content-type'] = 'application/json;odata=verbose';
+        resolve();
       }).catch((response) => {
         const title = response.message.match(/<S:Text.*?>(.*)<\/S:Text>/)[1];
         const message = response.message.match(/<psf:text>(.*)<\/psf:text>/)[1];
@@ -34,10 +41,7 @@ const Engineer = {
     let message = 'Unknown error.';
 
     // Detailed SharePoint error message
-    if (response.error && response.error.length) {
-      const json = JSON.parse(response.error);
-      if (json.error && json.error.message && json.error.message.value) message = json.error.message.value;
-    }
+    if (response.error && response.error.error && response.error.error.message && response.error.error.message.value) message = response.error.error.message.value;
 
     // Generic status message
     else if (response.response && response.response.statusMessage && response.response.statusMessage.length) message = `${response.response.statusMessage}`;
@@ -47,26 +51,110 @@ const Engineer = {
   },
 
   /**
-   * Get data from endpoint URL
+   * Perform request to endpoint URL
    * @param  {String} url
+   * @param  {String} method
+   * @param  {Object} body
    * @return {Promise}
    */
-  get(url) {
+  request(url, method = 'GET', body = {}, json = true) {
+    // Trim slashes from API url
     const endpoint = url.replace(/^\/|\/$/g, '');
-    const get = new Promise((resolve) => {
-      this.authenticate().then((headers) => {
-        request.get({
-          url: `${env.site}/${endpoint}`,
-          headers,
-        }).then((response) => {
-          const json = JSON.parse(response);
-          resolve(json);
-        }).catch((response) => {
-          this.handle(response);
-        });
+
+    // Request
+    const r = new Promise((resolve, reject) => {
+      request({
+        method,
+        uri: `${env.site}/${endpoint}`,
+        headers: this.headers,
+        body,
+        json,
+      }).then((response) => {
+        resolve(response);
+      }).catch((response) => {
+        reject(response);
       });
     });
-    return get;
+    return r;
+  },
+
+  /**
+   * Get data from endpoint URL
+   * @param  {String} url
+   * @param  {Event}  onStart
+   * @return {Promise}
+   */
+  get(url, onStart = () => {}) {
+    const r = new Promise((resolve, reject) => {
+      // Authenticate, then request
+      if (!this.headers) {
+        this.authenticate().then(() => {
+          // onStart event
+          onStart();
+
+          // Request
+          this.request(url).then((response) => {
+            resolve(response);
+          }).catch((response) => {
+            reject(response);
+          });
+        });
+      }
+
+      // Already authenticated
+      else {
+        // onStart event
+        onStart();
+
+        // Request
+        this.request(url).then((response) => {
+          resolve(response);
+        }).catch((response) => {
+          reject(response);
+        });
+      }
+    });
+    return r;
+  },
+
+  /**
+   * Post data to endpoint URL
+   * @param  {String} url
+   * @param  {Object} data
+   * @param  {Event}  onStart
+   * @return {Promise}
+   */
+  post(url, data = {}, onStart = () => {}) {
+    const r = new Promise((resolve, reject) => {
+      // Authenticate, then request
+      if (!this.headers) {
+        this.authenticate().then(() => {
+          // onStart event
+          onStart();
+
+          // Request
+          this.request(url, 'POST', data).then((response) => {
+            resolve(response);
+          }).catch((response) => {
+            reject(response);
+          });
+        });
+      }
+
+      // Already authenticated
+      else {
+        // onStart event
+        onStart();
+
+        // Request
+        this.request(url, 'POST', data).then((response) => {
+          resolve(response);
+        }).catch((response) => {
+          reject(response);
+        });
+      }
+    });
+    return r;
   },
 
   /**
@@ -74,9 +162,27 @@ const Engineer = {
    * @return {void}
    */
   install() {
-    this.get('/_api/web').then((response) => {
-      log.info(`The site title is ${response.d.Title}.`);
+    this.post('/_api/web/lists', {
+      __metadata: {
+        type: 'SP.List',
+      },
+      AllowContentTypes: true,
+      BaseTemplate: 100,
+      ContentTypesEnabled: true,
+      Description: 'My list description',
+      Title: 'Test title',
+    }).then(() => {
+      log.success(`Migration list installed successfully at ${env.site}/Lists/_migrations.`);
+    }).catch((response) => {
+      this.handle(response);
     });
+    // this.get('/_api/web/lists/getbytitle(\'_migrations\')', () => {
+    //   log.info('Reading SharePoint site...');
+    // }).then(() => {
+    //   log.warning('The migration list has already been installed.');
+    // }).catch(() => {
+    //   log.info('Creating migrations list...');
+    // });
   },
 
   /**
@@ -84,8 +190,12 @@ const Engineer = {
    * @type {void}
    */
   status() {
-    this.get("/_api/web/lists/getbytitle('_migrations')").then((response) => {
+    this.get('/_api/web/lists/getbytitle(\'_migrations\')', () => {
+      log.info('Reading migration list...');
+    }).then((response) => {
       log.info(response);
+    }).catch(() => {
+      log.warning('The migrations list is not installed. Run "engineer install" to begin.');
     });
   },
 };

@@ -4,12 +4,19 @@ const engineer = require('../src/engineer');
 const program = require('commander');
 
 // Init the program
-program.version('1.0.0');
+program.version('1.0.0')
+  .option('-d, --dry', 'Dry run (read only)');
+
+// Status
+program.command('status')
+  .description('Get current migration status')
+  .action(() => {
+    engineer.status();
+  });
 
 // Install
 program.command('install')
-  .description('Install a hidden migration tracking list on target environment')
-  .option('-d, --dry', 'Dry run, no changes will be made')
+  .description('Install hidden migration tracking list on target environment')
   .action(() => {
     engineer.install();
   });
@@ -17,16 +24,29 @@ program.command('install')
 // Migrate
 program.command('migrate')
   .description('Run pending migrations')
-  .option('-d, --dry', 'Dry run, no changes will be made')
   .action(() => {
     engineer.migrate();
   });
 
-// Status
-program.command('status')
-  .description('Get current migration status')
+// Rollback
+program.command('rollback')
+  .description('Roll back last migration')
   .action(() => {
-    engineer.status();
+    engineer.rollback();
+  });
+
+// Reset
+program.command('reset')
+  .description('Roll back all migrations')
+  .action(() => {
+    engineer.reset();
+  });
+
+// Uninstall
+program.command('uninstall')
+  .description('Delete hidden migration tracking list from target environment')
+  .action(() => {
+    engineer.uninstall();
   });
 
 // Parse command
