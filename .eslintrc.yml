@@ -1,3 +1,5 @@
 extends: airbnb-base
 rules:
+  brace-style: 0
+  max-len: 0
   no-console: 0

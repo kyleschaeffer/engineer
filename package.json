@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "The missing SharePoint configuration tool",
   "main": "src/engineer.js",
+  "bin": {
+    "engineer": "bin/engineer.js"
+  },
   "scripts": {
     "migrate": "NODE_ENV=development node ./src/engineer"
   },
@@ -22,7 +25,8 @@
   "homepage": "https://github.com/oldrivercreative/engineer#readme",
   "dependencies": {
     "colors": "^1.1.2",
-    "node-sp-auth": "^2.2.1",
+    "commander": "^2.11.0",
+    "node-sp-auth": "^2.2.3",
     "path": "^0.12.7",
     "request-promise": "^4.2.2"
   },
