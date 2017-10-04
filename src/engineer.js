@@ -11,25 +11,67 @@ const Engineer = {
   headers: null,
 
   /**
+   * Store form digest for subsequent requests
+   * @type {String}
+   */
+  digest: null,
+
+  /**
    * Authenticate to SharePoint
    * @return {Promise}
    */
   authenticate() {
-    log.important(`Authenticating to ${env.site}...`);
-    const authPromise = new Promise((resolve) => {
+    const p = new Promise((resolve) => {
+      // Already authenticated
+      if (this.headers) {
+        resolve();
+        return;
+      }
+
+      // Authenticate
+      log.info(`Authenticating to ${env.site}...`);
       spauth.getAuth(env.site, env.auth).then((options) => {
-        log.success('Authenticated.');
         this.headers = options.headers;
         this.headers.Accept = 'application/json;odata=verbose';
         this.headers['content-type'] = 'application/json;odata=verbose';
-        resolve();
+        log.success('Authenticated.');
+        this.getDigest().then(() => {
+          resolve();
+        });
       }).catch((response) => {
         const title = response.message.match(/<S:Text.*?>(.*)<\/S:Text>/)[1];
         const message = response.message.match(/<psf:text>(.*)<\/psf:text>/)[1];
         log.error(`${title}: ${message}`);
       });
     });
-    return authPromise;
+    return p;
+  },
+
+  /**
+   * Get form digest value
+   * @return {Promise}
+   */
+  getDigest() {
+    const p = new Promise((resolve) => {
+      // Existing digest
+      if (this.digest) {
+        resolve();
+        return;
+      }
+
+      // Get digest value
+      this.post('/_api/contextinfo', {}, () => {
+        log.info(`Getting form digest value from ${env.site}...`);
+      }).then((response) => {
+        this.digest = response.d.GetContextWebInformation.FormDigestValue;
+        this.headers['X-RequestDigest'] = this.digest;
+        log.success('Digest value retrieved.');
+        resolve();
+      }).catch((response) => {
+        this.handle(response);
+      });
+    });
+    return p;
   },
 
   /**
