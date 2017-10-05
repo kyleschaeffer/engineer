@@ -27,6 +27,7 @@
     "colors": "^1.1.2",
     "commander": "^2.11.0",
     "fs": "0.0.1-security",
+    "moment": "^2.18.1",
     "node-sp-auth": "^2.2.3",
     "path": "^0.12.7",
     "request-promise": "^4.2.2"

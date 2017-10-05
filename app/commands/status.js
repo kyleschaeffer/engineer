@@ -4,7 +4,7 @@ const utility = require('../utility');
 module.exports = {
   /**
    * Get current migration status
-   * @type {void}
+   * @return {void}
    */
   run() {
     sharepoint.list.get({

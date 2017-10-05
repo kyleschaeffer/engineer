@@ -7,6 +7,13 @@ const program = require('commander');
 program.version('1.0.0')
   .option('-d, --dry', 'Dry run (read only)');
 
+// Init
+program.command('init')
+  .description('Initialize the current working directory as an Engineer project')
+  .action(() => {
+    engineer.commands.init.run();
+  });
+
 // Status
 program.command('status')
   .description('Get current migration status')
@@ -47,6 +54,13 @@ program.command('uninstall')
   .description('Delete hidden migration tracking list from target environment')
   .action(() => {
     engineer.commands.uninstall.run();
+  });
+
+// Make migration
+program.command('make <name>')
+  .description('Create a new migration file')
+  .action((name) => {
+    engineer.commands.make.run(name);
   });
 
 // Parse command
