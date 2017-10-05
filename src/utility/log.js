@@ -7,7 +7,7 @@ const Log = {
    * @return {void}
    */
   print(str) {
-    return console.log(str);
+    return process.stdout.write(str);
   },
 
   /**
@@ -36,7 +36,7 @@ const Log = {
    */
   error(str) {
     if (typeof (str) !== 'string') return this.dump(str);
-    return this.print(str.red.bold);
+    return this.print(str.red);
   },
 
   /**
@@ -46,7 +46,7 @@ const Log = {
    */
   warning(str) {
     if (typeof (str) !== 'string') return this.dump(str);
-    return this.print(str.yellow.bold);
+    return this.print(str.yellow);
   },
 
   /**
@@ -56,7 +56,7 @@ const Log = {
    */
   important(str) {
     if (typeof (str) !== 'string') return this.dump(str);
-    return this.print(str.cyan.bold);
+    return this.print(str.cyan);
   },
 
   /**
@@ -66,7 +66,7 @@ const Log = {
    */
   success(str) {
     if (typeof (str) !== 'string') return this.dump(str);
-    return this.print(str.green.bold);
+    return this.print(str.green);
   },
 };
 
