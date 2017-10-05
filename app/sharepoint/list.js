@@ -25,6 +25,7 @@ module.exports = {
         Description: '',
         Title: '',
       },
+      onStart: () => {},
       site: '',
     }, config);
 
@@ -32,6 +33,7 @@ module.exports = {
     const r = new Promise((resolve, reject) => {
       request.post({
         body: options.list,
+        onStart: options.onStart,
         site: options.site,
         uri: '_api/web/lists',
       }).then((response) => {
@@ -52,6 +54,7 @@ module.exports = {
     // Options
     const options = utility.config.options({
       id: null,
+      onStart: () => {},
       site: '',
       title: '',
     }, config);
@@ -59,6 +62,7 @@ module.exports = {
     // Request
     const r = new Promise((resolve, reject) => {
       request.get({
+        onStart: options.onStart,
         site: options.site,
         uri: `_api/web/lists${options.id ? `(guid'${options.id}')` : `/getbytitle('${options.title}')`}`,
       }).then((response) => {
@@ -84,6 +88,7 @@ module.exports = {
           type: 'SP.List',
         },
       },
+      onStart: () => {},
       site: '',
       title: '',
     }, config);
@@ -92,6 +97,7 @@ module.exports = {
     const r = new Promise((resolve, reject) => {
       request.update({
         body: options.list,
+        onStart: options.onStart,
         site: options.site,
         uri: `_api/web/lists${options.id ? `(guid'${options.id}')` : `/getbytitle('${options.title}')`}`,
       }).then((response) => {
@@ -112,6 +118,7 @@ module.exports = {
     // Options
     const options = utility.config.options({
       id: null,
+      onStart: () => {},
       site: '',
       title: null,
     }, config);
@@ -119,6 +126,7 @@ module.exports = {
     // Request
     const r = new Promise((resolve, reject) => {
       request.delete({
+        onStart: options.onStart,
         site: options.site,
         uri: `_api/web/lists${options.id ? `(guid'${options.id}')` : `/getbytitle('${options.title}')`}`,
       }).then((response) => {

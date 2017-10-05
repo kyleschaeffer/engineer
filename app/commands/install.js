@@ -8,22 +8,31 @@ module.exports = {
    */
   run() {
     // Check to see if migration list already exists
-    utility.log.info('Analyzing site...\n');
     sharepoint.list.get({
+      onStart: () => {
+        utility.log.info('Analyzing site...');
+      },
       title: '_migrations',
     }).then(() => {
-      utility.log.warning('Engineer has already been installed.\n');
+      utility.log.warning('done.\nEngineer is already installed.\n');
     }).catch(() => {
+      utility.log.success('done.\n');
+
       // Create migration list
-      utility.log.info('Installing...');
       sharepoint.list.create({
         list: {
           Description: 'Migrations tracking list installed automatically by Engineer',
           Hidden: true,
           Title: '_migrations',
         },
+        onStart: () => {
+          utility.log.info('Installing Engineer lists...');
+        },
       }).then(() => {
-        utility.log.success('installed.\n');
+        utility.log.success('done.\nEngineer has been installed.\n');
+      }).catch((response) => {
+        utility.log.error('done.\n');
+        utility.error.handle(response);
       });
     });
   },

@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 
-const engineer = require('../src/engineer');
+const engineer = require('../app/engineer');
 const program = require('commander');
 
 // Init the program

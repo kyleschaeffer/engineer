@@ -63,6 +63,7 @@ module.exports = {
       headers: {},
       json: true,
       method: 'GET',
+      onStart: () => {},
       site: '',
       uri: '',
     }, config);
@@ -75,9 +76,14 @@ module.exports = {
     segments.push(options.uri);
     const uri = segments.join('/');
 
-    // Request
+    // Request promise
     const r = new Promise((resolve, reject) => {
+      // Authenticate
       this.auth().then(() => {
+        // Event: start
+        options.onStart();
+
+        // Request
         request({
           body: options.body,
           headers: utility.config.options(this.headers, options.headers),
@@ -87,7 +93,6 @@ module.exports = {
         }).then((response) => {
           resolve(response);
         }).catch((response) => {
-          utility.error.handle(response);
           reject(response);
         });
       }).catch((response) => {
@@ -106,6 +111,7 @@ module.exports = {
     // Options
     const options = utility.config.options({
       headers: {},
+      onStart: () => {},
       site: '',
       uri: '',
     }, config);
@@ -132,6 +138,7 @@ module.exports = {
       body: {},
       headers: {},
       method: 'POST',
+      onStart: () => {},
       site: '',
       uri: '',
     }, config);
@@ -161,6 +168,7 @@ module.exports = {
         'X-HTTP-Method': 'MERGE',
       },
       method: 'POST',
+      onStart: () => {},
       site: '',
       uri: '',
     }, config);
@@ -189,6 +197,7 @@ module.exports = {
         'X-HTTP-Method': 'DELETE',
       },
       method: 'POST',
+      onStart: () => {},
       site: '',
       uri: '',
     }, config);

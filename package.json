@@ -2,7 +2,7 @@
   "name": "engineer",
   "version": "1.0.0",
   "description": "The missing SharePoint configuration tool",
-  "main": "src/engineer.js",
+  "main": "app/engineer.js",
   "bin": {
     "engineer": "bin/engineer.js"
   },

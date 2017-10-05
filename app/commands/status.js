@@ -7,13 +7,15 @@ module.exports = {
    * @type {void}
    */
   run() {
-    utility.log.info('Analyzing...');
     sharepoint.list.get({
+      onStart: () => {
+        utility.log.info('Analyzing site...');
+      },
       title: '_migrations',
     }).then(() => {
-      utility.log.success('Engineer is installed.\n');
+      utility.log.success('done.\nEngineer is installed.\n');
     }).catch(() => {
-      utility.log.warning('Engineer is not installed. Run "engineer install" to begin.\n');
+      utility.log.warning('done.\nEngineer is not installed. Run "engineer install" to begin.\n');
     });
   },
 };
