@@ -23,8 +23,6 @@ module.exports = {
         resolve();
       });
     });
-
-    // Get on the bus
     bus.load(task);
   },
 
@@ -45,8 +43,6 @@ module.exports = {
         resolve();
       });
     });
-
-    // Get on the bus
     bus.load(task);
   },
 };

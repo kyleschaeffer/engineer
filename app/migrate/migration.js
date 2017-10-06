@@ -72,7 +72,9 @@ class Migration {
       else {
         const task = this.queue[dir].shift();
         task.run().then(() => {
-          this.next(rollback);
+          this.next(rollback).then(() => {
+            resolve();
+          });
         });
       }
     });

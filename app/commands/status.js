@@ -5,18 +5,25 @@ const utility = require('../utility');
 module.exports = {
   /**
    * Get current migration status
-   * @return {void}
+   * @return {Promise}
    */
   run() {
-    sharepoint.list.get({
-      onStart: () => {
-        utility.log.info('Analyzing site...');
-      },
-      title: config.sharepoint.lists.migrations,
-    }).then(() => {
-      utility.log.success('done.\nEngineer is installed.\n');
-    }).catch(() => {
-      utility.log.warning('done.\nEngineer is not installed. Run "engineer install" to begin.\n');
+    const p = new Promise((resolve) => {
+      sharepoint.list.get({
+        onError: () => {
+          utility.log.warning('done.\nEngineer is not installed. Use "engineer install" to get started.\n');
+        },
+        onStart: () => {
+          utility.log.info('Analyzing site...');
+        },
+        onSuccess: () => {
+          utility.log.success('done.\nEngineer is installed.\n');
+        },
+        title: config.sharepoint.lists.migrations,
+      }).then(() => {
+        resolve();
+      });
     });
+    return p;
   },
 };

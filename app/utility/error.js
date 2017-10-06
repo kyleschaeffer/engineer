@@ -17,9 +17,6 @@ module.exports = {
 
     // Log
     log.error(`Error (${response.statusCode}): ${message}\n`);
-
-    // Fail
-    this.fail();
   },
 
   /**

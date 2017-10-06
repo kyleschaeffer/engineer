@@ -5,7 +5,7 @@ module.exports = {
    * Engineer tasks.
    */
   up(engineer) {
-    engineer.list.create('My List');
+    engineer.list.create('My Other List');
   },
 
   /**
@@ -14,6 +14,6 @@ module.exports = {
    * Engineer tasks.
    */
   down(engineer) {
-    engineer.list.delete('My List');
+    engineer.list.delete('My Other List');
   },
 };

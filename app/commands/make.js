@@ -5,22 +5,26 @@ module.exports = {
   /**
    * Create new migration file
    * @param  {String} name
-   * @return {void}
+   * @return {Promise}
    */
   run(name = 'New Migration') {
-    // Create migration
-    utility.log.info(`Creating migration ${name}...`);
+    const p = new Promise((resolve) => {
+      // Create migration
+      utility.log.info(`Creating migration ${name}...`);
 
-    // Create migrations directory
-    utility.file.mkdir('migrations');
+      // Create migrations directory
+      utility.file.mkdir('migrations');
 
-    // Generate timestamped file path
-    const path = `migrations/${moment().utc().format('YYYYMMDDHHmmss')}-${utility.file.slug(name)}.js`;
+      // Generate timestamped file path
+      const path = `migrations/${moment().utc().format('YYYYMMDDHHmmss')}-${utility.file.slug(name)}.js`;
 
-    // Write file from template
-    utility.file.fromTemplate('migration.js', path);
-    utility.log.success('done.\n');
-    utility.log.info('New migration file: ');
-    utility.log.important(`${process.cwd()}/${path}\n`);
+      // Write file from template
+      utility.file.fromTemplate('migration.js', path);
+      utility.log.success('done.\n');
+      utility.log.info('New migration file: ');
+      utility.log.important(`${process.cwd()}/${path}\n`);
+      resolve();
+    });
+    return p;
   },
 };

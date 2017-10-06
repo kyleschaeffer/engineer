@@ -20,7 +20,7 @@ program.version('1.0.0')
 program.command('init')
   .description('Initialize the current working directory as an Engineer project')
   .action(() => {
-    engineer.commands.init.run();
+    engineer.commands.init.run().then(() => {});
   });
 
 // Status
@@ -28,7 +28,7 @@ program.command('status')
   .description('Get current migration status')
   .action(() => {
     config();
-    engineer.commands.status.run();
+    engineer.commands.status.run().then(() => {});
   });
 
 // Install
@@ -36,7 +36,7 @@ program.command('install')
   .description('Install hidden migration tracking list on target environment')
   .action(() => {
     config();
-    engineer.commands.install.run();
+    engineer.commands.install.run().then(() => {});
   });
 
 // Migrate
@@ -44,7 +44,7 @@ program.command('migrate')
   .description('Run pending migrations')
   .action(() => {
     config();
-    engineer.commands.migrate.run();
+    engineer.commands.migrate.run().then(() => {});
   });
 
 // Rollback
@@ -52,7 +52,7 @@ program.command('rollback')
   .description('Roll back last migration')
   .action(() => {
     config();
-    engineer.commands.rollback.run();
+    engineer.commands.rollback.run().then(() => {});
   });
 
 // Reset
@@ -60,7 +60,7 @@ program.command('reset')
   .description('Roll back all migrations')
   .action(() => {
     config();
-    engineer.commands.reset.run();
+    engineer.commands.reset.run().then(() => {});
   });
 
 // Uninstall
@@ -68,7 +68,7 @@ program.command('uninstall')
   .description('Delete hidden migration tracking list from target environment')
   .action(() => {
     config();
-    engineer.commands.uninstall.run();
+    engineer.commands.uninstall.run().then(() => {});
   });
 
 // Make migration
@@ -76,7 +76,7 @@ program.command('make <name>')
   .description('Create a new migration file')
   .action((name) => {
     config();
-    engineer.commands.make.run(name);
+    engineer.commands.make.run(name).then(() => {});
   });
 
 // Browse SharePoint
@@ -84,7 +84,7 @@ program.command('browse [list]')
   .description('Open SharePoint in a web browser')
   .action((list) => {
     config();
-    engineer.commands.browse.run(list);
+    engineer.commands.browse.run(list).then(() => {});
   });
 
 // Parse command

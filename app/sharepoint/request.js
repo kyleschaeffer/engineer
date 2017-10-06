@@ -21,7 +21,7 @@ module.exports = {
    * @return {Promise}
    */
   auth() {
-    const r = new Promise((resolve, reject) => {
+    const r = new Promise((resolve) => {
       // Already authenticated
       if (this.headers) {
         resolve();
@@ -41,11 +41,7 @@ module.exports = {
           this.digest = response.d.GetContextWebInformation.FormDigestValue;
           this.headers['X-RequestDigest'] = this.digest;
           resolve(response);
-        }).catch((response) => {
-          reject(response);
         });
-      }).catch((response) => {
-        reject(response);
       });
     });
     return r;
@@ -63,7 +59,9 @@ module.exports = {
       headers: {},
       json: true,
       method: 'GET',
+      onError: () => {},
       onStart: () => {},
+      onSuccess: () => {},
       site: '',
       uri: '',
     }, params);
@@ -76,8 +74,8 @@ module.exports = {
     segments.push(options.uri);
     const uri = segments.join('/');
 
-    // Request promise
-    const r = new Promise((resolve, reject) => {
+    // Request
+    const r = new Promise((resolve) => {
       // Authenticate
       this.auth().then(() => {
         // Event: start
@@ -91,12 +89,15 @@ module.exports = {
           method: options.method,
           uri,
         }).then((response) => {
+          // Event: success
+          options.onSuccess(response);
+
           resolve(response);
         }).catch((response) => {
-          reject(response);
+          // Event: error
+          options.onError(response);
+          resolve(response);
         });
-      }).catch((response) => {
-        reject(response);
       });
     });
     return r;
@@ -109,19 +110,12 @@ module.exports = {
    */
   get(params = {}) {
     // Options
-    const options = utility.config.options({
-      headers: {},
-      onStart: () => {},
-      site: '',
-      uri: '',
-    }, params);
+    const options = utility.config.options({}, params);
 
     // Request
-    const r = new Promise((resolve, reject) => {
+    const r = new Promise((resolve) => {
       this.request(options).then((response) => {
         resolve(response);
-      }).catch((response) => {
-        reject(response);
       });
     });
     return r;
@@ -135,20 +129,13 @@ module.exports = {
   post(params = {}) {
     // Options
     const options = utility.config.options({
-      body: {},
-      headers: {},
       method: 'POST',
-      onStart: () => {},
-      site: '',
-      uri: '',
     }, params);
 
     // Request
-    const r = new Promise((resolve, reject) => {
+    const r = new Promise((resolve) => {
       this.request(options).then((response) => {
         resolve(response);
-      }).catch((response) => {
-        reject(response);
       });
     });
     return r;
@@ -162,23 +149,17 @@ module.exports = {
   update(params = {}) {
     // Options
     const options = utility.config.options({
-      body: {},
       headers: {
         'IF-MATCH': '*',
         'X-HTTP-Method': 'MERGE',
       },
       method: 'POST',
-      onStart: () => {},
-      site: '',
-      uri: '',
     }, params);
 
     // Request
-    const r = new Promise((resolve, reject) => {
+    const r = new Promise((resolve) => {
       this.request(options).then((response) => {
         resolve(response);
-      }).catch((response) => {
-        reject(response);
       });
     });
     return r;
@@ -197,17 +178,12 @@ module.exports = {
         'X-HTTP-Method': 'DELETE',
       },
       method: 'POST',
-      onStart: () => {},
-      site: '',
-      uri: '',
     }, params);
 
     // Request
-    const r = new Promise((resolve, reject) => {
+    const r = new Promise((resolve) => {
       this.request(options).then((response) => {
         resolve(response);
-      }).catch((response) => {
-        reject(response);
       });
     });
     return r;
@@ -218,7 +194,7 @@ module.exports = {
    * @return {Promise}
    */
   getDigest() {
-    const p = new Promise((resolve, reject) => {
+    const p = new Promise((resolve) => {
       // Existing digest
       if (this.digest) {
         resolve();
@@ -226,15 +202,21 @@ module.exports = {
       }
 
       // Get digest value
-      utility.log.info('Getting context...');
       this.post({
+        onError: (response) => {
+          utility.log.error('failed.\n');
+          utility.error.handle(response);
+          utility.error.fail();
+        },
+        onStart: () => {
+          utility.log.info('Getting context...');
+        },
+        onSuccess: () => {
+          utility.log.success('done.\n');
+        },
         uri: '_api/contextinfo',
       }).then((response) => {
-        utility.log.success('done.\n');
         resolve(response);
-      }).catch((response) => {
-        utility.error.handle(response);
-        reject(response);
       });
     });
     return p;

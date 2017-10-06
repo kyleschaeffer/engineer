@@ -25,24 +25,30 @@ module.exports = {
         Description: '',
         Title: '',
       },
-      onStart: () => {},
+      onError: (response) => {
+        utility.log.error('failed.\n');
+        utility.error.handle(response);
+      },
+      onStart: () => {
+        utility.log.info(`Creating list ${options.list.Title}...`);
+      },
+      onSuccess: () => {
+        utility.log.success('done.\n');
+      },
       site: '',
     }, params);
 
     // Request
-    const r = new Promise((resolve, reject) => {
-      utility.log.info(`Creating list ${options.list.Title}...`);
+    const r = new Promise((resolve) => {
       request.post({
         body: options.list,
+        onError: options.onError,
         onStart: options.onStart,
+        onSuccess: options.onSuccess,
         site: options.site,
         uri: '_api/web/lists',
       }).then((response) => {
-        utility.log.success('done.\n');
         resolve(response);
-      }).catch((response) => {
-        utility.log.error('done.\n');
-        reject(response);
       });
     });
     return r;
@@ -57,21 +63,30 @@ module.exports = {
     // Options
     const options = utility.config.options({
       id: null,
-      onStart: () => {},
+      onError: (response) => {
+        utility.log.error('failed.\n');
+        utility.error.handle(response);
+      },
+      onStart: () => {
+        utility.log.info(`Getting list ${options.id ? options.id : options.title}...`);
+      },
+      onSuccess: () => {
+        utility.log.success('done.\n');
+      },
       site: '',
       title: '',
     }, params);
 
     // Request
-    const r = new Promise((resolve, reject) => {
+    const r = new Promise((resolve) => {
       request.get({
+        onError: options.onError,
         onStart: options.onStart,
+        onSuccess: options.onSuccess,
         site: options.site,
         uri: `_api/web/lists${options.id ? `(guid'${options.id}')` : `/getbytitle('${options.title}')`}`,
       }).then((response) => {
         resolve(response);
-      }).catch((response) => {
-        reject(response);
       });
     });
     return r;
@@ -91,22 +106,31 @@ module.exports = {
           type: 'SP.List',
         },
       },
-      onStart: () => {},
+      onError: (response) => {
+        utility.log.error('failed.\n');
+        utility.error.handle(response);
+      },
+      onStart: () => {
+        utility.log.info(`Updating list ${options.id ? options.id : options.title}...`);
+      },
+      onSuccess: () => {
+        utility.log.success('done.\n');
+      },
       site: '',
       title: '',
     }, params);
 
     // Request
-    const r = new Promise((resolve, reject) => {
+    const r = new Promise((resolve) => {
       request.update({
         body: options.list,
+        onError: options.onError,
         onStart: options.onStart,
+        onSuccess: options.onSuccess,
         site: options.site,
         uri: `_api/web/lists${options.id ? `(guid'${options.id}')` : `/getbytitle('${options.title}')`}`,
       }).then((response) => {
         resolve(response);
-      }).catch((response) => {
-        reject(response);
       });
     });
     return r;
@@ -121,24 +145,30 @@ module.exports = {
     // Options
     const options = utility.config.options({
       id: null,
-      onStart: () => {},
+      onError: (response) => {
+        utility.log.error('failed.\n');
+        utility.error.handle(response);
+      },
+      onStart: () => {
+        utility.log.info(`Deleting list ${options.id ? options.id : options.title}...`);
+      },
+      onSuccess: () => {
+        utility.log.success('done.\n');
+      },
       site: '',
       title: null,
     }, params);
 
     // Request
-    const r = new Promise((resolve, reject) => {
-      utility.log.info(`Deleting list ${options.title}...`);
+    const r = new Promise((resolve) => {
       request.delete({
+        onError: options.onError,
         onStart: options.onStart,
+        onSuccess: options.onSuccess,
         site: options.site,
         uri: `_api/web/lists${options.id ? `(guid'${options.id}')` : `/getbytitle('${options.title}')`}`,
       }).then((response) => {
-        utility.log.success('done.\n');
         resolve(response);
-      }).catch((response) => {
-        utility.log.error('done.\n');
-        reject(response);
       });
     });
     return r;
