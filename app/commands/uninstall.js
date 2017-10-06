@@ -1,3 +1,4 @@
+const config = require('../config');
 const sharepoint = require('../sharepoint');
 const utility = require('../utility');
 
@@ -11,14 +12,14 @@ module.exports = {
       onStart: () => {
         utility.log.info('Analyzing site...');
       },
-      title: '_migrations',
+      title: config.sharepoint.lists.migrations,
     }).then(() => {
       utility.log.success('done.\n');
       sharepoint.list.delete({
         onStart: () => {
           utility.log.info('Removing Engineer lists...');
         },
-        title: '_migrations',
+        title: config.sharepoint.lists.migrations,
       }).then(() => {
         utility.log.success('done.\nEngineer has been uninstalled.\n');
       }).catch((response) => {

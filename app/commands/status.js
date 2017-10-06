@@ -1,3 +1,4 @@
+const config = require('../config');
 const sharepoint = require('../sharepoint');
 const utility = require('../utility');
 
@@ -11,7 +12,7 @@ module.exports = {
       onStart: () => {
         utility.log.info('Analyzing site...');
       },
-      title: '_migrations',
+      title: config.sharepoint.lists.migrations,
     }).then(() => {
       utility.log.success('done.\nEngineer is installed.\n');
     }).catch(() => {

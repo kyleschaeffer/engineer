@@ -1,3 +1,4 @@
+const config = require('../config');
 const sharepoint = require('../sharepoint');
 const utility = require('../utility');
 
@@ -12,7 +13,7 @@ module.exports = {
       onStart: () => {
         utility.log.info('Analyzing site...');
       },
-      title: '_migrations',
+      title: config.sharepoint.lists.migrations,
     }).then(() => {
       utility.log.warning('done.\nEngineer is already installed.\n');
     }).catch(() => {
@@ -23,7 +24,7 @@ module.exports = {
         list: {
           Description: 'Migrations tracking list installed automatically by Engineer',
           Hidden: true,
-          Title: '_migrations',
+          Title: config.sharepoint.lists.migrations,
         },
         onStart: () => {
           utility.log.info('Installing Engineer lists...');

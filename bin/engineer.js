@@ -79,6 +79,14 @@ program.command('make <name>')
     engineer.commands.make.run(name);
   });
 
+// Browse SharePoint
+program.command('browse [list]')
+  .description('Open SharePoint in a web browser')
+  .action((list) => {
+    config();
+    engineer.commands.browse.run(list);
+  });
+
 // Parse command
 program.parse(process.argv);
 
