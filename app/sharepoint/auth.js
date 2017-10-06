@@ -1,4 +1,4 @@
-const env = require('../../env');
+const config = require('../config');
 const spauth = require('node-sp-auth');
 const utility = require('../utility');
 
@@ -9,8 +9,8 @@ module.exports = {
    */
   authenticate() {
     const p = new Promise((resolve, reject) => {
-      utility.log.info(`Authenticating to ${env.site}...`);
-      spauth.getAuth(env.site, env.auth).then((options) => {
+      utility.log.info(`Authenticating to ${config.env.site}...`);
+      spauth.getAuth(config.env.site, config.env.auth).then((options) => {
         utility.log.success('done.\n');
         resolve(options);
       }).catch((response) => {

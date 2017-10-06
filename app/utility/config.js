@@ -1,3 +1,5 @@
+const file = require('./file');
+
 module.exports = {
   /**
    * Build configuration object with default values
@@ -39,5 +41,15 @@ module.exports = {
    */
   isObject(el) {
     return el && typeof (el) === 'object' && !Array.isArray(el);
+  },
+
+  /**
+   * Load configuration object from file
+   * @param  {String} path
+   * @return {Object}
+   */
+  load(path) {
+    if (!path || !file.exists(path)) return {};
+    return require(file.path(path));
   },
 };

@@ -75,9 +75,10 @@ module.exports = {
    * Create a new file from a template
    * @param  {String} template
    * @param  {String} path
+   * @param  {String} flag
    * @return {void}
    */
-  fromTemplate(template, path) {
-    this.write(path, this.read(`app/templates/${template}`));
+  fromTemplate(template, path, flag = 'wx+') {
+    this.write(path, fs.readFileSync(`${__dirname}/../templates/${template}`), flag);
   },
 };

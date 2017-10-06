@@ -3,8 +3,17 @@
 const engineer = require('../app/engineer');
 const program = require('commander');
 
-// Init the program
+/**
+ * Load configuration when on command
+ * @return {[type]}
+ */
+const config = () => {
+  engineer.load(program.config);
+};
+
+// Program
 program.version('1.0.0')
+  .option('-c, --config <file>', 'Path to configuration file if not using "./env.js"')
   .option('-d, --dry', 'Dry run (read only)');
 
 // Init
@@ -18,6 +27,7 @@ program.command('init')
 program.command('status')
   .description('Get current migration status')
   .action(() => {
+    config();
     engineer.commands.status.run();
   });
 
@@ -25,6 +35,7 @@ program.command('status')
 program.command('install')
   .description('Install hidden migration tracking list on target environment')
   .action(() => {
+    config();
     engineer.commands.install.run();
   });
 
@@ -32,6 +43,7 @@ program.command('install')
 program.command('migrate')
   .description('Run pending migrations')
   .action(() => {
+    config();
     engineer.commands.migrate.run();
   });
 
@@ -39,6 +51,7 @@ program.command('migrate')
 program.command('rollback')
   .description('Roll back last migration')
   .action(() => {
+    config();
     engineer.commands.rollback.run();
   });
 
@@ -46,6 +59,7 @@ program.command('rollback')
 program.command('reset')
   .description('Roll back all migrations')
   .action(() => {
+    config();
     engineer.commands.reset.run();
   });
 
@@ -53,6 +67,7 @@ program.command('reset')
 program.command('uninstall')
   .description('Delete hidden migration tracking list from target environment')
   .action(() => {
+    config();
     engineer.commands.uninstall.run();
   });
 
@@ -60,6 +75,7 @@ program.command('uninstall')
 program.command('make <name>')
   .description('Create a new migration file')
   .action((name) => {
+    config();
     engineer.commands.make.run(name);
   });
 

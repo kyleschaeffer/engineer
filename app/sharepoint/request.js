@@ -1,5 +1,5 @@
 const auth = require('./auth');
-const env = require('../../env');
+const config = require('../config');
 const request = require('request-promise');
 const utility = require('../utility');
 
@@ -56,7 +56,7 @@ module.exports = {
    * @param  {Object} config
    * @return {Promise}
    */
-  request(config = {}) {
+  request(params = {}) {
     // Options
     const options = utility.config.options({
       body: {},
@@ -66,12 +66,12 @@ module.exports = {
       onStart: () => {},
       site: '',
       uri: '',
-    }, config);
+    }, params);
 
     // Build request URI
     options.site = utility.file.trim(options.site);
     options.uri = utility.file.trim(options.uri);
-    const segments = [env.site];
+    const segments = [config.env.site];
     if (options.site.length) segments.push(options.site);
     segments.push(options.uri);
     const uri = segments.join('/');
@@ -107,14 +107,14 @@ module.exports = {
    * @param  {Object} config
    * @return {Promise}
    */
-  get(config = {}) {
+  get(params = {}) {
     // Options
     const options = utility.config.options({
       headers: {},
       onStart: () => {},
       site: '',
       uri: '',
-    }, config);
+    }, params);
 
     // Request
     const r = new Promise((resolve, reject) => {
@@ -132,7 +132,7 @@ module.exports = {
    * @param  {Object} config
    * @return {Promise}
    */
-  post(config = {}) {
+  post(params = {}) {
     // Options
     const options = utility.config.options({
       body: {},
@@ -141,7 +141,7 @@ module.exports = {
       onStart: () => {},
       site: '',
       uri: '',
-    }, config);
+    }, params);
 
     // Request
     const r = new Promise((resolve, reject) => {
@@ -159,7 +159,7 @@ module.exports = {
    * @param  {Object} config
    * @return {Promise}
    */
-  update(config = {}) {
+  update(params = {}) {
     // Options
     const options = utility.config.options({
       body: {},
@@ -171,7 +171,7 @@ module.exports = {
       onStart: () => {},
       site: '',
       uri: '',
-    }, config);
+    }, params);
 
     // Request
     const r = new Promise((resolve, reject) => {
@@ -189,7 +189,7 @@ module.exports = {
    * @param  {Object} config
    * @return {Promise}
    */
-  delete(config = {}) {
+  delete(params = {}) {
     // Options
     const options = utility.config.options({
       headers: {
@@ -200,7 +200,7 @@ module.exports = {
       onStart: () => {},
       site: '',
       uri: '',
-    }, config);
+    }, params);
 
     // Request
     const r = new Promise((resolve, reject) => {

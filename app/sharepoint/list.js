@@ -12,7 +12,7 @@ module.exports = {
    * @param  {Object} config
    * @return {Promise}
    */
-  create(config = {}) {
+  create(params = {}) {
     // Options
     const options = utility.config.options({
       list: {
@@ -27,7 +27,7 @@ module.exports = {
       },
       onStart: () => {},
       site: '',
-    }, config);
+    }, params);
 
     // Request
     const r = new Promise((resolve, reject) => {
@@ -50,14 +50,14 @@ module.exports = {
    * @param  {Object} config
    * @return {Promise}
    */
-  get(config = {}) {
+  get(params = {}) {
     // Options
     const options = utility.config.options({
       id: null,
       onStart: () => {},
       site: '',
       title: '',
-    }, config);
+    }, params);
 
     // Request
     const r = new Promise((resolve, reject) => {
@@ -79,7 +79,7 @@ module.exports = {
    * @param  {Object} config
    * @return {Promise}
    */
-  update(config = {}) {
+  update(params = {}) {
     // Options
     const options = utility.config.options({
       id: null,
@@ -91,7 +91,7 @@ module.exports = {
       onStart: () => {},
       site: '',
       title: '',
-    }, config);
+    }, params);
 
     // Request
     const r = new Promise((resolve, reject) => {
@@ -114,14 +114,14 @@ module.exports = {
    * @param  {Object} config
    * @return {Promise}
    */
-  delete(config = {}) {
+  delete(params = {}) {
     // Options
     const options = utility.config.options({
       id: null,
       onStart: () => {},
       site: '',
       title: null,
-    }, config);
+    }, params);
 
     // Request
     const r = new Promise((resolve, reject) => {

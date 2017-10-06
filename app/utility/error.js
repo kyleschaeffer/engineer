@@ -17,5 +17,18 @@ module.exports = {
 
     // Log
     log.error(`Error (${response.statusCode}): ${message}\n`);
+
+    // Fail
+    this.fail();
+  },
+
+  /**
+   * End the process
+   * @param  {String} [message]
+   * @return {void}
+   */
+  fail(message = null) {
+    if (message) log.error(`${message}\n`);
+    process.exit();
   },
 };
