@@ -7,7 +7,7 @@ module.exports = {
   /**
    * Create new list
    * @param  {Object} params
-   * @return {Builder}
+   * @return {void}
    */
   create: (params = {}) => {
     // Options
@@ -18,6 +18,7 @@ module.exports = {
     const task = new Task((resolve) => {
       sharepoint.list.create({
         list: options,
+        site: bus.site,
       }).then(() => {
         resolve();
       });
@@ -25,19 +26,18 @@ module.exports = {
 
     // Get on the bus
     bus.load(task);
-
-    return this;
   },
 
   /**
    * Delete a list
    * @param  {Object} params
-   * @return {Builder}
+   * @return {void}
    */
   delete(params = {}) {
     // Options
     const options = utility.config.options({}, params);
     if (typeof (params) === 'string') options.title = params;
+    options.site = bus.site;
 
     // Task
     const task = new Task((resolve) => {
@@ -48,7 +48,5 @@ module.exports = {
 
     // Get on the bus
     bus.load(task);
-
-    return this;
   },
 };

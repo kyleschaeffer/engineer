@@ -11,6 +11,12 @@ module.exports = {
   tasks: [],
 
   /**
+   * Site context
+   * @type {[type]}
+   */
+  site: '',
+
+  /**
    * Get on the bus
    * @param  {Task} task
    * @return {Array}
