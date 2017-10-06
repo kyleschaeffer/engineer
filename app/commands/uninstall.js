@@ -1,4 +1,5 @@
 const config = require('../config');
+const Migration = require('../migrate/migration');
 const sharepoint = require('../sharepoint');
 const utility = require('../utility');
 
@@ -15,17 +16,18 @@ module.exports = {
       title: config.sharepoint.lists.migrations,
     }).then(() => {
       utility.log.success('done.\n');
-      sharepoint.list.delete({
-        onStart: () => {
-          utility.log.info('Removing Engineer lists...');
+
+      const uninstall = new Migration({
+        down(engineer) {
+          // Delete migrations list
+          engineer.list.delete(config.sharepoint.lists.migrations);
+
+          // Delete manifest list
+          engineer.list.delete(config.sharepoint.lists.manifest);
         },
-        title: config.sharepoint.lists.migrations,
-      }).then(() => {
-        utility.log.success('done.\nEngineer has been uninstalled.\n');
-      }).catch((response) => {
-        utility.log.error('done.\n');
-        utility.error.handle(response);
       });
+
+      uninstall.run(true);
     }).catch(() => {
       utility.log.warning('done.\nEngineer is not installed.\n');
     });

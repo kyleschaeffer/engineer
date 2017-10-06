@@ -31,14 +31,17 @@ module.exports = {
 
     // Request
     const r = new Promise((resolve, reject) => {
+      utility.log.info(`Creating list ${options.list.Title}...`);
       request.post({
         body: options.list,
         onStart: options.onStart,
         site: options.site,
         uri: '_api/web/lists',
       }).then((response) => {
+        utility.log.success('done.\n');
         resolve(response);
       }).catch((response) => {
+        utility.log.error('done.\n');
         reject(response);
       });
     });
@@ -125,13 +128,16 @@ module.exports = {
 
     // Request
     const r = new Promise((resolve, reject) => {
+      utility.log.info(`Deleting list ${options.title}...`);
       request.delete({
         onStart: options.onStart,
         site: options.site,
         uri: `_api/web/lists${options.id ? `(guid'${options.id}')` : `/getbytitle('${options.title}')`}`,
       }).then((response) => {
+        utility.log.success('done.\n');
         resolve(response);
       }).catch((response) => {
+        utility.log.error('done.\n');
         reject(response);
       });
     });

@@ -1,4 +1,5 @@
 const config = require('../config');
+const Migration = require('../migrate/migration');
 const sharepoint = require('../sharepoint');
 const utility = require('../utility');
 
@@ -19,22 +20,25 @@ module.exports = {
     }).catch(() => {
       utility.log.success('done.\n');
 
-      // Create migration list
-      sharepoint.list.create({
-        list: {
-          Description: 'Migrations tracking list installed automatically by Engineer',
-          Hidden: true,
-          Title: config.sharepoint.lists.migrations,
+      const install = new Migration({
+        up(engineer) {
+          // Create migrations list
+          engineer.list.create({
+            Description: 'Migrations tracking list installed automatically by Engineer',
+            Hidden: true,
+            Title: config.sharepoint.lists.migrations,
+          });
+
+          // Create manifest list
+          engineer.list.create({
+            Description: 'Manifest tracking list installed automatically by Engineer',
+            Hidden: true,
+            Title: config.sharepoint.lists.manifest,
+          });
         },
-        onStart: () => {
-          utility.log.info('Installing Engineer lists...');
-        },
-      }).then(() => {
-        utility.log.success('done.\nEngineer has been installed.\n');
-      }).catch((response) => {
-        utility.log.error('done.\n');
-        utility.error.handle(response);
       });
+
+      install.run();
     });
   },
 };
