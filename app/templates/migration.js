@@ -2,7 +2,7 @@ module.exports = {
   /**
    * Run these tasks when activating this migration. See
    * https://github.com/oldrivercreative/engineer for more information on
-   * Engineer tasks
+   * Engineer tasks.
    */
   up(engineer) {
     engineer.list.create('My List');
@@ -11,7 +11,7 @@ module.exports = {
   /**
    * Run these tasks when rolling back this migration. See
    * https://github.com/oldrivercreative/engineer for more information on
-   * Engineer tasks
+   * Engineer tasks.
    */
   down(engineer) {
     engineer.list.delete('My List');

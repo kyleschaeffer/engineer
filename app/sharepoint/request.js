@@ -69,8 +69,8 @@ module.exports = {
     }, config);
 
     // Build request URI
-    options.site = utility.url.trim(options.site);
-    options.uri = utility.url.trim(options.uri);
+    options.site = utility.file.trim(options.site);
+    options.uri = utility.file.trim(options.uri);
     const segments = [env.site];
     if (options.site.length) segments.push(options.site);
     segments.push(options.uri);
