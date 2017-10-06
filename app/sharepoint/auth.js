@@ -8,7 +8,7 @@ module.exports = {
    * @return {Promise}
    */
   authenticate() {
-    const p = new Promise((resolve, reject) => {
+    const p = new Promise((resolve) => {
       utility.log.info(`Authenticating to ${config.env.site}...`);
       spauth.getAuth(config.env.site, config.env.auth).then((options) => {
         utility.log.success('done.\n');
@@ -16,8 +16,8 @@ module.exports = {
       }).catch((response) => {
         const title = response.message.match(/<S:Text.*?>(.*)<\/S:Text>/)[1];
         const message = response.message.match(/<psf:text>(.*)<\/psf:text>/)[1];
-        utility.log.error(`\n${title}: ${message}\n`);
-        reject(response);
+        utility.log.error(`done.\n${title}: ${message}\n`);
+        utility.error.fail();
       });
     });
     return p;
