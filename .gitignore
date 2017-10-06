@@ -1,3 +1,4 @@
 **/.DS_Store
+/migrations
 /node_modules
 /env.js
