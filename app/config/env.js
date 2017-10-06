@@ -26,10 +26,10 @@ module.exports = {
     }, utility.config.load(path));
 
     // No config
-    if (!options.site) utility.error.fail(`Failed to load configuration file: ${utility.file.path(path)}`);
+    if (!options.site) utility.error.fail(`Failed to load config file: ${utility.file.path(path)}. Use "engineer init" to create a new config file.`);
 
     // Found config
-    else utility.log.important(`Using configuration file ${utility.file.path(path)}.\n`);
+    else utility.log.important(`Using config file ${utility.file.path(path)}.\n`);
 
     // Auth
     if (options.auth) this.auth = utility.config.options(this.auth, options.auth);
