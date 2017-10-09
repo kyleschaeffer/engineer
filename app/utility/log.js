@@ -1,5 +1,5 @@
 const amp = require('amp-utils');
-const colors = require('colors');
+const colors = require('colors'); // eslint-disable-line no-unused-vars
 const config = require('../config');
 const lang = require('../lang');
 
