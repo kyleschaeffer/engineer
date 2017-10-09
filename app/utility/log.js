@@ -89,7 +89,7 @@ const Log = {
       msg = amp.object.byPath(lang, `${config.env.lang}.${key}`);
       if (!msg) msg = amp.object.byPath(lang, `en.${key}`);
     } catch (e) {
-      return msg;
+      return key;
     }
     Object.keys(tokens).forEach((token) => {
       const regex = new RegExp(`%${token}%`, 'i');
