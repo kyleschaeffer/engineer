@@ -16,16 +16,20 @@ module.exports = {
     else if (response.response && response.response.statusMessage && response.response.statusMessage.length) message = `${response.response.statusMessage}`;
 
     // Log
-    log.error(`Error (${response.statusCode}): ${message}\n`);
+    log.error('error.message', {
+      code: response.statusCode,
+      message,
+    });
   },
 
   /**
    * End the process
-   * @param  {String} [message]
+   * @param  {String} message
+   * @param  {Object} tokens
    * @return {void}
    */
-  fail(message = null) {
-    if (message) log.error(`${message}\n`);
+  fail(message = null, tokens = {}) {
+    if (message) log.error(message, tokens);
     process.exit();
   },
 };

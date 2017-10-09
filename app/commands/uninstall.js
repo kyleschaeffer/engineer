@@ -18,8 +18,9 @@ module.exports = {
       });
 
       // Run
+      utility.log.info('uninstall.begin');
       uninstall.run(true).then(() => {
-        utility.log.success('Uninstall complete.\n');
+        utility.log.success('uninstall.complete');
         resolve();
       });
     });

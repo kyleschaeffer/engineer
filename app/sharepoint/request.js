@@ -1,3 +1,4 @@
+const amp = require('amp-utils');
 const auth = require('./auth');
 const config = require('../config');
 const request = require('request-promise');
@@ -54,7 +55,7 @@ module.exports = {
    */
   request(params = {}) {
     // Options
-    const options = utility.config.options({
+    const options = amp.options({
       body: {},
       headers: {},
       json: true,
@@ -67,8 +68,8 @@ module.exports = {
     }, params);
 
     // Build request URI
-    options.site = utility.file.trim(options.site);
-    options.uri = utility.file.trim(options.uri);
+    options.site = amp.string.trimSlashes(options.site);
+    options.uri = amp.string.trimSlashes(options.uri);
     const segments = [config.env.site];
     if (options.site.length) segments.push(options.site);
     segments.push(options.uri);
@@ -84,7 +85,7 @@ module.exports = {
         // Request
         request({
           body: options.body,
-          headers: utility.config.options(this.headers, options.headers),
+          headers: amp.options(this.headers, options.headers),
           json: options.json,
           method: options.method,
           uri,
@@ -96,6 +97,7 @@ module.exports = {
         }).catch((response) => {
           // Event: error
           options.onError(response);
+
           resolve(response);
         });
       });
@@ -110,7 +112,7 @@ module.exports = {
    */
   get(params = {}) {
     // Options
-    const options = utility.config.options({}, params);
+    const options = amp.options({}, params);
 
     // Request
     const r = new Promise((resolve) => {
@@ -128,7 +130,7 @@ module.exports = {
    */
   post(params = {}) {
     // Options
-    const options = utility.config.options({
+    const options = amp.options({
       method: 'POST',
     }, params);
 
@@ -148,7 +150,7 @@ module.exports = {
    */
   update(params = {}) {
     // Options
-    const options = utility.config.options({
+    const options = amp.options({
       headers: {
         'IF-MATCH': '*',
         'X-HTTP-Method': 'MERGE',
@@ -172,7 +174,7 @@ module.exports = {
    */
   delete(params = {}) {
     // Options
-    const options = utility.config.options({
+    const options = amp.options({
       headers: {
         'IF-MATCH': '*',
         'X-HTTP-Method': 'DELETE',
@@ -204,15 +206,15 @@ module.exports = {
       // Get digest value
       this.post({
         onError: (response) => {
-          utility.log.error('failed.\n');
+          utility.log.error('error.failed');
           utility.error.handle(response);
           utility.error.fail();
         },
         onStart: () => {
-          utility.log.info('Getting context...');
+          utility.log.info('auth.context');
         },
         onSuccess: () => {
-          utility.log.success('done.\n');
+          utility.log.success('success.done');
         },
         uri: '_api/contextinfo',
       }).then((response) => {

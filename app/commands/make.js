@@ -1,3 +1,4 @@
+const amp = require('amp-utils');
 const moment = require('moment');
 const utility = require('../utility');
 
@@ -10,19 +11,18 @@ module.exports = {
   run(name = 'New Migration') {
     const p = new Promise((resolve) => {
       // Create migration
-      utility.log.info(`Creating migration ${name}...`);
+      utility.log.info('make.begin', { name });
 
       // Create migrations directory
       utility.file.mkdir('migrations');
 
       // Generate timestamped file path
-      const path = `migrations/${moment().utc().format('YYYYMMDDHHmmss')}-${utility.file.slug(name)}.js`;
+      const path = `migrations/${moment().utc().format('YYYYMMDDHHmmss')}-${amp.string.slug(name)}.js`;
 
       // Write file from template
       utility.file.fromTemplate('migration.js', path);
-      utility.log.success('done.\n');
-      utility.log.info('New migration file: ');
-      utility.log.important(`${process.cwd()}/${path}\n`);
+      utility.log.success('success.done');
+
       resolve();
     });
     return p;

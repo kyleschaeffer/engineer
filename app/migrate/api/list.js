@@ -1,3 +1,4 @@
+const amp = require('amp-utils');
 const bus = require('../bus');
 const sharepoint = require('../../sharepoint');
 const Task = require('../task');
@@ -15,7 +16,7 @@ module.exports = {
    */
   create(params = {}) {
     // Options
-    const options = utility.config.options({
+    const options = amp.options({
       list: {
         __metadata: {
           type: 'SP.List',
@@ -27,20 +28,20 @@ module.exports = {
         Title: '',
       },
       onError: (response) => {
-        utility.log.error('failed.\n');
+        utility.log.error('error.failed');
         utility.error.handle(response);
       },
       onStart: () => {
-        utility.log.info(`Creating list ${options.list.Title}...`);
+        utility.log.info('list.create', { title: options.list.Title });
       },
       onSuccess: () => {
-        utility.log.success('done.\n');
+        utility.log.success('success.done');
       },
       site: bus.site,
     }, params);
 
     // Override: Title
-    if (typeof (params) === 'string') options.Title = params;
+    if (typeof params === 'string') options.list.Title = params;
 
     // Task
     const task = new Task((resolve) => {
@@ -65,24 +66,24 @@ module.exports = {
    */
   get(params = {}) {
     // Options
-    const options = utility.config.options({
+    const options = amp.options({
       id: null,
       onError: (response) => {
-        utility.log.error('failed.\n');
+        utility.log.error('error.failed');
         utility.error.handle(response);
       },
       onStart: () => {
-        utility.log.info(`Getting list ${options.id ? options.id : options.title}...`);
+        utility.log.info('list.get', { title: options.id || options.title });
       },
       onSuccess: () => {
-        utility.log.success('done.\n');
+        utility.log.success('success.done');
       },
       site: bus.site,
       title: '',
     }, params);
 
     // Override: Title
-    if (typeof (params) === 'string') options.Title = params;
+    if (typeof params === 'string') options.list.Title = params;
 
     // Task
     const task = new Task((resolve) => {
@@ -106,7 +107,7 @@ module.exports = {
    */
   update(params = {}) {
     // Options
-    const options = utility.config.options({
+    const options = amp.options({
       id: null,
       list: {
         __metadata: {
@@ -114,21 +115,21 @@ module.exports = {
         },
       },
       onError: (response) => {
-        utility.log.error('failed.\n');
+        utility.log.error('error.failed');
         utility.error.handle(response);
       },
       onStart: () => {
-        utility.log.info(`Updating list ${options.id ? options.id : options.title}...`);
+        utility.log.info('list.update', { title: options.id || options.title });
       },
       onSuccess: () => {
-        utility.log.success('done.\n');
+        utility.log.success('success.done');
       },
       site: bus.site,
       title: '',
     }, params);
 
-    // Override: Title
-    if (typeof (params) === 'string') options.Title = params;
+    // Override: title
+    if (typeof params === 'string') options.title = params;
 
     // Task
     const task = new Task((resolve) => {
@@ -153,23 +154,24 @@ module.exports = {
    */
   delete(params = {}) {
     // Options
-    const options = utility.config.options({
+    const options = amp.options({
       id: null,
       onError: (response) => {
-        utility.log.error('failed.\n');
+        utility.log.error('error.failed');
         utility.error.handle(response);
       },
       onStart: () => {
-        utility.log.info(`Deleting list ${options.id ? options.id : options.title}...`);
+        utility.log.info('list.delete', { title: options.id || options.title });
       },
       onSuccess: () => {
-        utility.log.success('done.\n');
+        utility.log.success('success.done');
       },
       site: bus.site,
       title: '',
     }, params);
-    if (typeof (params) === 'string') options.title = params;
-    options.site = bus.site;
+
+    // Override: title
+    if (typeof params === 'string') options.title = params;
 
     // Task
     const task = new Task((resolve) => {

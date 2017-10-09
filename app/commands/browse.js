@@ -14,7 +14,7 @@ module.exports = {
       const path = list ? `${config.env.site}/Lists/${config.sharepoint.lists[list] ? config.sharepoint.lists[list] : list}` : config.env.site;
 
       // Open
-      utility.log.info(`Opening ${path} in web browser...\n`);
+      utility.log.info('browse.begin', { path });
       open(path);
       resolve();
     });

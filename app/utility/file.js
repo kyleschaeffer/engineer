@@ -11,20 +11,6 @@ module.exports = {
   },
 
   /**
-   * Slugify the given string
-   * @param  {String} str
-   * @return {String}
-   */
-  slug(str = '') {
-    return str.toString().toLowerCase()
-      .replace(/\s+/g, '-')
-      .replace(/[^\w-]+/g, '')
-      .replace(/--+/g, '-')
-      .replace(/^-+/, '')
-      .replace(/-+$/, '');
-  },
-
-  /**
    * Return full path to given relative path
    * @param  {String} path
    * @return {String}
@@ -58,6 +44,16 @@ module.exports = {
    */
   read(path, flag = 'r') {
     return fs.readFileSync(this.path(path), { flag });
+  },
+
+  /**
+   * Require from file
+   * @param  {String} path
+   * @return {Object}
+   */
+  load(path) {
+    if (!path || !this.exists(path)) return {};
+    return require(this.path(path));
   },
 
   /**

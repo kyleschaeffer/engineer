@@ -7,20 +7,30 @@ module.exports = {
    */
   run() {
     const p = new Promise((resolve) => {
-      // Create .gitignore if it doesn't exist
-      if (!utility.file.exists('.gitignore')) utility.file.write('.gitignore', '/env.js\n');
+      // .gitignore
+      utility.log.info('init.ignore');
 
-      // Create config file
-      utility.log.info('Creating environment config file...');
+      // Create new file
+      if (!utility.file.exists('.gitignore')) {
+        utility.file.write('.gitignore', '/env.js\n');
+        utility.log.success('success.done');
+      }
 
-      // Write file from template
-      utility.file.fromTemplate('env.js', 'env.js', 'w+');
-      utility.log.success('done.\n');
-      utility.log.info('Environment config file: ');
-      utility.log.important(`${process.cwd()}/env.js\n`);
+      // Already exists
+      else utility.log.warning('error.exists');
 
-      // Done
-      utility.log.success('Setup complete.\n');
+      // env.js
+      utility.log.info('init.env');
+
+      // Create new file
+      if (!utility.file.exists('env.js')) {
+        utility.file.fromTemplate('env.js', 'env.js', 'w+');
+        utility.log.success('success.done');
+      }
+
+      // Already exists
+      else utility.log.warning('error.exists');
+
       resolve();
     });
     return p;

@@ -16,7 +16,7 @@ module.exports = {
   run() {
     // No migrations (folder doesn't exist)
     if (!utility.file.exists('migrations')) {
-      utility.log.warning('Nothing to migrate. Use "engineer make <name>" to create a new migration.\n');
+      utility.log.warning('migrate.empty');
       utility.error.fail();
     }
 
@@ -25,7 +25,7 @@ module.exports = {
 
     // No migrations
     if (!files.length) {
-      utility.log.warning('Nothing to migrate. Use "engineer make <name>" to create a new migration.\n');
+      utility.log.warning('migrate.empty');
       utility.error.fail();
     }
 
@@ -48,7 +48,7 @@ module.exports = {
     // Run migrations
     const p = new Promise((resolve) => {
       this.next().then(() => {
-        utility.log.success('Migration complete.\n');
+        utility.log.success('migrate.complete');
         resolve();
       });
     });
@@ -67,9 +67,7 @@ module.exports = {
       // Run next migration
       else {
         const migration = this.queue.shift();
-        utility.log.info('Migrating ');
-        utility.log.important(`${migration.name}`);
-        utility.log.info('...\n');
+        utility.log.info('migrate.begin', { name: migration.name });
         migration.migration.run().then(() => {
           this.next().then(() => {
             resolve();

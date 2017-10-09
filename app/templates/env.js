@@ -24,4 +24,10 @@ module.exports = {
     username: 'you@contoso.com',
     password: 'password',
   },
+
+  /**
+   * Language setting for localization
+   * @type {String}
+   */
+  lang: 'en',
 };

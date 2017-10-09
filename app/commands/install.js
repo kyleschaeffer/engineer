@@ -13,21 +13,26 @@ module.exports = {
       const install = new Migration({
         up(engineer) {
           engineer.list.create({
-            Description: 'Migrations tracking list installed automatically by Engineer',
-            Hidden: true,
-            Title: config.sharepoint.lists.migrations,
+            list: {
+              Description: 'Migrations tracking list installed automatically by Engineer',
+              Hidden: true,
+              Title: config.sharepoint.lists.migrations,
+            },
           });
           engineer.list.create({
-            Description: 'Manifest tracking list installed automatically by Engineer',
-            Hidden: true,
-            Title: config.sharepoint.lists.manifest,
+            list: {
+              Description: 'Manifest tracking list installed automatically by Engineer',
+              Hidden: true,
+              Title: config.sharepoint.lists.manifest,
+            },
           });
         },
       });
 
       // Run
+      utility.log.info('install.begin');
       install.run().then(() => {
-        utility.log.success('Install complete.\n');
+        utility.log.success('install.complete');
         resolve();
       });
     });

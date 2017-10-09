@@ -16,7 +16,7 @@ module.exports = {
   run() {
     // No migrations (folder doesn't exist)
     if (!utility.file.exists('migrations')) {
-      utility.log.warning('Nothing to roll back.\n');
+      utility.log.warning('rollback.empty');
       utility.error.fail();
     }
 
@@ -25,11 +25,11 @@ module.exports = {
 
     // No migrations
     if (!files.length) {
-      utility.log.warning('Nothing to roll back.\n');
+      utility.log.warning('rollback.empty');
       utility.error.fail();
     }
 
-    // Queue migrations
+    // Queue rollbacks
     files.reverse().forEach((file) => {
       // Get migration name
       const name = `${file.replace(/\.js$/i, '')}`;
@@ -48,7 +48,7 @@ module.exports = {
     // Run rollbacks
     const p = new Promise((resolve) => {
       this.next().then(() => {
-        utility.log.success('Rollback complete.\n');
+        utility.log.success('rollback.complete');
         resolve();
       });
     });
@@ -67,9 +67,7 @@ module.exports = {
       // Run next rollback
       else {
         const migration = this.queue.shift();
-        utility.log.info('Rolling back ');
-        utility.log.important(`${migration.name}`);
-        utility.log.info('...\n');
+        utility.log.info('rollback.begin', { name: migration.name });
         migration.migration.run(true).then(() => {
           this.next().then(() => {
             resolve();
