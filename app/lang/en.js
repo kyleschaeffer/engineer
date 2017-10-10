@@ -33,6 +33,13 @@ module.exports = {
     message: 'Error (%code%): %message%\n',
   },
 
+  field: {
+    create: 'Creating field %field% on %target%...',
+    delete: 'Deleting field %field% on %target%...',
+    get: 'Getting field %field% on %target%...',
+    update: 'Updating field %field% on %target%...',
+  },
+
   init: {
     env: 'Creating environment config file (env.js)...',
     ignore: 'Creating ignore file (.gitignore)...',
@@ -44,10 +51,10 @@ module.exports = {
   },
 
   list: {
-    create: 'Creating list %title%...',
-    delete: 'Deleting list %title%...',
-    get: 'Getting list %title%...',
-    update: 'Updating list %title%...',
+    create: 'Creating list %list%...',
+    delete: 'Deleting list %list%...',
+    get: 'Getting list %list%...',
+    update: 'Updating list %list%...',
   },
 
   make: {
@@ -73,5 +80,17 @@ module.exports = {
   uninstall: {
     begin: 'Uninstalling Engineer...\n',
     complete: 'Engineer uninstalled.\n',
+  },
+
+  view: {
+    create: 'Creating view %view% on %list%...',
+    delete: 'Deleting view %view% on %list%...',
+    get: 'Getting view %view% on %list%...',
+    update: 'Updating view %view% on %list%...',
+  },
+
+  viewField: {
+    add: 'Adding field %field% to view %view% on %list%...',
+    move: 'Moving field %field% in view %view% on %list%...',
   },
 };

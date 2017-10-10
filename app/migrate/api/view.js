@@ -5,53 +5,54 @@ const Task = require('../task');
 const utility = require('../../utility');
 
 /**
- * List resource methods
- * https://msdn.microsoft.com/en-us/library/dn531433.aspx?f=255&MSPPError=-2147217396#List resource
+ * View resource methods
+ * https://msdn.microsoft.com/en-us/library/dn531433.aspx#View resource
  */
 module.exports = {
   /**
-   * Create new list
+   * Create new view
    * @param  {Object} params
    * @return {void}
    */
   create(params = {}) {
     // Options
     const options = amp.options({
-      list: {
-        __metadata: {
-          type: 'SP.List',
-        },
-        AllowContentTypes: true,
-        BaseTemplate: 100,
-        ContentTypesEnabled: true,
-        Description: '',
-        Title: '',
-      },
+      list: '',
       onError: (response) => {
         utility.log.error('error.failed');
         utility.error.handle(response);
       },
       onStart: () => {
-        utility.log.info('list.create', { list: options.list.Title });
+        utility.log.info('view.create', {
+          list: options.list,
+          view: options.view.Title,
+        });
       },
       onSuccess: () => {
         utility.log.success('success.done');
       },
       site: bus.site,
+      view: {
+        __metadata: {
+          type: 'SP.View',
+        },
+        Title: '',
+        PersonalView: false,
+      },
     }, params);
 
     // Override: Title
-    if (typeof params === 'string') options.list.Title = params;
+    if (typeof params === 'string') options.view.Title = params;
 
     // Task
     const task = new Task((resolve) => {
       sharepoint.request.post({
-        body: options.list,
+        body: options.view,
         onError: options.onError,
         onStart: options.onStart,
         onSuccess: options.onSuccess,
         site: options.site,
-        uri: '_api/web/lists',
+        uri: `_api/web/lists/getbytitle('${options.list}')/views`,
       }).then((response) => {
         resolve(response);
       });
@@ -60,7 +61,7 @@ module.exports = {
   },
 
   /**
-   * Get list data
+   * Get view data
    * @param  {Object} params
    * @return {void}
    */
@@ -68,12 +69,16 @@ module.exports = {
     // Options
     const options = amp.options({
       id: null,
+      list: '',
       onError: (response) => {
         utility.log.error('error.failed');
         utility.error.handle(response);
       },
       onStart: () => {
-        utility.log.info('list.get', { list: options.id || options.title });
+        utility.log.info('view.get', {
+          list: options.list,
+          view: options.id || options.title,
+        });
       },
       onSuccess: () => {
         utility.log.success('success.done');
@@ -92,7 +97,7 @@ module.exports = {
         onStart: options.onStart,
         onSuccess: options.onSuccess,
         site: options.site,
-        uri: `_api/web/lists${options.id ? `(guid'${options.id}')` : `/getbytitle('${options.title}')`}`,
+        uri: `_api/web/lists/getbytitle('${options.list}')/views${options.id ? `('${options.id}')` : `/getbytitle('${options.title}')`}`,
       }).then((response) => {
         resolve(response);
       });
@@ -109,23 +114,27 @@ module.exports = {
     // Options
     const options = amp.options({
       id: null,
-      list: {
-        __metadata: {
-          type: 'SP.List',
-        },
-      },
+      list: '',
       onError: (response) => {
         utility.log.error('error.failed');
         utility.error.handle(response);
       },
       onStart: () => {
-        utility.log.info('list.update', { list: options.id || options.title });
+        utility.log.info('view.update', {
+          list: options.list,
+          view: options.id || options.title,
+        });
       },
       onSuccess: () => {
         utility.log.success('success.done');
       },
       site: bus.site,
       title: '',
+      view: {
+        __metadata: {
+          type: 'SP.View',
+        },
+      },
     }, params);
 
     // Override: title
@@ -134,12 +143,12 @@ module.exports = {
     // Task
     const task = new Task((resolve) => {
       sharepoint.request.update({
-        body: options.list,
+        body: options.view,
         onError: options.onError,
         onStart: options.onStart,
         onSuccess: options.onSuccess,
         site: options.site,
-        uri: `_api/web/lists${options.id ? `(guid'${options.id}')` : `/getbytitle('${options.title}')`}`,
+        uri: `_api/web/lists/getbytitle('${options.list}')/views${options.id ? `('${options.id}')` : `/getbytitle('${options.title}')`}`,
       }).then((response) => {
         resolve(response);
       });
@@ -148,7 +157,7 @@ module.exports = {
   },
 
   /**
-   * Delete a list
+   * Delete a view
    * @param  {Object} params
    * @return {void}
    */
@@ -156,12 +165,16 @@ module.exports = {
     // Options
     const options = amp.options({
       id: null,
+      list: '',
       onError: (response) => {
         utility.log.error('error.failed');
         utility.error.handle(response);
       },
       onStart: () => {
-        utility.log.info('list.delete', { list: options.id || options.title });
+        utility.log.info('view.delete', {
+          list: options.list,
+          view: options.id || options.title,
+        });
       },
       onSuccess: () => {
         utility.log.success('success.done');
@@ -180,7 +193,7 @@ module.exports = {
         onStart: options.onStart,
         onSuccess: options.onSuccess,
         site: options.site,
-        uri: `_api/web/lists${options.id ? `(guid'${options.id}')` : `/getbytitle('${options.title}')`}`,
+        uri: `_api/web/lists/getbytitle('${options.list}')/views${options.id ? `('${options.id}')` : `/getbytitle('${options.title}')`}`,
       }).then((response) => {
         resolve(response);
       });

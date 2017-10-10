@@ -1,38 +1,40 @@
 const amp = require('amp-utils');
 const bus = require('../bus');
+const config = require('../../config');
 const sharepoint = require('../../sharepoint');
 const Task = require('../task');
 const utility = require('../../utility');
 
 /**
- * List resource methods
- * https://msdn.microsoft.com/en-us/library/dn531433.aspx?f=255&MSPPError=-2147217396#List resource
+ * Field resource methods
+ * https://msdn.microsoft.com/en-us/library/dn600182.aspx?f=255&MSPPError=-2147217396#Field resource
  */
 module.exports = {
   /**
-   * Create new list
+   * Create new field
    * @param  {Object} params
    * @return {void}
    */
   create(params = {}) {
     // Options
     const options = amp.options({
-      list: {
+      field: {
         __metadata: {
-          type: 'SP.List',
+          type: 'SP.Field',
         },
-        AllowContentTypes: true,
-        BaseTemplate: 100,
-        ContentTypesEnabled: true,
-        Description: '',
         Title: '',
+        FieldTypeKind: 1,
       },
+      list: null,
       onError: (response) => {
         utility.log.error('error.failed');
         utility.error.handle(response);
       },
       onStart: () => {
-        utility.log.info('list.create', { list: options.list.Title });
+        utility.log.info('field.create', {
+          field: options.field.Title,
+          target: options.list || options.site,
+        });
       },
       onSuccess: () => {
         utility.log.success('success.done');
@@ -41,17 +43,26 @@ module.exports = {
     }, params);
 
     // Override: Title
-    if (typeof params === 'string') options.list.Title = params;
+    if (typeof params === 'string') options.field.Title = params;
+
+    // FieldTypeKind
+    if (typeof options.field.FieldTypeKind === 'string') {
+      if (config.sharepoint.fields[options.field.FieldTypeKind]) {
+        // eslint-disable-next-line no-underscore-dangle
+        if (options.field.FieldTypeKind !== 'Boolean') options.field.__metadata.type = `SP.Field${options.field.FieldTypeKind}`;
+        options.field.FieldTypeKind = config.sharepoint.fields[options.field.FieldTypeKind];
+      }
+    }
 
     // Task
     const task = new Task((resolve) => {
       sharepoint.request.post({
-        body: options.list,
+        body: options.field,
         onError: options.onError,
         onStart: options.onStart,
         onSuccess: options.onSuccess,
         site: options.site,
-        uri: '_api/web/lists',
+        uri: `_api/web${options.list ? `/lists/getbytitle('${options.list}')` : ''}/fields`,
       }).then((response) => {
         resolve(response);
       });
@@ -60,7 +71,7 @@ module.exports = {
   },
 
   /**
-   * Get list data
+   * Get field data
    * @param  {Object} params
    * @return {void}
    */
@@ -72,8 +83,12 @@ module.exports = {
         utility.log.error('error.failed');
         utility.error.handle(response);
       },
+      list: null,
       onStart: () => {
-        utility.log.info('list.get', { list: options.id || options.title });
+        utility.log.info('field.get', {
+          field: options.id || options.title,
+          target: options.list || options.site,
+        });
       },
       onSuccess: () => {
         utility.log.success('success.done');
@@ -83,7 +98,7 @@ module.exports = {
     }, params);
 
     // Override: Title
-    if (typeof params === 'string') options.list.Title = params;
+    if (typeof params === 'string') options.field.Title = params;
 
     // Task
     const task = new Task((resolve) => {
@@ -92,7 +107,7 @@ module.exports = {
         onStart: options.onStart,
         onSuccess: options.onSuccess,
         site: options.site,
-        uri: `_api/web/lists${options.id ? `(guid'${options.id}')` : `/getbytitle('${options.title}')`}`,
+        uri: `_api/web${options.list ? `/lists/getbytitle('${options.list}')` : ''}/fields${options.id ? `('${options.id}')` : `/getbytitle('${options.title}')`}`,
       }).then((response) => {
         resolve(response);
       });
@@ -101,7 +116,7 @@ module.exports = {
   },
 
   /**
-   * Update list
+   * Update field
    * @param  {Object} params
    * @return {void}
    */
@@ -109,17 +124,21 @@ module.exports = {
     // Options
     const options = amp.options({
       id: null,
-      list: {
+      field: {
         __metadata: {
-          type: 'SP.List',
+          type: 'SP.Field',
         },
       },
+      list: null,
       onError: (response) => {
         utility.log.error('error.failed');
         utility.error.handle(response);
       },
       onStart: () => {
-        utility.log.info('list.update', { list: options.id || options.title });
+        utility.log.info('field.update', {
+          field: options.id || options.title,
+          target: options.list || options.site,
+        });
       },
       onSuccess: () => {
         utility.log.success('success.done');
@@ -131,15 +150,24 @@ module.exports = {
     // Override: title
     if (typeof params === 'string') options.title = params;
 
+    // FieldTypeKind
+    if (typeof options.field.FieldTypeKind === 'string') {
+      if (config.sharepoint.fields[options.field.FieldTypeKind]) {
+        // eslint-disable-next-line no-underscore-dangle
+        options.field.__metadata.type = `SP.Field${options.field.FieldTypeKind}`;
+        options.field.FieldTypeKind = config.sharepoint.fields[options.field.FieldTypeKind];
+      }
+    }
+
     // Task
     const task = new Task((resolve) => {
       sharepoint.request.update({
-        body: options.list,
+        body: options.field,
         onError: options.onError,
         onStart: options.onStart,
         onSuccess: options.onSuccess,
         site: options.site,
-        uri: `_api/web/lists${options.id ? `(guid'${options.id}')` : `/getbytitle('${options.title}')`}`,
+        uri: `_api/web${options.list ? `/lists/getbytitle('${options.list}')` : ''}/fields${options.id ? `('${options.id}')` : `/getbytitle('${options.title}')`}`,
       }).then((response) => {
         resolve(response);
       });
@@ -148,7 +176,7 @@ module.exports = {
   },
 
   /**
-   * Delete a list
+   * Delete a field
    * @param  {Object} params
    * @return {void}
    */
@@ -156,12 +184,16 @@ module.exports = {
     // Options
     const options = amp.options({
       id: null,
+      list: null,
       onError: (response) => {
         utility.log.error('error.failed');
         utility.error.handle(response);
       },
       onStart: () => {
-        utility.log.info('list.delete', { list: options.id || options.title });
+        utility.log.info('list.delete', {
+          field: options.id || options.title,
+          target: options.list || options.site,
+        });
       },
       onSuccess: () => {
         utility.log.success('success.done');
@@ -180,7 +212,7 @@ module.exports = {
         onStart: options.onStart,
         onSuccess: options.onSuccess,
         site: options.site,
-        uri: `_api/web/lists${options.id ? `(guid'${options.id}')` : `/getbytitle('${options.title}')`}`,
+        uri: `_api/web${options.list ? `/lists/getbytitle('${options.list}')` : ''}/fields${options.id ? `('${options.id}')` : `/getbytitle('${options.title}')`}`,
       }).then((response) => {
         resolve(response);
       });
