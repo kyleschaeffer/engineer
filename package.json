@@ -32,7 +32,8 @@
     "node-sp-auth": "^2.2.3",
     "open": "0.0.5",
     "path": "^0.12.7",
-    "request-promise": "^4.2.2"
+    "request": "^2.83.0",
+    "request-promise-native": "^1.0.5"
   },
   "devDependencies": {
     "eslint": "^4.8.0",

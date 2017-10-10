@@ -1,7 +1,7 @@
 const amp = require('amp-utils');
 const auth = require('./auth');
 const config = require('../config');
-const request = require('request-promise');
+const request = require('request-promise-native');
 const utility = require('../utility');
 
 module.exports = {

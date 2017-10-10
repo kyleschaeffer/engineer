@@ -1,1 +1,2 @@
-# Engineer – The missing SharePoint configuration tool
+# Engineer
+The missing SharePoint configuration tool
