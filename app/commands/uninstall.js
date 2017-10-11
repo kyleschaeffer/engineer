@@ -10,12 +10,7 @@ module.exports = {
   run() {
     const p = new Promise((resolve) => {
       // Uninstall migration
-      const uninstall = new Migration({
-        down(engineer) {
-          engineer.list.delete(config.sharepoint.lists.migrations);
-          engineer.list.delete(config.sharepoint.lists.manifest);
-        },
-      });
+      const uninstall = new Migration(config.install);
 
       // Run
       utility.log.info('uninstall.begin');
