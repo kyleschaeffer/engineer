@@ -10,10 +10,23 @@ module.exports = {
   queue: [],
 
   /**
+   * Roll back to this file name
+   * @type {String}
+   */
+  rollbackTo: null,
+
+  /**
+   * Stop!
+   * @type {Boolean}
+   */
+  stop: false,
+
+  /**
    * Run pending rollbacks
+   * @param  {String}  to
    * @return {Promise}
    */
-  run() {
+  run(to) {
     // Promise
     const p = new Promise((resolve) => {
       // Get migration files
@@ -23,6 +36,12 @@ module.exports = {
       if (!files || !files.length) {
         utility.log.warning('rollback.empty');
         utility.error.fail();
+      }
+
+      // Roll back to
+      if (to) {
+        this.rollbackTo = utility.file.name(to, false);
+        if (to && !utility.file.exists(`migrations/${this.rollbackTo}.js`)) utility.error.fail('migrate.exist', { file: this.rollbackTo });
       }
 
       // Get migration status
@@ -75,21 +94,30 @@ module.exports = {
   next() {
     const p = new Promise((resolve) => {
       // No rollbacks in queue
-      if (!this.queue.length) resolve();
+      if (!this.queue.length || this.stop) resolve();
 
       // Run next rollback
       else {
         const migration = this.queue.pop();
-        utility.log.info('rollback.begin', { name: migration.name });
-        migration.migration.run(true).then(() => {
-          // Update migration status
-          status.update(migration.name, false).then(() => {
-            // Next
-            this.next().then(() => {
-              resolve();
+
+        // Roll back to
+        if (this.rollbackTo && this.rollbackTo === migration.name) {
+          this.stop = true;
+          resolve();
+        }
+
+        else {
+          utility.log.info('rollback.begin', { name: migration.name });
+          migration.migration.run(true).then(() => {
+            // Update migration status
+            status.update(migration.name, false).then(() => {
+              // Next
+              this.next().then(() => {
+                resolve();
+              });
             });
           });
-        });
+        }
       }
     });
     return p;

@@ -13,62 +13,29 @@ const config = () => {
 
 // Program
 program.version('1.0.0')
-  .option('-c, --config <file>', 'Path to configuration file if not using "./env.js"')
-  .option('-d, --dry', 'Dry run (read only)');
+  .option('-c, --config <file>', 'Path to configuration file if not using "env.js"');
+
+// Browse SharePoint
+program.command('browse [list]')
+  .description('Browse SharePoint site')
+  .action((list) => {
+    config();
+    engineer.commands.browse.run(list).then(() => {});
+  });
 
 // Init
 program.command('init')
-  .description('Initialize the current working directory as an Engineer project')
+  .description('Create env.js in the current directory')
   .action(() => {
     engineer.commands.init.run().then(() => {});
   });
 
-// Status
-program.command('status')
-  .description('Get current migration status')
-  .action(() => {
-    config();
-    engineer.commands.status.run().then(() => {});
-  });
-
 // Install
 program.command('install')
-  .description('Install hidden migration tracking list on target environment')
+  .description('Install Engineer tracking lists on SharePoint')
   .action(() => {
     config();
     engineer.commands.install.run().then(() => {});
-  });
-
-// Migrate
-program.command('migrate')
-  .description('Run pending migrations')
-  .action(() => {
-    config();
-    engineer.commands.migrate.run().then(() => {});
-  });
-
-// Rollback
-program.command('rollback')
-  .description('Roll back last migration')
-  .action(() => {
-    config();
-    engineer.commands.rollback.run().then(() => {});
-  });
-
-// Reset
-program.command('reset')
-  .description('Roll back all migrations')
-  .action(() => {
-    config();
-    engineer.commands.reset.run().then(() => {});
-  });
-
-// Uninstall
-program.command('uninstall')
-  .description('Delete hidden migration tracking list from target environment')
-  .action(() => {
-    config();
-    engineer.commands.uninstall.run().then(() => {});
   });
 
 // Make migration
@@ -79,12 +46,38 @@ program.command('make <name>')
     engineer.commands.make.run(name).then(() => {});
   });
 
-// Browse SharePoint
-program.command('browse [list]')
-  .description('Open SharePoint in a web browser')
-  .action((list) => {
+// Migrate
+program.command('migrate')
+  .description('Run pending migrations')
+  .option('-t, --to <file>', 'Migrate up to this file, but don\'t run later migrations')
+  .action((options) => {
     config();
-    engineer.commands.browse.run(list).then(() => {});
+    engineer.commands.migrate.run(options.to).then(() => {});
+  });
+
+// Rollback
+program.command('rollback')
+  .description('Roll back migrations')
+  .option('-t, --to <file>', 'Roll back all migrations after this file')
+  .action((options) => {
+    config();
+    engineer.commands.rollback.run(options.to).then(() => {});
+  });
+
+// Status
+program.command('status')
+  .description('Show migration status')
+  .action(() => {
+    config();
+    engineer.commands.status.run().then(() => {});
+  });
+
+// Uninstall
+program.command('uninstall')
+  .description('Delete Engineer tracking lists from SharePoint')
+  .action(() => {
+    config();
+    engineer.commands.uninstall.run().then(() => {});
   });
 
 // Parse command

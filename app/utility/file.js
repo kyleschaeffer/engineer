@@ -88,4 +88,17 @@ module.exports = {
   fromTemplate(template, path, cwd = true, flag = 'wx+') {
     this.write(path, cwd, this.read(`../templates/${template}`, false), flag);
   },
+
+  /**
+   * Get file name from path
+   * @param  {String}  path
+   * @param  {Boolean} cwd
+   * @param  {Boolean} ext
+   * @return {String}
+   */
+  name(path, ext = true) {
+    let file = path.split('/').pop();
+    if (!ext) file = file.replace(/\.\w+$/, '');
+    return file;
+  },
 };

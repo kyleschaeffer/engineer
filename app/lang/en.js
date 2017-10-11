@@ -66,6 +66,7 @@ module.exports = {
     begin: 'Migrating %name%...\n',
     complete: 'Migration complete.\n',
     empty: 'Nothing to migrate. Use "engineer make <name>" to create a new migration.\n',
+    exist: 'Migration "%file%" does not exist.\n',
     upToDate: 'Migrations are already up to date.\n',
   },
 

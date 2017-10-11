@@ -10,10 +10,23 @@ module.exports = {
   queue: [],
 
   /**
+   * Migrate to this file name
+   * @type {String}
+   */
+  migrateTo: null,
+
+  /**
+   * Stop!
+   * @type {Boolean}
+   */
+  stop: false,
+
+  /**
    * Run pending migrations
+   * @param  {String}  to
    * @return {Promise}
    */
-  run() {
+  run(to) {
     const p = new Promise((resolve) => {
       // Get migration files
       const files = utility.file.readDir('migrations');
@@ -22,6 +35,12 @@ module.exports = {
       if (!files || !files.length) {
         utility.log.warning('migrate.empty');
         utility.error.fail();
+      }
+
+      // Migrate to
+      if (to) {
+        this.migrateTo = utility.file.name(to, false);
+        if (to && !utility.file.exists(`migrations/${this.migrateTo}.js`)) utility.error.fail('migrate.exist', { file: this.migrateTo });
       }
 
       // Get migration status
@@ -74,7 +93,7 @@ module.exports = {
   next() {
     const p = new Promise((resolve) => {
       // No migrations in queue
-      if (!this.queue.length) resolve();
+      if (!this.queue.length || this.stop) resolve();
 
       // Run next migration
       else {
@@ -83,10 +102,18 @@ module.exports = {
         migration.migration.run().then(() => {
           // Update migration status
           status.update(migration.name, true).then(() => {
-            // Next
-            this.next().then(() => {
+            // Migrate to
+            if (this.migrateTo && this.migrateTo === migration.name) {
+              this.stop = true;
               resolve();
-            });
+            }
+
+            // Next
+            else {
+              this.next().then(() => {
+                resolve();
+              });
+            }
           });
         });
       }
