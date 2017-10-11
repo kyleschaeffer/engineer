@@ -16,6 +16,7 @@ module.exports = {
       // Open
       utility.log.info('browse.begin', { path });
       open(path);
+
       resolve();
     });
     return p;

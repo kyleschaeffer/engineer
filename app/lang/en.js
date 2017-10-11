@@ -77,9 +77,8 @@ module.exports = {
 
   status: {
     get: 'Getting migration status...',
-    migrated: 'migrated\n',
-    migration: '%migration%: ',
-    pending: 'pending\n',
+    migrated: 'Migrated',
+    pending: 'Pending',
     set: 'Setting migration status for %migration%...',
     uninstalled: 'Engineer is not installed. Use "engineer install" to begin.\n',
   },

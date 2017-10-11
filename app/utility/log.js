@@ -2,6 +2,7 @@ const amp = require('amp-utils');
 const colors = require('colors'); // eslint-disable-line no-unused-vars
 const config = require('../config');
 const lang = require('../lang');
+const Table = require('cli-table');
 
 const Log = {
   /**
@@ -96,6 +97,21 @@ const Log = {
       msg = msg.replace(regex, tokens[token]);
     });
     return msg;
+  },
+
+  /**
+   * Log tabular data
+   * @param  {Array}  columns
+   * @param  {Array}  rows
+   * @return {void}
+   */
+  table(rows = []) {
+    // Table style
+    const t = new Table();
+    rows.forEach((row) => {
+      t.push(row);
+    });
+    return this.dump(t.toString());
   },
 };
 

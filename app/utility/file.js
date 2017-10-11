@@ -1,80 +1,91 @@
+const amp = require('amp-utils');
 const fs = require('fs');
 
 module.exports = {
   /**
-   * Trim slashes on path
-   * @param  {String} path
+   * Path builder
+   * @param  {String}  path
+   * @param  {Boolean} cwd
    * @return {String}
    */
-  trim(path = '') {
-    return path.replace(/^\/|\/$/g, '');
-  },
-
-  /**
-   * Return full path to given relative path
-   * @param  {String} path
-   * @return {String}
-   */
-  path(path) {
-    return `${process.cwd()}/${this.trim(path)}`;
+  path(path, cwd = true) {
+    return `${cwd ? process.cwd() : __dirname}/${amp.string.trimSlashes(path)}`;
   },
 
   /**
    * Does path exist?
-   * @param  {String} path
+   * @param  {String}  path
+   * @param  {Boolean} cwd
    * @return {Boolean}
    */
-  exists(path) {
-    return fs.existsSync(this.path(path));
+  exists(path, cwd = true) {
+    return fs.existsSync(this.path(path, cwd));
   },
 
   /**
    * Create directory
-   * @param  {String} dir
+   * @param  {String}  dir
+   * @param  {Boolean} cwd
    * @return {void}
    */
-  mkdir(dir) {
-    if (!this.exists(dir)) fs.mkdirSync(this.path(dir));
+  mkdir(dir, cwd = true) {
+    if (!this.exists(dir, cwd)) fs.mkdirSync(this.path(dir, cwd));
   },
 
   /**
    * Read file contents
-   * @param  {String} path
+   * @param  {String}  path
+   * @param  {Boolean} cwd
+   * @param  {String}  flag
    * @return {String}
    */
-  read(path, flag = 'r') {
-    return fs.readFileSync(this.path(path), { flag });
+  read(path, cwd = true, flag = 'r') {
+    return fs.readFileSync(this.path(path, cwd), { flag });
+  },
+
+  /**
+   * Get file paths from directory
+   * @param  {String}  path
+   * @param  {Boolean} cwd
+   * @return {Array}
+   */
+  readDir(path, cwd = true) {
+    if (!this.exists(path, cwd)) return null;
+    return fs.readdirSync(this.path(path, cwd));
   },
 
   /**
    * Require from file
-   * @param  {String} path
+   * @param  {String}  path
+   * @param  {Boolean} cwd
    * @return {Object}
    */
-  load(path) {
-    if (!path || !this.exists(path)) return {};
-    return require(this.path(path));
+  load(path, cwd = true) {
+    if (!path || !this.exists(path, cwd)) return {};
+    return require(this.path(path, cwd));
   },
 
   /**
    * Write contents to file (relative to working directory)
-   * @param  {String} path
-   * @param  {String} contents
-   * @param  {String} flag
+   * @param  {String}  path
+   * @param  {Boolean} cwd
+   * @param  {String}  contents
+   * @param  {String}  flag
    * @return {void}
    */
-  write(path, contents, flag = 'wx+') {
-    fs.writeFileSync(this.path(path), contents, { flag });
+  write(path, cwd = true, contents, flag = 'wx+') {
+    fs.writeFileSync(this.path(path, cwd), contents, { flag });
   },
 
   /**
    * Create a new file from a template
-   * @param  {String} template
-   * @param  {String} path
-   * @param  {String} flag
+   * @param  {String}  template
+   * @param  {String}  path
+   * @param  {Boolean} cwd
+   * @param  {String}  flag
    * @return {void}
    */
-  fromTemplate(template, path, flag = 'wx+') {
-    this.write(path, fs.readFileSync(`${__dirname}/../templates/${template}`), flag);
+  fromTemplate(template, path, cwd = true, flag = 'wx+') {
+    this.write(path, cwd, this.read(`../templates/${template}`, false), flag);
   },
 };

@@ -25,6 +25,7 @@
   "homepage": "https://github.com/oldrivercreative/engineer#readme",
   "dependencies": {
     "amp-utils": "^1.0.4",
+    "cli-table": "^0.3.1",
     "colors": "^1.1.2",
     "commander": "^2.11.0",
     "fs": "0.0.1-security",

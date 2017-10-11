@@ -13,7 +13,7 @@ module.exports = {
    */
   load(path = './env.js') {
     // Welcome
-    utility.log.important('app.welcome');
+    // utility.log.important('app.welcome');
 
     // Load config file
     const options = amp.options({}, utility.file.load(path));

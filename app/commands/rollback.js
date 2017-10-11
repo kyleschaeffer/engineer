@@ -1,4 +1,3 @@
-const fs = require('fs');
 const Migration = require('../migrate/migration');
 const status = require('../migrate/status');
 const utility = require('../utility');
@@ -17,17 +16,11 @@ module.exports = {
   run() {
     // Promise
     const p = new Promise((resolve) => {
-      // No migrations (folder doesn't exist)
-      if (!utility.file.exists('migrations')) {
-        utility.log.warning('rollback.empty');
-        utility.error.fail();
-      }
-
       // Get migration files
-      const files = fs.readdirSync(utility.file.path('migrations'));
+      const files = utility.file.readDir('migrations');
 
       // No migrations
-      if (!files.length) {
+      if (!files || !files.length) {
         utility.log.warning('rollback.empty');
         utility.error.fail();
       }
@@ -80,7 +73,7 @@ module.exports = {
 
       // Run next rollback
       else {
-        const migration = this.queue.shift();
+        const migration = this.queue.pop();
         utility.log.info('rollback.begin', { name: migration.name });
         migration.migration.run(true).then(() => {
           // Update migration status

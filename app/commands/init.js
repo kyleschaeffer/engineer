@@ -12,7 +12,7 @@ module.exports = {
 
       // Create new file
       if (!utility.file.exists('.gitignore')) {
-        utility.file.write('.gitignore', '/env.js\n');
+        utility.file.write('.gitignore', true, '/env.js\n');
         utility.log.success('success.done');
       }
 
@@ -24,7 +24,7 @@ module.exports = {
 
       // Create new file
       if (!utility.file.exists('env.js')) {
-        utility.file.fromTemplate('env.js', 'env.js', 'w+');
+        utility.file.fromTemplate('env.js', 'env.js', true, 'w+');
         utility.log.success('success.done');
       }
 

@@ -1,4 +1,3 @@
-const fs = require('fs');
 const status = require('../migrate/status');
 const utility = require('../utility');
 
@@ -9,33 +8,31 @@ module.exports = {
    */
   run() {
     const p = new Promise((resolve) => {
-      // No migrations (folder doesn't exist)
-      if (!utility.file.exists('migrations')) {
-        utility.log.warning('migrate.empty');
-        utility.error.fail();
-      }
-
       // Get migration files
-      const files = fs.readdirSync(utility.file.path('migrations'));
+      const files = utility.file.readDir('migrations');
 
       // No migrations
-      if (!files.length) {
+      if (!files || !files.length) {
         utility.log.warning('migrate.empty');
         utility.error.fail();
       }
 
       // Get migration status
       status.get().then(() => {
+        // Table rows
+        const rows = [];
+
         // Get migration files
         files.forEach((file) => {
-          // Get migration name
           const name = `${file.replace(/\.js$/i, '')}`;
-          utility.log.info('status.migration', { migration: name });
-
-          // Display migration status
-          if (!status.history[name] || !status.history[name].migrated) utility.log.warning('status.pending');
-          else utility.log.success('status.migrated');
+          rows.push([
+            name,
+            status.history[name] && status.history[name].migrated ? utility.log.translate('status.migrated').green : utility.log.translate('status.pending').yellow,
+          ]);
         });
+
+        // Show table
+        utility.log.table(rows);
 
         resolve();
       });
