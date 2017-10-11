@@ -46,6 +46,7 @@ module.exports = {
   },
 
   install: {
+    already: 'Engineer is already installed.\n',
     begin: 'Installing Engineer...\n',
     complete: 'Engineer installed.\n',
   },
@@ -88,6 +89,7 @@ module.exports = {
   },
 
   uninstall: {
+    already: 'Engineer is already uninstalled.\n',
     begin: 'Uninstalling Engineer...\n',
     complete: 'Engineer uninstalled.\n',
   },

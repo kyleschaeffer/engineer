@@ -1,5 +1,6 @@
 const config = require('../config');
 const Migration = require('../migrate/migration');
+const status = require('../migrate/status');
 const utility = require('../utility');
 
 module.exports = {
@@ -9,14 +10,23 @@ module.exports = {
    */
   run() {
     const p = new Promise((resolve) => {
-      // Uninstall migration
-      const uninstall = new Migration(config.install);
+      // Get migration status
+      status.get().then(() => {
+        // Already uninstalled
+        if (!status.installed) {
+          utility.log.warning('uninstall.already');
+          utility.error.fail();
+        }
 
-      // Run
-      utility.log.info('uninstall.begin');
-      uninstall.run(true).then(() => {
-        utility.log.success('uninstall.complete');
-        resolve();
+        // Uninstall migration
+        const uninstall = new Migration(config.install);
+
+        // Run
+        utility.log.info('uninstall.begin');
+        uninstall.run(true).then(() => {
+          utility.log.success('uninstall.complete');
+          resolve();
+        });
       });
     });
     return p;

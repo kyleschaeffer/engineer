@@ -10,6 +10,12 @@ module.exports = {
   history: {},
 
   /**
+   * Is Engineer installed?
+   * @type {Boolean}
+   */
+  installed: false,
+
+  /**
    * Get migration history
    * @return {Promise}
    */
@@ -17,9 +23,8 @@ module.exports = {
     const p = new Promise((resolve) => {
       // Get migration status
       sharepoint.request.get({
-        onError: (response) => {
-          utility.log.error('error.failed');
-          utility.error.handle(response);
+        onError: () => {
+          utility.log.success('success.done');
         },
         onStart: () => {
           utility.log.info('status.get');
@@ -30,13 +35,16 @@ module.exports = {
         uri: `_api/web/lists/getbytitle('${config.sharepoint.lists.migrations}')/items`,
       }).then((response) => {
         // Build history
-        response.d.results.forEach((item) => {
-          this.history[item.Title] = {
-            id: item.Id,
-            title: item.Title,
-            migrated: item.Migrated,
-          };
-        });
+        if (response.d && response.d.results) {
+          this.installed = true;
+          response.d.results.forEach((item) => {
+            this.history[item.Title] = {
+              id: item.Id,
+              title: item.Title,
+              migrated: item.Migrated,
+            };
+          });
+        }
 
         resolve();
       });

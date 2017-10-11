@@ -26,6 +26,12 @@ module.exports = {
 
       // Get migration status
       status.get().then(() => {
+        // Not installed
+        if (!status.installed) {
+          utility.log.warning('status.uninstalled');
+          utility.error.fail();
+        }
+
         // Queue migrations
         files.forEach((file) => {
           // Get migration name

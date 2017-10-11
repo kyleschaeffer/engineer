@@ -34,6 +34,11 @@ module.exports = {
         // Show table
         utility.log.table(rows);
 
+        // Not installed
+        if (!status.installed) {
+          utility.log.warning('status.uninstalled');
+        }
+
         resolve();
       });
     });
