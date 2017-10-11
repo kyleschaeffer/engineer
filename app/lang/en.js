@@ -65,12 +65,23 @@ module.exports = {
     begin: 'Migrating %name%...\n',
     complete: 'Migration complete.\n',
     empty: 'Nothing to migrate. Use "engineer make <name>" to create a new migration.\n',
+    upToDate: 'Migrations are already up to date.\n',
   },
 
   rollback: {
     begin: 'Rolling back %name%...\n',
     complete: 'Rollback complete.\n',
     empty: 'Nothing to roll back.\n',
+    upToDate: 'Migrations are already rolled back.\n',
+  },
+
+  status: {
+    get: 'Getting migration status...',
+    migrated: 'migrated\n',
+    migration: '%migration%: ',
+    pending: 'pending\n',
+    set: 'Setting migration status for %migration%...',
+    uninstalled: 'Engineer is not installed. Use "engineer install" to begin.\n',
   },
 
   success: {
