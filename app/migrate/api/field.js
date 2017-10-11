@@ -23,7 +23,7 @@ module.exports = {
           type: 'SP.Field',
         },
         Title: '',
-        FieldTypeKind: 1,
+        FieldTypeKind: 'Text',
       },
       list: null,
       onError: (response) => {
@@ -45,13 +45,14 @@ module.exports = {
     // Override: Title
     if (typeof params === 'string') options.field.Title = params;
 
-    // FieldTypeKind
+    // Field type
     if (typeof options.field.FieldTypeKind === 'string') {
-      if (config.sharepoint.fields[options.field.FieldTypeKind]) {
-        // eslint-disable-next-line no-underscore-dangle
-        if (options.field.FieldTypeKind !== 'Boolean') options.field.__metadata.type = `SP.Field${options.field.FieldTypeKind}`;
-        options.field.FieldTypeKind = config.sharepoint.fields[options.field.FieldTypeKind];
-      }
+      // Metadata field type
+      if (config.sharepoint.fieldTypeExceptions[options.field.FieldTypeKind]) options.field.__metadata.type = `SP.${config.sharepoint.fieldTypeExceptions[options.field.FieldTypeKind]}`;
+      else options.field.__metadata.type = `SP.Field${options.field.FieldTypeKind}`;
+
+      // FieldTypeKind
+      if (config.sharepoint.fields[options.field.FieldTypeKind]) options.field.FieldTypeKind = config.sharepoint.fields[options.field.FieldTypeKind];
     }
 
     // Task
@@ -150,13 +151,13 @@ module.exports = {
     // Override: title
     if (typeof params === 'string') options.title = params;
 
-    // FieldTypeKind
+    // Field type
     if (typeof options.field.FieldTypeKind === 'string') {
-      if (config.sharepoint.fields[options.field.FieldTypeKind]) {
-        // eslint-disable-next-line no-underscore-dangle
-        options.field.__metadata.type = `SP.Field${options.field.FieldTypeKind}`;
-        options.field.FieldTypeKind = config.sharepoint.fields[options.field.FieldTypeKind];
-      }
+      // Metadata field type
+      if (config.sharepoint.fieldTypeExceptions[options.field.FieldTypeKind]) options.field.__metadata.type = `SP.${config.sharepoint.fieldTypeExceptions[options.field.FieldTypeKind]}`;
+
+      // FieldTypeKind
+      if (config.sharepoint.fields[options.field.FieldTypeKind]) options.field.FieldTypeKind = config.sharepoint.fields[options.field.FieldTypeKind];
     }
 
     // Task
