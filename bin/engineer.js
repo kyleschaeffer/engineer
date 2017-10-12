@@ -2,6 +2,7 @@
 
 const engineer = require('../app/engineer');
 const program = require('commander');
+const utility = require('../app/utility');
 
 /**
  * Load configuration when on command
@@ -13,11 +14,11 @@ const config = () => {
 
 // Program
 program.version('1.0.0')
-  .option('-c, --config <file>', 'Path to configuration file if not using "env.js"');
+  .option('-c, --config <file>', utility.log.translate('config.description'));
 
 // Browse SharePoint
 program.command('browse [list]')
-  .description('Browse SharePoint site')
+  .description(utility.log.translate('browse.description'))
   .action((list) => {
     config();
     engineer.commands.browse.run(list).then(() => {});
@@ -25,14 +26,14 @@ program.command('browse [list]')
 
 // Init
 program.command('init')
-  .description('Create env.js in the current directory')
+  .description(utility.log.translate('init.description'))
   .action(() => {
     engineer.commands.init.run().then(() => {});
   });
 
 // Install
 program.command('install')
-  .description('Install Engineer tracking lists on SharePoint')
+  .description(utility.log.translate('install.description'))
   .action(() => {
     config();
     engineer.commands.install.run().then(() => {});
@@ -40,7 +41,7 @@ program.command('install')
 
 // Make migration
 program.command('make <name>')
-  .description('Create a new migration file')
+  .description(utility.log.translate('make.description'))
   .action((name) => {
     config();
     engineer.commands.make.run(name).then(() => {});
@@ -48,8 +49,8 @@ program.command('make <name>')
 
 // Migrate
 program.command('migrate')
-  .description('Run pending migrations')
-  .option('-t, --to <file>', 'Migrate up to this file, but don\'t run later migrations')
+  .description(utility.log.translate('migrate.description'))
+  .option('-t, --to <file>', utility.log.translate('migrate.to'))
   .action((options) => {
     config();
     engineer.commands.migrate.run(options.to).then(() => {});
@@ -57,8 +58,8 @@ program.command('migrate')
 
 // Rollback
 program.command('rollback')
-  .description('Roll back migrations')
-  .option('-t, --to <file>', 'Roll back all migrations after this file')
+  .description(utility.log.translate('rollback.description'))
+  .option('-t, --to <file>', utility.log.translate('rollback.to'))
   .action((options) => {
     config();
     engineer.commands.rollback.run(options.to).then(() => {});
@@ -66,7 +67,7 @@ program.command('rollback')
 
 // Status
 program.command('status')
-  .description('Show migration status')
+  .description(utility.log.translate('status.description'))
   .action(() => {
     config();
     engineer.commands.status.run().then(() => {});
@@ -74,7 +75,7 @@ program.command('status')
 
 // Uninstall
 program.command('uninstall')
-  .description('Delete Engineer tracking lists from SharePoint')
+  .description(utility.log.translate('uninstall.description'))
   .action(() => {
     config();
     engineer.commands.uninstall.run().then(() => {});

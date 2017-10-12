@@ -20,9 +20,11 @@ module.exports = {
 
   browse: {
     begin: 'Opening %path% in web browser...\n',
+    description: 'Browse SharePoint site',
   },
 
   config: {
+    description: 'Path to configuration file if not using "env.js"',
     failed: 'Failed to load config file: %path%. Use "engineer init" to create a new config file.',
     using: 'Using config file %path%.\n',
   },
@@ -41,6 +43,7 @@ module.exports = {
   },
 
   init: {
+    description: 'Create env.js in the current directory',
     env: 'Creating environment config file (env.js)...',
     ignore: 'Creating ignore file (.gitignore)...',
   },
@@ -49,6 +52,7 @@ module.exports = {
     already: 'Engineer is already installed.\n',
     begin: 'Installing Engineer...\n',
     complete: 'Engineer installed.\n',
+    description: 'Install Engineer tracking lists on SharePoint',
   },
 
   list: {
@@ -60,24 +64,30 @@ module.exports = {
 
   make: {
     begin: 'Creating migration %name%...',
+    description: 'Create a new migration file',
   },
 
   migrate: {
     begin: 'Migrating %name%...\n',
     complete: 'Migration complete.\n',
+    description: 'Run pending migrations',
     empty: 'Nothing to migrate. Use "engineer make <name>" to create a new migration.\n',
     exist: 'Migration "%file%" does not exist.\n',
+    to: 'Migrate up to this file, but don\'t run later migrations',
     upToDate: 'Migrations are already up to date.\n',
   },
 
   rollback: {
     begin: 'Rolling back %name%...\n',
     complete: 'Rollback complete.\n',
+    description: 'Roll back migrations',
     empty: 'Nothing to roll back.\n',
+    to: 'Roll back all migrations after this file',
     upToDate: 'Migrations are already rolled back.\n',
   },
 
   status: {
+    description: 'Show migration status',
     get: 'Getting migration status...',
     migrated: 'Migrated',
     pending: 'Pending',
@@ -93,6 +103,7 @@ module.exports = {
     already: 'Engineer is already uninstalled.\n',
     begin: 'Uninstalling Engineer...\n',
     complete: 'Engineer uninstalled.\n',
+    description: 'Delete Engineer tracking lists from SharePoint',
   },
 
   view: {
