@@ -59,7 +59,7 @@ module.exports = {
     create: 'Creating list: %list%...',
     delete: 'Deleting list: %list%...',
     get: 'Getting list: %list%...',
-    list: 'list "%list"',
+    list: 'list "%list%"',
     update: 'Updating list: %list%...',
   },
 

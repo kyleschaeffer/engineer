@@ -1,6 +1,6 @@
 const log = require('./log');
 
-module.exports = {
+const error = {
   /**
    * Handle SharePoint error response
    * @param {Object} response
@@ -40,7 +40,7 @@ module.exports = {
    */
   failed(response) {
     log.error('error.failed');
-    this.handle(response);
+    error.handle(response);
   },
 
   /**
@@ -51,3 +51,5 @@ module.exports = {
     log.success('success.done');
   },
 };
+
+module.exports = error;
