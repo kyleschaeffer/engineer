@@ -10,6 +10,16 @@ const utility = require('../../utility');
  */
 module.exports = {
   /**
+   * Handle onStart event
+   * @param  {String} method
+   * @param  {Object} tokens
+   * @return {Event}
+   */
+  onStart(method = 'create', tokens = {}) {
+    utility.log.info(`viewField.${method}`, tokens);
+  },
+
+  /**
    * Add a view field
    * @param  {Object} params
    * @return {void}
@@ -19,20 +29,15 @@ module.exports = {
     const options = amp.options({
       field: '',
       list: '',
-      onError: (response) => {
-        utility.log.error('error.failed');
-        utility.error.handle(response);
-      },
+      onError: utility.error.failed,
       onStart: () => {
-        utility.log.info('viewField.add', {
+        this.onStart('add', {
           field: options.field,
           list: options.list,
           view: options.view,
         });
       },
-      onSuccess: () => {
-        utility.log.success('success.done');
-      },
+      onSuccess: utility.error.success,
       site: bus.site,
       view: '',
     }, params);
@@ -65,20 +70,15 @@ module.exports = {
     const options = amp.options({
       field: '',
       list: '',
-      onError: (response) => {
-        utility.log.error('error.failed');
-        utility.error.handle(response);
-      },
+      onError: utility.error.failed,
       onStart: () => {
-        utility.log.info('viewField.remove', {
+        this.onStart('remove', {
           field: options.field,
           list: options.list,
           view: options.view,
         });
       },
-      onSuccess: () => {
-        utility.log.success('success.done');
-      },
+      onSuccess: utility.error.success,
       site: bus.site,
       view: '',
     }, params);
@@ -112,20 +112,15 @@ module.exports = {
       field: '',
       index: 0,
       list: '',
-      onError: (response) => {
-        utility.log.error('error.failed');
-        utility.error.handle(response);
-      },
+      onError: utility.error.failed,
       onStart: () => {
-        utility.log.info('viewField.move', {
+        this.onStart('move', {
           field: options.field,
           list: options.list,
           view: options.view,
         });
       },
-      onSuccess: () => {
-        utility.log.success('success.done');
-      },
+      onSuccess: utility.error.success,
       site: bus.site,
       view: '',
     }, params);

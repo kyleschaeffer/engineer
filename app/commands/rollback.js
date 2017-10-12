@@ -23,10 +23,10 @@ module.exports = {
 
   /**
    * Run pending rollbacks
-   * @param  {String}  to
+   * @param  {Object}  options
    * @return {Promise}
    */
-  run(to) {
+  run(options) {
     // Promise
     const p = new Promise((resolve) => {
       // Get migration files
@@ -39,9 +39,9 @@ module.exports = {
       }
 
       // Roll back to
-      if (to) {
-        this.rollbackTo = utility.file.name(to, false);
-        if (to && !utility.file.exists(`migrations/${this.rollbackTo}.js`)) utility.error.fail('migrate.exist', { file: this.rollbackTo });
+      if (options.to) {
+        this.rollbackTo = utility.file.name(options.to, false);
+        if (options.to && !utility.file.exists(`migrations/${this.rollbackTo}.js`)) utility.error.fail('migrate.exist', { file: this.rollbackTo });
       }
 
       // Get migration status
@@ -58,7 +58,7 @@ module.exports = {
           const name = `${file.replace(/\.js$/i, '')}`;
 
           // Not already rolled back?
-          if (status.history[name] && status.history[name].migrated) {
+          if (options.force || (status.history[name] && status.history[name].migrated)) {
             // Load migration file
             const data = require(`${process.cwd()}/migrations/${file}`);
             const migration = new Migration(data);

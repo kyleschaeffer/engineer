@@ -13,39 +13,39 @@ module.exports = {
   },
 
   auth: {
-    begin: 'Authenticating to %site%...',
+    begin: 'Authenticating: %site%...',
     context: 'Getting context...',
     error: 'failed.\n%title%: %message%\n',
   },
 
   browse: {
-    begin: 'Opening %path% in web browser...\n',
+    begin: 'Opening: %path%...\n',
     description: 'Browse SharePoint site',
   },
 
   config: {
     description: 'Path to configuration file if not using "env.js"',
-    failed: 'Failed to load config file: %path%. Use "engineer init" to create a new config file.',
-    using: 'Using config file %path%.\n',
+    failed: 'Failed to load config file: %path%\nUse "engineer init" to create a new config file.',
+    using: 'Using config file: %path%\n',
   },
 
   error: {
     exists: 'already exists.\n',
     failed: 'failed.\n',
-    message: 'Error (%code%): %message%\n',
+    message: 'Error %code%: %message%\n',
   },
 
   field: {
-    create: 'Creating field %field% on %target%...',
-    delete: 'Deleting field %field% on %target%...',
-    get: 'Getting field %field% on %target%...',
-    update: 'Updating field %field% on %target%...',
+    create: 'Creating field in %target%: %field%...',
+    delete: 'Deleting field from %target%: %field%...',
+    get: 'Getting field from %target%: %field%...',
+    update: 'Updating field in %target%: %field%...',
   },
 
   init: {
-    description: 'Create env.js in the current directory',
-    env: 'Creating environment config file (env.js)...',
-    ignore: 'Creating ignore file (.gitignore)...',
+    description: 'Create "env.js" in the current directory',
+    env: 'Creating environment config file "env.js"...',
+    ignore: 'Creating ignore file ".gitignore"...',
   },
 
   install: {
@@ -56,34 +56,41 @@ module.exports = {
   },
 
   list: {
-    create: 'Creating list %list%...',
-    delete: 'Deleting list %list%...',
-    get: 'Getting list %list%...',
-    update: 'Updating list %list%...',
+    create: 'Creating list: %list%...',
+    delete: 'Deleting list: %list%...',
+    get: 'Getting list: %list%...',
+    list: 'list "%list"',
+    update: 'Updating list: %list%...',
   },
 
   make: {
-    begin: 'Creating migration %name%...',
+    begin: 'Creating migration: %name%...',
     description: 'Create a new migration file',
   },
 
   migrate: {
-    begin: 'Migrating %name%...\n',
+    begin: 'Migrating: %name%...\n',
     complete: 'Migration complete.\n',
     description: 'Run pending migrations',
     empty: 'Nothing to migrate. Use "engineer make <name>" to create a new migration.\n',
-    exist: 'Migration "%file%" does not exist.\n',
+    exist: 'Migration does not exist: %file%\n',
+    force: 'Run migrations even if they\'re already migrated\n',
     to: 'Migrate up to this file, but don\'t run later migrations',
     upToDate: 'Migrations are already up to date.\n',
   },
 
   rollback: {
-    begin: 'Rolling back %name%...\n',
+    begin: 'Rolling back: %name%...\n',
     complete: 'Rollback complete.\n',
     description: 'Roll back migrations',
     empty: 'Nothing to roll back.\n',
+    force: 'Roll back migrations even if they\'re already rolled back\n',
     to: 'Roll back all migrations after this file',
     upToDate: 'Migrations are already rolled back.\n',
+  },
+
+  site: {
+    site: 'site "%site%"',
   },
 
   status: {
@@ -91,7 +98,7 @@ module.exports = {
     get: 'Getting migration status...',
     migrated: 'Migrated',
     pending: 'Pending',
-    set: 'Setting migration status for %migration%...',
+    set: 'Updating migration status: %migration%...',
     uninstalled: 'Engineer is not installed. Use "engineer install" to begin.\n',
   },
 
@@ -107,14 +114,14 @@ module.exports = {
   },
 
   view: {
-    create: 'Creating view %view% on %list%...',
-    delete: 'Deleting view %view% on %list%...',
-    get: 'Getting view %view% on %list%...',
-    update: 'Updating view %view% on %list%...',
+    create: 'Creating view on list "%list%": %view%...',
+    delete: 'Deleting view on list "%list%": %view%...',
+    get: 'Getting view on list "%list%": %view%...',
+    update: 'Updating view on list "%list%": %view%...',
   },
 
   viewField: {
-    add: 'Adding field %field% to view %view% on %list%...',
-    move: 'Moving field %field% in view %view% on %list%...',
+    add: 'Adding field to view "%view%" on list "%list%": %field%...',
+    move: 'Moving field in view "%view%" on list "%list%": %field%...',
   },
 };

@@ -11,6 +11,16 @@ const utility = require('../../utility');
  */
 module.exports = {
   /**
+   * Handle onStart event
+   * @param  {String} method
+   * @param  {Object} tokens
+   * @return {Event}
+   */
+  onStart(method = 'create', tokens = {}) {
+    utility.log.info(`field.${method}`, tokens);
+  },
+
+  /**
    * Create new field
    * @param  {Object} params
    * @return {void}
@@ -26,24 +36,22 @@ module.exports = {
         FieldTypeKind: 'Text',
       },
       list: null,
-      onError: (response) => {
-        utility.log.error('error.failed');
-        utility.error.handle(response);
-      },
+      onError: utility.error.failed,
       onStart: () => {
-        utility.log.info('field.create', {
-          field: options.field.Title,
-          target: options.list || options.site,
+        this.onStart('create', {
+          field: options.fieldName,
+          target: options.list ? utility.log.translate('list.list', { list: options.list }) : utility.log.translate('site.site', { site: options.site.length ? options.site : '/' }),
         });
       },
-      onSuccess: () => {
-        utility.log.success('success.done');
-      },
+      onSuccess: utility.error.success,
       site: bus.site,
     }, params);
 
     // Override: Title
     if (typeof params === 'string') options.field.Title = params;
+
+    // Save field name
+    options.fieldName = options.field.Title;
 
     // Field type
     if (typeof options.field.FieldTypeKind === 'string') {
@@ -55,6 +63,39 @@ module.exports = {
       if (config.sharepoint.fields[options.field.FieldTypeKind]) options.field.FieldTypeKind = config.sharepoint.fields[options.field.FieldTypeKind];
     }
 
+    // Lookup
+    if (options.field.FieldTypeKind === 7) {
+      options.field.__metadata.type = 'SP.FieldCreationInformation';
+    }
+
+    // Computed
+    if (options.field.FieldTypeKind === 12) {
+      options.field.__metadata.type = 'SP.XmlSchemaFieldCreationInformation';
+      delete options.field.Title;
+      delete options.field.FieldTypeKind;
+    }
+
+    // Choices
+    if (options.field.Choices && Array.isArray(options.field.Choices)) {
+      const choices = options.field.Choices;
+      options.field.Choices = {
+        __metadata: {
+          type: 'Collection(Edm.String)',
+        },
+        results: choices,
+        EditFormat: options.choiceRadio ? 1 : 0,
+      };
+    }
+
+    // Move options.field to options.field.parameters for "addfield" and "createfieldasxml" endpoints
+    if (options.field.__metadata.type === 'SP.FieldCreationInformation' || options.field.__metadata.type === 'SP.XmlSchemaFieldCreationInformation') {
+      const field = amp.object.clone(options.field);
+      delete options.field;
+      options.field = {
+        parameters: field,
+      };
+    }
+
     // Task
     const task = new Task((resolve) => {
       sharepoint.request.post({
@@ -63,7 +104,7 @@ module.exports = {
         onStart: options.onStart,
         onSuccess: options.onSuccess,
         site: options.site,
-        uri: `_api/web${options.list ? `/lists/getbytitle('${options.list}')` : ''}/fields`,
+        uri: `_api/web${options.list ? `/lists/getbytitle('${options.list}')` : ''}/fields${options.field.parameters && options.field.parameters.__metadata.type === 'SP.FieldCreationInformation' ? '/addfield' : ''}${options.field.parameters && options.field.parameters.__metadata.type === 'SP.XmlSchemaFieldCreationInformation' ? '/createfieldasxml' : ''}`,
       }).then((response) => {
         resolve(response);
       });
@@ -80,20 +121,15 @@ module.exports = {
     // Options
     const options = amp.options({
       id: null,
-      onError: (response) => {
-        utility.log.error('error.failed');
-        utility.error.handle(response);
-      },
       list: null,
+      onError: utility.error.failed,
       onStart: () => {
-        utility.log.info('field.get', {
+        this.onStart('get', {
           field: options.id || options.title,
-          target: options.list || options.site,
+          target: options.list ? utility.log.translate('list.list', { list: options.list }) : utility.log.translate('site.site', { site: options.site.length ? options.site : '/' }),
         });
       },
-      onSuccess: () => {
-        utility.log.success('success.done');
-      },
+      onSuccess: utility.error.success,
       site: bus.site,
       title: '',
     }, params);
@@ -131,19 +167,14 @@ module.exports = {
         },
       },
       list: null,
-      onError: (response) => {
-        utility.log.error('error.failed');
-        utility.error.handle(response);
-      },
+      onError: utility.error.failed,
       onStart: () => {
-        utility.log.info('field.update', {
+        this.onStart('update', {
           field: options.id || options.title,
-          target: options.list || options.site,
+          target: options.list ? utility.log.translate('list.list', { list: options.list }) : utility.log.translate('site.site', { site: options.site.length ? options.site : '/' }),
         });
       },
-      onSuccess: () => {
-        utility.log.success('success.done');
-      },
+      onSuccess: utility.error.success,
       site: bus.site,
       title: '',
     }, params);
@@ -186,19 +217,14 @@ module.exports = {
     const options = amp.options({
       id: null,
       list: null,
-      onError: (response) => {
-        utility.log.error('error.failed');
-        utility.error.handle(response);
-      },
+      onError: utility.error.failed,
       onStart: () => {
-        utility.log.info('list.delete', {
+        this.onStart('delete', {
           field: options.id || options.title,
-          target: options.list || options.site,
+          target: options.list ? utility.log.translate('list.list', { list: options.list }) : utility.log.translate('site.site', { site: options.site.length ? options.site : '/' }),
         });
       },
-      onSuccess: () => {
-        utility.log.success('success.done');
-      },
+      onSuccess: utility.error.success,
       site: bus.site,
       title: '',
     }, params);

@@ -10,6 +10,16 @@ const utility = require('../../utility');
  */
 module.exports = {
   /**
+   * Handle onStart event
+   * @param  {String} method
+   * @param  {Object} tokens
+   * @return {Event}
+   */
+  onStart(method = 'create', tokens = {}) {
+    utility.log.info(`view.${method}`, tokens);
+  },
+
+  /**
    * Create new view
    * @param  {Object} params
    * @return {void}
@@ -18,19 +28,14 @@ module.exports = {
     // Options
     const options = amp.options({
       list: '',
-      onError: (response) => {
-        utility.log.error('error.failed');
-        utility.error.handle(response);
-      },
+      onError: utility.error.failed,
       onStart: () => {
-        utility.log.info('view.create', {
+        this.onStart('create', {
           list: options.list,
           view: options.view.Title,
         });
       },
-      onSuccess: () => {
-        utility.log.success('success.done');
-      },
+      onSuccess: utility.error.success,
       site: bus.site,
       view: {
         __metadata: {
@@ -70,19 +75,14 @@ module.exports = {
     const options = amp.options({
       id: null,
       list: '',
-      onError: (response) => {
-        utility.log.error('error.failed');
-        utility.error.handle(response);
-      },
+      onError: utility.error.failed,
       onStart: () => {
-        utility.log.info('view.get', {
+        this.onStart('get', {
           list: options.list,
           view: options.id || options.title,
         });
       },
-      onSuccess: () => {
-        utility.log.success('success.done');
-      },
+      onSuccess: utility.error.success,
       site: bus.site,
       title: '',
     }, params);
@@ -115,19 +115,14 @@ module.exports = {
     const options = amp.options({
       id: null,
       list: '',
-      onError: (response) => {
-        utility.log.error('error.failed');
-        utility.error.handle(response);
-      },
+      onError: utility.error.failed,
       onStart: () => {
-        utility.log.info('view.update', {
+        this.onStart('update', {
           list: options.list,
           view: options.id || options.title,
         });
       },
-      onSuccess: () => {
-        utility.log.success('success.done');
-      },
+      onSuccess: utility.error.success,
       site: bus.site,
       title: '',
       view: {
@@ -166,19 +161,14 @@ module.exports = {
     const options = amp.options({
       id: null,
       list: '',
-      onError: (response) => {
-        utility.log.error('error.failed');
-        utility.error.handle(response);
-      },
+      onError: utility.error.failed,
       onStart: () => {
-        utility.log.info('view.delete', {
+        this.onStart('delete', {
           list: options.list,
           view: options.id || options.title,
         });
       },
-      onSuccess: () => {
-        utility.log.success('success.done');
-      },
+      onSuccess: utility.error.success,
       site: bus.site,
       title: '',
     }, params);

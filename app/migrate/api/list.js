@@ -10,6 +10,16 @@ const utility = require('../../utility');
  */
 module.exports = {
   /**
+   * Handle onStart event
+   * @param  {String} method
+   * @param  {Object} tokens
+   * @return {Event}
+   */
+  onStart(method = 'create', tokens = {}) {
+    utility.log.info(`list.${method}`, tokens);
+  },
+
+  /**
    * Create new list
    * @param  {Object} params
    * @return {void}
@@ -27,16 +37,13 @@ module.exports = {
         Description: '',
         Title: '',
       },
-      onError: (response) => {
-        utility.log.error('error.failed');
-        utility.error.handle(response);
-      },
+      onError: utility.error.failed,
       onStart: () => {
-        utility.log.info('list.create', { list: options.list.Title });
+        this.onStart('create', {
+          list: options.list.Title,
+        });
       },
-      onSuccess: () => {
-        utility.log.success('success.done');
-      },
+      onSuccess: utility.error.success,
       site: bus.site,
     }, params);
 
@@ -68,16 +75,13 @@ module.exports = {
     // Options
     const options = amp.options({
       id: null,
-      onError: (response) => {
-        utility.log.error('error.failed');
-        utility.error.handle(response);
-      },
+      onError: utility.error.failed,
       onStart: () => {
-        utility.log.info('list.get', { list: options.id || options.title });
+        this.onStart('get', {
+          list: options.id || options.title,
+        });
       },
-      onSuccess: () => {
-        utility.log.success('success.done');
-      },
+      onSuccess: utility.error.success,
       site: bus.site,
       title: '',
     }, params);
@@ -114,16 +118,13 @@ module.exports = {
           type: 'SP.List',
         },
       },
-      onError: (response) => {
-        utility.log.error('error.failed');
-        utility.error.handle(response);
-      },
+      onError: utility.error.failed,
       onStart: () => {
-        utility.log.info('list.update', { list: options.id || options.title });
+        this.onStart('update', {
+          list: options.id || options.title,
+        });
       },
-      onSuccess: () => {
-        utility.log.success('success.done');
-      },
+      onSuccess: utility.error.success,
       site: bus.site,
       title: '',
     }, params);
@@ -156,16 +157,13 @@ module.exports = {
     // Options
     const options = amp.options({
       id: null,
-      onError: (response) => {
-        utility.log.error('error.failed');
-        utility.error.handle(response);
-      },
+      onError: utility.error.failed,
       onStart: () => {
-        utility.log.info('list.delete', { list: options.id || options.title });
+        this.onStart('delete', {
+          list: options.id || options.title,
+        });
       },
-      onSuccess: () => {
-        utility.log.success('success.done');
-      },
+      onSuccess: utility.error.success,
       site: bus.site,
       title: '',
     }, params);

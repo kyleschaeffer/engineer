@@ -103,7 +103,7 @@ module.exports = {
             utility.error.handle(response);
           },
           onStart: () => {
-            utility.log.info('status.set', { migration: migration.name });
+            utility.log.info('status.set', { migration: name });
           },
           onSuccess: () => {
             utility.log.success('success.done');

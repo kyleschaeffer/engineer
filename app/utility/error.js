@@ -32,4 +32,22 @@ module.exports = {
     if (message) log.error(message, tokens);
     process.exit();
   },
+
+  /**
+   * Generic error handler
+   * @param  {Object} response
+   * @return {void}
+   */
+  failed(response) {
+    log.error('error.failed');
+    this.handle(response);
+  },
+
+  /**
+   * Generic success handler
+   * @return {void}
+   */
+  success() {
+    log.success('success.done');
+  },
 };
