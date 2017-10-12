@@ -51,6 +51,7 @@ program.command('make <name>')
 program.command('migrate')
   .description(utility.log.translate('migrate.description'))
   .option('-t, --to <file>', utility.log.translate('migrate.to'))
+  .option('-o, --only <file>', utility.log.translate('migrate.only'))
   .option('-f, --force', utility.log.translate('migrate.force'))
   .action((options) => {
     config();
@@ -61,6 +62,7 @@ program.command('migrate')
 program.command('rollback')
   .description(utility.log.translate('rollback.description'))
   .option('-t, --to <file>', utility.log.translate('rollback.to'))
+  .option('-o, --only <file>', utility.log.translate('migrate.only'))
   .option('-f, --force', utility.log.translate('rollback.force'))
   .action((options) => {
     config();

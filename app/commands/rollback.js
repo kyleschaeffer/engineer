@@ -30,7 +30,7 @@ module.exports = {
     // Promise
     const p = new Promise((resolve) => {
       // Get migration files
-      const files = utility.file.readDir('migrations');
+      let files = utility.file.readDir('migrations');
 
       // No migrations
       if (!files || !files.length) {
@@ -41,7 +41,14 @@ module.exports = {
       // Roll back to
       if (options.to) {
         this.rollbackTo = utility.file.name(options.to, false);
-        if (options.to && !utility.file.exists(`migrations/${this.rollbackTo}.js`)) utility.error.fail('migrate.exist', { file: this.rollbackTo });
+        if (!utility.file.exists(`migrations/${this.rollbackTo}.js`)) utility.error.fail('migrate.exist', { file: this.rollbackTo });
+      }
+
+      // Only
+      if (options.only) {
+        const onlyFile = utility.file.name(options.only, false);
+        if (!utility.file.exists(`migrations/${onlyFile}.js`)) utility.error.fail('migrate.exist', { file: onlyFile });
+        files = [`${onlyFile}.js`];
       }
 
       // Get migration status

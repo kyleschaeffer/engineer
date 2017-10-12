@@ -29,7 +29,7 @@ module.exports = {
   run(options) {
     const p = new Promise((resolve) => {
       // Get migration files
-      const files = utility.file.readDir('migrations');
+      let files = utility.file.readDir('migrations');
 
       // No migrations
       if (!files || !files.length) {
@@ -40,7 +40,14 @@ module.exports = {
       // Migrate to
       if (options.to) {
         this.migrateTo = utility.file.name(options.to, false);
-        if (options.to && !utility.file.exists(`migrations/${this.migrateTo}.js`)) utility.error.fail('migrate.exist', { file: this.migrateTo });
+        if (!utility.file.exists(`migrations/${this.migrateTo}.js`)) utility.error.fail('migrate.exist', { file: this.migrateTo });
+      }
+
+      // Only
+      if (options.only) {
+        const onlyFile = utility.file.name(options.only, false);
+        if (!utility.file.exists(`migrations/${onlyFile}.js`)) utility.error.fail('migrate.exist', { file: onlyFile });
+        files = [`${onlyFile}.js`];
       }
 
       // Get migration status

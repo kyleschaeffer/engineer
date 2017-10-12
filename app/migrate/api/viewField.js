@@ -31,11 +31,7 @@ module.exports = {
       list: '',
       onError: utility.error.failed,
       onStart: () => {
-        this.onStart('add', {
-          field: options.field,
-          list: options.list,
-          view: options.view,
-        });
+        this.onStart('add', { field: options.field, list: options.list, view: options.view });
       },
       onSuccess: utility.error.success,
       site: bus.site,
@@ -72,11 +68,7 @@ module.exports = {
       list: '',
       onError: utility.error.failed,
       onStart: () => {
-        this.onStart('remove', {
-          field: options.field,
-          list: options.list,
-          view: options.view,
-        });
+        this.onStart('remove', { field: options.field, list: options.list, view: options.view });
       },
       onSuccess: utility.error.success,
       site: bus.site,
@@ -114,11 +106,7 @@ module.exports = {
       list: '',
       onError: utility.error.failed,
       onStart: () => {
-        this.onStart('move', {
-          field: options.field,
-          list: options.list,
-          view: options.view,
-        });
+        this.onStart('move', { field: options.field, list: options.list, view: options.view });
       },
       onSuccess: utility.error.success,
       site: bus.site,

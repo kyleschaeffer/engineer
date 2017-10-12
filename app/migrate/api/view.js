@@ -30,10 +30,7 @@ module.exports = {
       list: '',
       onError: utility.error.failed,
       onStart: () => {
-        this.onStart('create', {
-          list: options.list,
-          view: options.view.Title,
-        });
+        this.onStart('create', { list: options.list, view: options.view.Title });
       },
       onSuccess: utility.error.success,
       site: bus.site,
@@ -46,7 +43,7 @@ module.exports = {
       },
     }, params);
 
-    // Override: Title
+    // Override: view.Title
     if (typeof params === 'string') options.view.Title = params;
 
     // Task
@@ -77,18 +74,15 @@ module.exports = {
       list: '',
       onError: utility.error.failed,
       onStart: () => {
-        this.onStart('get', {
-          list: options.list,
-          view: options.id || options.title,
-        });
+        this.onStart('get', { list: options.list, view: options.id || options.title });
       },
       onSuccess: utility.error.success,
       site: bus.site,
       title: '',
     }, params);
 
-    // Override: Title
-    if (typeof params === 'string') options.list.Title = params;
+    // Override: title
+    if (typeof params === 'string') options.title = params;
 
     // Task
     const task = new Task((resolve) => {
@@ -117,10 +111,7 @@ module.exports = {
       list: '',
       onError: utility.error.failed,
       onStart: () => {
-        this.onStart('update', {
-          list: options.list,
-          view: options.id || options.title,
-        });
+        this.onStart('update', { list: options.list, view: options.id || options.title });
       },
       onSuccess: utility.error.success,
       site: bus.site,
@@ -163,10 +154,7 @@ module.exports = {
       list: '',
       onError: utility.error.failed,
       onStart: () => {
-        this.onStart('delete', {
-          list: options.list,
-          view: options.id || options.title,
-        });
+        this.onStart('delete', { list: options.list, view: options.id || options.title });
       },
       onSuccess: utility.error.success,
       site: bus.site,

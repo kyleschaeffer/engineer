@@ -39,15 +39,13 @@ module.exports = {
       },
       onError: utility.error.failed,
       onStart: () => {
-        this.onStart('create', {
-          list: options.list.Title,
-        });
+        this.onStart('create', { list: options.list.Title });
       },
       onSuccess: utility.error.success,
       site: bus.site,
     }, params);
 
-    // Override: Title
+    // Override: list.Title
     if (typeof params === 'string') options.list.Title = params;
 
     // Task
@@ -77,17 +75,15 @@ module.exports = {
       id: null,
       onError: utility.error.failed,
       onStart: () => {
-        this.onStart('get', {
-          list: options.id || options.title,
-        });
+        this.onStart('get', { list: options.id || options.title });
       },
       onSuccess: utility.error.success,
       site: bus.site,
       title: '',
     }, params);
 
-    // Override: Title
-    if (typeof params === 'string') options.list.Title = params;
+    // Override: title
+    if (typeof params === 'string') options.title = params;
 
     // Task
     const task = new Task((resolve) => {
@@ -120,9 +116,7 @@ module.exports = {
       },
       onError: utility.error.failed,
       onStart: () => {
-        this.onStart('update', {
-          list: options.id || options.title,
-        });
+        this.onStart('update', { list: options.id || options.title });
       },
       onSuccess: utility.error.success,
       site: bus.site,
@@ -159,9 +153,7 @@ module.exports = {
       id: null,
       onError: utility.error.failed,
       onStart: () => {
-        this.onStart('delete', {
-          list: options.id || options.title,
-        });
+        this.onStart('delete', { list: options.id || options.title });
       },
       onSuccess: utility.error.success,
       site: bus.site,

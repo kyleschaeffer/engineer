@@ -21,13 +21,49 @@ module.exports = {
   },
 
   /**
+   * Configure options
+   * @param  {Object} apiOptions
+   * @return {Object}
+   */
+  configure(apiOptions) {
+    const options = apiOptions;
+
+    // Save field name
+    if (options.field && options.field.Title) options.fieldName = options.field.Title;
+
+    // Field type
+    if (options.field && options.field.FieldTypeKind && typeof options.field.FieldTypeKind === 'string') {
+      // Metadata field type
+      if (config.sharepoint.fieldTypeExceptions[options.field.FieldTypeKind]) options.field.__metadata.type = `SP.${config.sharepoint.fieldTypeExceptions[options.field.FieldTypeKind]}`;
+      else options.field.__metadata.type = `SP.Field${options.field.FieldTypeKind}`;
+
+      // FieldTypeKind
+      if (config.sharepoint.fields[options.field.FieldTypeKind]) options.field.FieldTypeKind = config.sharepoint.fields[options.field.FieldTypeKind];
+    }
+
+    // Choices
+    if (options.field && options.field.Choices && Array.isArray(options.field.Choices)) {
+      const choices = options.field.Choices;
+      options.field.Choices = {
+        __metadata: {
+          type: 'Collection(Edm.String)',
+        },
+        results: choices,
+        EditFormat: options.choiceRadio ? 1 : 0,
+      };
+    }
+
+    return options;
+  },
+
+  /**
    * Create new field
    * @param  {Object} params
    * @return {void}
    */
   create(params = {}) {
     // Options
-    const options = amp.options({
+    let options = amp.options({
       field: {
         __metadata: {
           type: 'SP.Field',
@@ -47,21 +83,11 @@ module.exports = {
       site: bus.site,
     }, params);
 
-    // Override: Title
+    // Override: field.Title
     if (typeof params === 'string') options.field.Title = params;
 
-    // Save field name
-    options.fieldName = options.field.Title;
-
-    // Field type
-    if (typeof options.field.FieldTypeKind === 'string') {
-      // Metadata field type
-      if (config.sharepoint.fieldTypeExceptions[options.field.FieldTypeKind]) options.field.__metadata.type = `SP.${config.sharepoint.fieldTypeExceptions[options.field.FieldTypeKind]}`;
-      else options.field.__metadata.type = `SP.Field${options.field.FieldTypeKind}`;
-
-      // FieldTypeKind
-      if (config.sharepoint.fields[options.field.FieldTypeKind]) options.field.FieldTypeKind = config.sharepoint.fields[options.field.FieldTypeKind];
-    }
+    // Configure options
+    options = this.configure(options);
 
     // Lookup
     if (options.field.FieldTypeKind === 7) {
@@ -73,18 +99,6 @@ module.exports = {
       options.field.__metadata.type = 'SP.XmlSchemaFieldCreationInformation';
       delete options.field.Title;
       delete options.field.FieldTypeKind;
-    }
-
-    // Choices
-    if (options.field.Choices && Array.isArray(options.field.Choices)) {
-      const choices = options.field.Choices;
-      options.field.Choices = {
-        __metadata: {
-          type: 'Collection(Edm.String)',
-        },
-        results: choices,
-        EditFormat: options.choiceRadio ? 1 : 0,
-      };
     }
 
     // Move options.field to options.field.parameters for "addfield" and "createfieldasxml" endpoints
@@ -119,7 +133,7 @@ module.exports = {
    */
   get(params = {}) {
     // Options
-    const options = amp.options({
+    let options = amp.options({
       id: null,
       list: null,
       onError: utility.error.failed,
@@ -134,8 +148,11 @@ module.exports = {
       title: '',
     }, params);
 
-    // Override: Title
-    if (typeof params === 'string') options.field.Title = params;
+    // Override: title
+    if (typeof params === 'string') options.title = params;
+
+    // Configure options
+    options = this.configure(options);
 
     // Task
     const task = new Task((resolve) => {
@@ -159,7 +176,7 @@ module.exports = {
    */
   update(params = {}) {
     // Options
-    const options = amp.options({
+    let options = amp.options({
       id: null,
       field: {
         __metadata: {
@@ -182,14 +199,8 @@ module.exports = {
     // Override: title
     if (typeof params === 'string') options.title = params;
 
-    // Field type
-    if (typeof options.field.FieldTypeKind === 'string') {
-      // Metadata field type
-      if (config.sharepoint.fieldTypeExceptions[options.field.FieldTypeKind]) options.field.__metadata.type = `SP.${config.sharepoint.fieldTypeExceptions[options.field.FieldTypeKind]}`;
-
-      // FieldTypeKind
-      if (config.sharepoint.fields[options.field.FieldTypeKind]) options.field.FieldTypeKind = config.sharepoint.fields[options.field.FieldTypeKind];
-    }
+    // Configure options
+    options = this.configure(options);
 
     // Task
     const task = new Task((resolve) => {
@@ -214,7 +225,7 @@ module.exports = {
    */
   delete(params = {}) {
     // Options
-    const options = amp.options({
+    let options = amp.options({
       id: null,
       list: null,
       onError: utility.error.failed,
@@ -231,6 +242,9 @@ module.exports = {
 
     // Override: title
     if (typeof params === 'string') options.title = params;
+
+    // Configure options
+    options = this.configure(options);
 
     // Task
     const task = new Task((resolve) => {
