@@ -13,15 +13,19 @@ module.exports = {
     // Migrations list
     engineer.list.create({
       list: {
+        Title: sharepoint.lists.migrations,
         Description: 'Migrations tracking list installed automatically by Engineer',
         Hidden: true,
-        Title: sharepoint.lists.migrations,
+        NoCrawl: true,
       },
     });
+
+    // Migrated field
     engineer.field.create({
       field: {
-        Title: 'Migrated',
         FieldTypeKind: 'Boolean',
+        Title: 'Migrated',
+        Description: 'Current migration status',
         DefaultValue: '0',
       },
       list: sharepoint.lists.migrations,
@@ -35,24 +39,23 @@ module.exports = {
     // Manifest list
     engineer.list.create({
       list: {
+        Title: sharepoint.lists.manifest,
         Description: 'Manifest tracking list installed automatically by Engineer',
         Hidden: true,
-        Title: sharepoint.lists.manifest,
+        NoCrawl: true,
       },
     });
+
+    // Type field
     engineer.field.create({
       field: {
-        Title: 'Type',
         FieldTypeKind: 'Choice',
-        Choices: {
-          __metadata: {
-            type: 'Collection(Edm.String)',
-          },
-          results: [
-            'ContentType',
-            'SiteColumn',
-          ],
-        },
+        Title: 'Type',
+        Description: 'The type of entry',
+        Choices: [
+          'ContentType',
+          'SiteColumn',
+        ],
         DefaultValue: 'ContentType',
         Required: true,
       },
@@ -63,11 +66,13 @@ module.exports = {
       list: sharepoint.lists.manifest,
       view: 'All Items',
     });
+
+    // Value field
     engineer.field.create({
       field: {
-        Title: 'Value',
         FieldTypeKind: 'Text',
-        Required: true,
+        Title: 'Value',
+        Description: 'The content type or site column ID associated with this entry',
       },
       list: sharepoint.lists.manifest,
     });

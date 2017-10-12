@@ -91,18 +91,10 @@ module.exports = {
 
     // Lookup
     if (options.field.FieldTypeKind === 7) {
+      // Set special metadata type
       options.field.__metadata.type = 'SP.FieldCreationInformation';
-    }
 
-    // Computed
-    if (options.field.FieldTypeKind === 12) {
-      options.field.__metadata.type = 'SP.XmlSchemaFieldCreationInformation';
-      delete options.field.Title;
-      delete options.field.FieldTypeKind;
-    }
-
-    // Move options.field to options.field.parameters for "addfield" and "createfieldasxml" endpoints
-    if (options.field.__metadata.type === 'SP.FieldCreationInformation' || options.field.__metadata.type === 'SP.XmlSchemaFieldCreationInformation') {
+      // Move options.field to options.field.parameters for "addfield" endpoint
       const field = amp.object.clone(options.field);
       delete options.field;
       options.field = {
@@ -118,7 +110,7 @@ module.exports = {
         onStart: options.onStart,
         onSuccess: options.onSuccess,
         site: options.site,
-        uri: `_api/web${options.list ? `/lists/getbytitle('${options.list}')` : ''}/fields${options.field.parameters && options.field.parameters.__metadata.type === 'SP.FieldCreationInformation' ? '/addfield' : ''}${options.field.parameters && options.field.parameters.__metadata.type === 'SP.XmlSchemaFieldCreationInformation' ? '/createfieldasxml' : ''}`,
+        uri: `_api/web${options.list ? `/lists/getbytitle('${options.list}')` : ''}/fields${options.field.parameters && options.field.parameters.__metadata.type === 'SP.FieldCreationInformation' ? '/addfield' : ''}`,
       }).then((response) => {
         resolve(response);
       });
@@ -127,41 +119,50 @@ module.exports = {
   },
 
   /**
-   * Get field data
+   * Create new field from schema XML
    * @param  {Object} params
    * @return {void}
    */
-  get(params = {}) {
+  fromSchema(params = {}) {
     // Options
-    let options = amp.options({
-      id: null,
+    const options = amp.options({
+      field: {
+        __metadata: {
+          type: 'SP.XmlSchemaFieldCreationInformation',
+        },
+        SchemaXml: '',
+      },
       list: null,
       onError: utility.error.failed,
       onStart: () => {
-        this.onStart('get', {
-          field: options.id || options.title,
+        this.onStart('create', {
+          field: 'XmlSchemaField',
           target: options.list ? utility.log.translate('list.list', { list: options.list }) : utility.log.translate('site.site', { site: options.site.length ? options.site : '/' }),
         });
       },
       onSuccess: utility.error.success,
       site: bus.site,
-      title: '',
     }, params);
 
-    // Override: title
-    if (typeof params === 'string') options.title = params;
+    // Override: field.SchemaXml
+    if (typeof params === 'string') options.field.SchemaXml = params;
 
-    // Configure options
-    options = this.configure(options);
+    // Move options.field to options.field.parameters
+    const field = amp.object.clone(options.field);
+    delete options.field;
+    options.field = {
+      parameters: field,
+    };
 
     // Task
     const task = new Task((resolve) => {
-      sharepoint.request.get({
+      sharepoint.request.post({
+        body: options.field,
         onError: options.onError,
         onStart: options.onStart,
         onSuccess: options.onSuccess,
         site: options.site,
-        uri: `_api/web${options.list ? `/lists/getbytitle('${options.list}')` : ''}/fields${options.id ? `('${options.id}')` : `/getbytitle('${options.title}')`}`,
+        uri: `_api/web${options.list ? `/lists/getbytitle('${options.list}')` : ''}/fields/createfieldasxml`,
       }).then((response) => {
         resolve(response);
       });

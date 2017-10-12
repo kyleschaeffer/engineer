@@ -63,43 +63,6 @@ module.exports = {
   },
 
   /**
-   * Get view data
-   * @param  {Object} params
-   * @return {void}
-   */
-  get(params = {}) {
-    // Options
-    const options = amp.options({
-      id: null,
-      list: '',
-      onError: utility.error.failed,
-      onStart: () => {
-        this.onStart('get', { list: options.list, view: options.id || options.title });
-      },
-      onSuccess: utility.error.success,
-      site: bus.site,
-      title: '',
-    }, params);
-
-    // Override: title
-    if (typeof params === 'string') options.title = params;
-
-    // Task
-    const task = new Task((resolve) => {
-      sharepoint.request.get({
-        onError: options.onError,
-        onStart: options.onStart,
-        onSuccess: options.onSuccess,
-        site: options.site,
-        uri: `_api/web/lists/getbytitle('${options.list}')/views${options.id ? `('${options.id}')` : `/getbytitle('${options.title}')`}`,
-      }).then((response) => {
-        resolve(response);
-      });
-    });
-    bus.load(task);
-  },
-
-  /**
    * Update list
    * @param  {Object} params
    * @return {void}
