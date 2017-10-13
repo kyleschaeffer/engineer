@@ -1,4 +1,4 @@
-const amp = require('amp-utils');
+const _ = require('lodash');
 const fs = require('fs');
 
 module.exports = {
@@ -9,7 +9,7 @@ module.exports = {
    * @return {String}
    */
   path(path, cwd = true) {
-    return `${cwd ? process.cwd() : __dirname}/${amp.string.trimSlashes(path)}`;
+    return `${cwd ? process.cwd() : __dirname}/${_.trim(path, '/')}`;
   },
 
   /**

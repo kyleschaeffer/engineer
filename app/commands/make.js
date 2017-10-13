@@ -1,4 +1,4 @@
-const amp = require('amp-utils');
+const _ = require('lodash');
 const moment = require('moment');
 const utility = require('../utility');
 
@@ -17,7 +17,7 @@ module.exports = {
       utility.file.mkdir('migrations');
 
       // Generate timestamped file path
-      const path = `migrations/${moment().utc().format('YYYYMMDDHHmmss')}-${amp.string.slug(name)}.js`;
+      const path = `migrations/${moment().utc().format('YYYYMMDDHHmmss')}-${_.kebabCase(name)}.js`;
 
       // Write file from template
       utility.file.fromTemplate('migration.js', path);

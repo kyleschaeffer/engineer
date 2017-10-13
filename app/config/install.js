@@ -9,32 +9,19 @@ module.exports = {
    * https://github.com/oldrivercreative/engineer for more information on
    * Engineer tasks.
    */
-  up(engineer) {
+  up(engineer, web) {
     // Migrations list
-    engineer.list.create({
-      list: {
-        Title: sharepoint.lists.migrations,
-        Description: 'Migrations tracking list installed automatically by Engineer',
-        Hidden: true,
-        NoCrawl: true,
-      },
-    });
+    engineer.task(web.lists.add(sharepoint.lists.migrations, 'Migrations tracking list installed automatically by Engineer', true, {
+      Hidden: true,
+      NoCrawl: true,
+    }));
 
     // Migrated field
-    engineer.field.create({
-      field: {
-        FieldTypeKind: 'Boolean',
-        Title: 'Migrated',
-        Description: 'Current migration status',
-        DefaultValue: '0',
-      },
-      list: sharepoint.lists.migrations,
-    });
-    engineer.viewField.add({
-      field: 'Migrated',
-      list: sharepoint.lists.migrations,
-      view: 'All Items',
-    });
+    engineer.task(web.lists.getByTitle(sharepoint.lists.migrations).fields.add('Migrated', 'SP.BooleanField', {
+      Description: 'Current migration status',
+      DefaultValue: '0',
+    }));
+    engineer.task(web.lists.getByTitle(sharepoint.lists.migrations).views.getByTitle('All Items').fields.add('Migrated'));
   },
 
   /**
@@ -42,7 +29,9 @@ module.exports = {
    * https://github.com/oldrivercreative/engineer for more information on
    * Engineer tasks.
    */
-  down(engineer) {
-    engineer.list.delete(sharepoint.lists.migrations);
+  down(engineer, web) {
+    engineer.task(() => {
+      web.lists.getByTitle(sharepoint.lists.migrations).delete();
+    });
   },
 };

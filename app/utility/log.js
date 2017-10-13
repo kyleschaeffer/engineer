@@ -1,4 +1,4 @@
-const amp = require('amp-utils');
+const _ = require('lodash');
 const colors = require('colors'); // eslint-disable-line no-unused-vars
 const config = require('../config');
 const lang = require('../lang');
@@ -87,8 +87,8 @@ const Log = {
   translate(key, tokens = {}) {
     let msg = key;
     try {
-      msg = amp.object.byPath(lang, `${config.env.lang}.${key}`);
-      if (!msg) msg = amp.object.byPath(lang, `en.${key}`);
+      msg = _.get(lang, `${config.env.lang}.${key}`);
+      if (!msg) msg = _.get(lang, `en.${key}`);
     } catch (e) {
       return key;
     }

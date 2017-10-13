@@ -39,7 +39,7 @@ module.exports = {
   error: {
     exists: 'already exists.\n',
     failed: 'failed.\n',
-    message: 'Error %code%: %message%\n',
+    message: '%code% Error: %message%\n',
   },
 
   field: {

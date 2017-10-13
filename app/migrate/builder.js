@@ -1,5 +1,7 @@
 const bus = require('./bus');
-const fs = require('fs');
+const sharepoint = require('../sharepoint');
+const Task = require('./task');
+const utility = require('../utility');
 
 class Builder {
   /**
@@ -14,11 +16,8 @@ class Builder {
      */
     this.tasks = [];
 
-    // Load API and build
-    this.api();
-
     // Process migration tasks
-    migrate(this);
+    migrate(this, sharepoint.web.get());
 
     // Add tasks from task bus
     this.tasks = bus.stop();
@@ -27,15 +26,17 @@ class Builder {
   }
 
   /**
-   * Load API into Builder
-   * @return {Builder}
+   * Load task
+   * @param  {Event} e
+   * @return {void}
    */
-  api() {
-    fs.readdirSync(`${__dirname}/api`).forEach((file) => {
-      if (file === 'index.js') return;
-      this[file.replace(/(\.\/|\.js)/g, '')] = require(`./api/${file}`);
+  task(e) {
+    const task = new Task((resolve) => {
+      e().then(() => {
+        resolve();
+      }).catch(utility.error.handle);
     });
-    return this;
+    bus.load(task);
   }
 }
 

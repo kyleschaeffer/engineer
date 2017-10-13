@@ -11,7 +11,7 @@ module.exports = {
   run(list = null) {
     const p = new Promise((resolve) => {
       // Build list URI
-      const path = list ? `${config.env.site}/Lists/${config.sharepoint.lists[list] ? config.sharepoint.lists[list] : list}` : config.env.site;
+      const path = `${config.env.site}${list ? `/Lists/${config.sharepoint.lists[list] ? config.sharepoint.lists[list] : list}` : ''}`;
 
       // Open
       utility.log.info('browse.begin', { path });

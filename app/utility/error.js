@@ -3,23 +3,37 @@ const log = require('./log');
 const error = {
   /**
    * Handle SharePoint error response
-   * @param {Object} response
+   * @param {Object}  response
+   * @param {Boolean} failOnError
    * @type {void}
    */
-  handle(response) {
-    let message = 'Unknown error.';
+  handle(response, failOnError = true) {
+    let message = 'An error occurred.';
+    let code = 'Unknown';
+
+    // Authentication error
+    if (response.message && typeof response.message === 'string') {
+      code = 'Authentication';
+      message = response.message.match(/<psf:text>(.*)<\/psf:text>/)[1];
+    }
 
     // Detailed SharePoint error message
-    if (response.error && response.error.error && response.error.error.message && response.error.error.message.value) message = response.error.error.message.value;
+    else if (response.error && response.error.error && response.error.error.message && response.error.error.message.value) {
+      code = response.statusCode;
+      message = response.error.error.message.value;
+    }
 
     // Generic status message
-    else if (response.response && response.response.statusMessage && response.response.statusMessage.length) message = `${response.response.statusMessage}`;
+    else if (response.response && response.response.statusMessage && response.response.statusMessage.length) {
+      code = response.statusCode;
+      message = `${response.response.statusMessage}`;
+    }
 
     // Log
-    log.error('error.message', {
-      code: response.statusCode,
-      message,
-    });
+    log.error('error.message', { code, message });
+
+    // Fail?
+    if (failOnError) error.fail();
   },
 
   /**

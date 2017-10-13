@@ -1,25 +1,43 @@
 const config = require('../config');
-const spauth = require('node-sp-auth');
+const pnpn = require('sp-pnp-node');
 const utility = require('../utility');
 
-module.exports = {
+const Auth = {
+  /**
+   * Authenticated?
+   * @type {Boolean}
+   */
+  authenticated: false,
+
   /**
    * Authenticate to SharePoint
-   * @return {Promise}
+   * @return {[type]}
    */
   authenticate() {
     const p = new Promise((resolve) => {
-      utility.log.info('auth.begin', { site: config.env.site });
-      spauth.getAuth(config.env.site, config.env.auth).then((options) => {
-        utility.log.success('success.done');
-        resolve(options);
-      }).catch((response) => {
-        const title = response.message.match(/<S:Text.*?>(.*)<\/S:Text>/)[1];
-        const message = response.message.match(/<psf:text>(.*)<\/psf:text>/)[1];
-        utility.log.error('auth.error', { title, message });
-        utility.error.fail();
-      });
+      // Already authenticated?
+      if (Auth.authenticated) resolve();
+
+      // Authenticate
+      else {
+        utility.log.info('auth.begin', { site: config.site });
+
+        // Init PnpNode with config
+        const connection = new pnpn.PnpNode({
+          siteUrl: config.site,
+          authOptions: config.auth,
+        });
+
+        // Authenticate
+        connection.init().then(() => {
+          Auth.authenticated = true;
+          utility.log.success('success.done');
+          resolve();
+        }).catch(utility.error.handle);
+      }
     });
     return p;
   },
 };
+
+module.exports = Auth;

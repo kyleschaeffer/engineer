@@ -22,32 +22,13 @@ module.exports = {
   get() {
     const p = new Promise((resolve) => {
       // Get migration status
-      sharepoint.request.get({
-        onError: () => {
-          utility.log.success('success.done');
-        },
-        onStart: () => {
-          utility.log.info('status.get');
-        },
-        onSuccess: () => {
-          utility.log.success('success.done');
-        },
-        uri: `_api/web/lists/getbytitle('${config.sharepoint.lists.migrations}')/items`,
-      }).then((response) => {
-        // Build history
-        if (response.d && response.d.results) {
-          this.installed = true;
-          response.d.results.forEach((item) => {
-            this.history[item.Title] = {
-              id: item.Id,
-              title: item.Title,
-              migrated: item.Migrated,
-            };
-          });
-        }
-
+      sharepoint.web.get().lists.getByTitle(config.sharepoint.lists.migrations).items.get().then((items) => {
+        this.installed = true;
+        items.forEach((item) => {
+          this.history[item.Title] = item;
+        });
         resolve();
-      });
+      }).catch(utility.error.handle);
     });
     return p;
   },
@@ -62,56 +43,27 @@ module.exports = {
     const p = new Promise((resolve) => {
       // Get migration
       const migration = this.history[name];
+      utility.log.info('status.set', { migration: name });
 
       // Create new status
       if (!migration) {
-        sharepoint.request.post({
-          body: {
-            __metadata: {
-              type: `SP.Data.${config.sharepoint.lists.migrations}ListItem`,
-            },
-            Title: name,
-            Migrated: migrated,
-          },
-          onError: (response) => {
-            utility.log.error('error.failed');
-            utility.error.handle(response);
-          },
-          onStart: () => {
-            utility.log.info('status.set', { migration: name });
-          },
-          onSuccess: () => {
-            utility.log.success('success.done');
-          },
-          uri: `_api/web/lists/getbytitle('${config.sharepoint.lists.migrations}')/items`,
+        sharepoint.web.get().lists.getByTitle(config.sharepoint.lists.migrations).items.add({
+          Title: name,
+          Migrated: migrated,
         }).then(() => {
+          utility.log.success('success.done');
           resolve();
-        });
+        }).catch(utility.error.handle);
       }
 
       // Update status
       else {
-        sharepoint.request.update({
-          body: {
-            __metadata: {
-              type: `SP.Data.${config.sharepoint.lists.migrations}ListItem`,
-            },
-            Migrated: migrated,
-          },
-          onError: (response) => {
-            utility.log.error('error.failed');
-            utility.error.handle(response);
-          },
-          onStart: () => {
-            utility.log.info('status.set', { migration: name });
-          },
-          onSuccess: () => {
-            utility.log.success('success.done');
-          },
-          uri: `_api/web/lists/getbytitle('${config.sharepoint.lists.migrations}')/items(${migration.id})`,
+        sharepoint.web.get().lists.getByTitle(config.sharepoint.lists.migrations).items.getById(migration.Id).update({
+          Migrated: migrated,
         }).then(() => {
+          utility.log.success('success.done');
           resolve();
-        });
+        }).catch(utility.error.handle);
       }
     });
     return p;
