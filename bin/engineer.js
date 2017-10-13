@@ -24,6 +24,13 @@ program.command('browse [list]')
     engineer.commands.browse.run(list).then(() => {});
   });
 
+// Create GUID
+program.command('guid')
+  .description(utility.log.translate('guid.description'))
+  .action(() => {
+    engineer.commands.guid.run().then(() => {});
+  });
+
 // Init
 program.command('init')
   .description(utility.log.translate('init.description'))

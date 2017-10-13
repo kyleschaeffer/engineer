@@ -42,6 +42,11 @@ module.exports = {
     update: 'Updating field in %target%: %field%...',
   },
 
+  guid: {
+    description: 'Generate a random GUID string',
+    guid: 'GUID:',
+  },
+
   init: {
     description: 'Create "env.js" in the current directory',
     env: 'Creating environment config file "env.js"...',
