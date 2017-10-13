@@ -3,7 +3,6 @@ module.exports = {
    * Engineer list names
    */
   lists: {
-    manifest: 'EngineerManifest',
     migrations: 'EngineerMigrations',
   },
 
@@ -15,16 +14,13 @@ module.exports = {
     Boolean: 8,
     Calculated: 17,
     Choice: 6,
-    Computed: 12,
     Currency: 10,
     DateTime: 4,
     Geolocation: 31,
-    Guid: 14,
     Lookup: 7,
     MultiChoice: 15,
     MultiLineText: 3,
     Number: 9,
-    RatingScale: 16,
     Text: 2,
     Url: 11,
     User: 20,
