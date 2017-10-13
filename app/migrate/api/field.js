@@ -11,16 +11,6 @@ const utility = require('../../utility');
  */
 module.exports = {
   /**
-   * Handle onStart event
-   * @param  {String} method
-   * @param  {Object} tokens
-   * @return {Event}
-   */
-  onStart(method = 'create', tokens = {}) {
-    utility.log.info(`field.${method}`, tokens);
-  },
-
-  /**
    * Configure options
    * @param  {Object} apiOptions
    * @return {Object}
@@ -74,7 +64,7 @@ module.exports = {
       list: null,
       onError: utility.error.failed,
       onStart: () => {
-        this.onStart('create', {
+        utility.log.info('field.create', {
           field: options.fieldName,
           target: options.list ? utility.log.translate('list.list', { list: options.list }) : utility.log.translate('site.site', { site: options.site.length ? options.site : '/' }),
         });
@@ -135,7 +125,7 @@ module.exports = {
       list: null,
       onError: utility.error.failed,
       onStart: () => {
-        this.onStart('create', {
+        utility.log.info('field.create', {
           field: 'XmlSchemaField',
           target: options.list ? utility.log.translate('list.list', { list: options.list }) : utility.log.translate('site.site', { site: options.site.length ? options.site : '/' }),
         });
@@ -187,7 +177,7 @@ module.exports = {
       list: null,
       onError: utility.error.failed,
       onStart: () => {
-        this.onStart('update', {
+        utility.log.info('field.update', {
           field: options.id || options.title,
           target: options.list ? utility.log.translate('list.list', { list: options.list }) : utility.log.translate('site.site', { site: options.site.length ? options.site : '/' }),
         });
@@ -231,7 +221,7 @@ module.exports = {
       list: null,
       onError: utility.error.failed,
       onStart: () => {
-        this.onStart('delete', {
+        utility.log.info('field.delete', {
           field: options.id || options.title,
           target: options.list ? utility.log.translate('list.list', { list: options.list }) : utility.log.translate('site.site', { site: options.site.length ? options.site : '/' }),
         });

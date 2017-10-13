@@ -10,16 +10,6 @@ const utility = require('../../utility');
  */
 module.exports = {
   /**
-   * Handle onStart event
-   * @param  {String} method
-   * @param  {Object} tokens
-   * @return {Event}
-   */
-  onStart(method = 'create', tokens = {}) {
-    utility.log.info(`viewField.${method}`, tokens);
-  },
-
-  /**
    * Add a view field
    * @param  {Object} params
    * @return {void}
@@ -31,7 +21,7 @@ module.exports = {
       list: '',
       onError: utility.error.failed,
       onStart: () => {
-        this.onStart('add', { field: options.field, list: options.list, view: options.view });
+        utility.log.info('viewField.add', { field: options.field, list: options.list, view: options.view });
       },
       onSuccess: utility.error.success,
       site: bus.site,
@@ -68,7 +58,7 @@ module.exports = {
       list: '',
       onError: utility.error.failed,
       onStart: () => {
-        this.onStart('remove', { field: options.field, list: options.list, view: options.view });
+        utility.log.info('viewField.remove', { field: options.field, list: options.list, view: options.view });
       },
       onSuccess: utility.error.success,
       site: bus.site,
@@ -106,7 +96,7 @@ module.exports = {
       list: '',
       onError: utility.error.failed,
       onStart: () => {
-        this.onStart('move', { field: options.field, list: options.list, view: options.view });
+        utility.log.info('viewField.move', { field: options.field, list: options.list, view: options.view });
       },
       onSuccess: utility.error.success,
       site: bus.site,

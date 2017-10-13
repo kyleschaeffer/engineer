@@ -10,16 +10,6 @@ const utility = require('../../utility');
  */
 module.exports = {
   /**
-   * Handle onStart event
-   * @param  {String} method
-   * @param  {Object} tokens
-   * @return {Event}
-   */
-  onStart(method = 'create', tokens = {}) {
-    utility.log.info(`list.${method}`, tokens);
-  },
-
-  /**
    * Create new list
    * @param  {Object} params
    * @return {void}
@@ -39,7 +29,7 @@ module.exports = {
       },
       onError: utility.error.failed,
       onStart: () => {
-        this.onStart('create', { list: options.list.Title });
+        utility.log.info('list.create', { list: options.list.Title });
       },
       onSuccess: utility.error.success,
       site: bus.site,
@@ -80,7 +70,7 @@ module.exports = {
       },
       onError: utility.error.failed,
       onStart: () => {
-        this.onStart('update', { list: options.id || options.title });
+        utility.log.info('list.update', { list: options.id || options.title });
       },
       onSuccess: utility.error.success,
       site: bus.site,
@@ -117,7 +107,7 @@ module.exports = {
       id: null,
       onError: utility.error.failed,
       onStart: () => {
-        this.onStart('delete', { list: options.id || options.title });
+        utility.log.info('list.delete', { list: options.id || options.title });
       },
       onSuccess: utility.error.success,
       site: bus.site,

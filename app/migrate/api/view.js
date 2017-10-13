@@ -10,16 +10,6 @@ const utility = require('../../utility');
  */
 module.exports = {
   /**
-   * Handle onStart event
-   * @param  {String} method
-   * @param  {Object} tokens
-   * @return {Event}
-   */
-  onStart(method = 'create', tokens = {}) {
-    utility.log.info(`view.${method}`, tokens);
-  },
-
-  /**
    * Create new view
    * @param  {Object} params
    * @return {void}
@@ -30,7 +20,7 @@ module.exports = {
       list: '',
       onError: utility.error.failed,
       onStart: () => {
-        this.onStart('create', { list: options.list, view: options.view.Title });
+        utility.log.info('view.create', { list: options.list, view: options.view.Title });
       },
       onSuccess: utility.error.success,
       site: bus.site,
@@ -74,7 +64,7 @@ module.exports = {
       list: '',
       onError: utility.error.failed,
       onStart: () => {
-        this.onStart('update', { list: options.list, view: options.id || options.title });
+        utility.log.info('view.update', { list: options.list, view: options.id || options.title });
       },
       onSuccess: utility.error.success,
       site: bus.site,
@@ -117,7 +107,7 @@ module.exports = {
       list: '',
       onError: utility.error.failed,
       onStart: () => {
-        this.onStart('delete', { list: options.list, view: options.id || options.title });
+        utility.log.info('view.delete', { list: options.list, view: options.id || options.title });
       },
       onSuccess: utility.error.success,
       site: bus.site,

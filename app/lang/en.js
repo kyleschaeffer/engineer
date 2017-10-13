@@ -29,6 +29,13 @@ module.exports = {
     using: 'Using config file: %path%\n',
   },
 
+  contentType: {
+    create: 'Creating content type in %target%: %contentType%...',
+    delete: 'Deleting content type from %target%: %contentType%...',
+    get: 'Getting content type from %target%: %contentType%...',
+    update: 'Updating content type in %target%: %contentType%...',
+  },
+
   error: {
     exists: 'already exists.\n',
     failed: 'failed.\n',
