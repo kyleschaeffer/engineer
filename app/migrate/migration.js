@@ -1,9 +1,10 @@
 const Builder = require('./builder');
+const utility = require('../utility');
 
 class Migration {
   /**
    * Initialize the migration using a migration object
-   * @param  {Object} migration
+   * @param {Object} migration
    * @return {Migration}
    */
   constructor(migration) {
@@ -14,6 +15,8 @@ class Migration {
     this.queue = {
       up: [],
       down: [],
+      total: 0,
+      migrated: 0,
     };
 
     // Build from migration object
@@ -24,7 +27,7 @@ class Migration {
 
   /**
    * Process migration and add to the task queues
-   * @param  {Object} migration
+   * @param {Object} migration
    * @return {Migration}
    */
   build(migration) {
@@ -43,21 +46,23 @@ class Migration {
 
   /**
    * Run migration tasks
-   * @param  {Boolean} rollback
+   * @param {boolean} rollback
    * @return {Promise}
    */
   run(rollback = false) {
+    // Count migrations
+    this.queue.total = this.queue[!rollback ? 'up' : 'down'].length;
+
+    // Begin queue
     const p = new Promise((resolve) => {
-      this.next(rollback).then(() => {
-        resolve();
-      });
+      this.next(rollback).then(resolve);
     });
     return p;
   }
 
   /**
    * Run next task in queue and continue to run
-   * @param  {Boolean}  rollback
+   * @param {boolean} rollback
    * @return {Promise}
    */
   next(rollback = false) {
@@ -71,10 +76,11 @@ class Migration {
       // Run next task
       else {
         const task = this.queue[dir].shift();
+        utility.log.info('migrate.count', { current: this.queue.migrated + 1, total: this.queue.total });
         task.run().then(() => {
-          this.next(rollback).then(() => {
-            resolve();
-          });
+          utility.log.success('success.done');
+          this.queue.migrated += 1;
+          this.next(rollback).then(resolve);
         });
       }
     });

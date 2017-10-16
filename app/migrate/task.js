@@ -1,7 +1,7 @@
 class Task {
   /**
    * New task
-   * @param  {Event} exec
+   * @param {Event} exec
    * @return {Task}
    */
   constructor(exec) {

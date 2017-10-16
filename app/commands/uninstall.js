@@ -6,29 +6,25 @@ const utility = require('../utility');
 module.exports = {
   /**
    * Uninstall Engineer
-   * @return {Promise}
+   * @return {void}
    */
   run() {
-    const p = new Promise((resolve) => {
-      // Get migration status
-      status.get().then(() => {
-        // Already uninstalled
-        if (!status.installed) {
-          utility.log.warning('uninstall.already');
-          utility.error.fail();
-        }
+    // Get migration status
+    status.get().then(() => {
+      // Already uninstalled
+      if (!status.installed) {
+        utility.log.warning('uninstall.already');
+        utility.error.fail();
+      }
 
-        // Uninstall migration
-        const uninstall = new Migration(config.install);
+      // Uninstall migration
+      const uninstall = new Migration(config.install);
 
-        // Run
-        utility.log.info('uninstall.begin');
-        uninstall.run(true).then(() => {
-          utility.log.success('uninstall.complete');
-          resolve();
-        });
+      // Run
+      utility.log.info('uninstall.begin');
+      uninstall.run(true).then(() => {
+        utility.log.success('uninstall.complete');
       });
     });
-    return p;
   },
 };

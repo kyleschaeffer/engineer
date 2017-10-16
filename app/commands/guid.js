@@ -5,15 +5,12 @@ const uuid = require('uuid/v4');
 module.exports = {
   /**
    * Generate random GUID string
-   * @return {Promise}
+   * @return {void}
    */
   run() {
-    const p = new Promise(() => {
-      const guid = uuid();
-      cp.copy(guid);
-      utility.log.info('guid.complete');
-      utility.log.table([[utility.log.translate('guid.guid').green, guid]]);
-    });
-    return p;
+    const guid = uuid();
+    cp.copy(guid);
+    utility.log.info('guid.complete');
+    utility.log.table([[utility.log.translate('guid.guid').green, guid]]);
   },
 };

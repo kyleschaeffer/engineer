@@ -8,7 +8,7 @@
 module.exports = {
   /**
    * The URL of the SharePoint site
-   * @type {String}
+   * @type {string}
    */
   site: 'https://contoso.sharepoint.com',
 
@@ -27,7 +27,7 @@ module.exports = {
 
   /**
    * Language setting for localization
-   * @type {String}
+   * @type {string}
    */
   lang: 'en',
 };

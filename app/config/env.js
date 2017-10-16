@@ -7,13 +7,13 @@ module.exports = {
 
   /**
    * Language setting for localization
-   * @type {String}
+   * @type {string}
    */
   lang: 'en',
 
   /**
    * SharePoint site
-   * @type {String}
+   * @type {string}
    */
   site: null,
 };

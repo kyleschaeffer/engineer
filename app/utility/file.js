@@ -4,8 +4,8 @@ const fs = require('fs');
 module.exports = {
   /**
    * Path builder
-   * @param  {String}  path
-   * @param  {Boolean} cwd
+   * @param {string} path
+   * @param {boolean} cwd
    * @return {String}
    */
   path(path, cwd = true) {
@@ -14,8 +14,8 @@ module.exports = {
 
   /**
    * Does path exist?
-   * @param  {String}  path
-   * @param  {Boolean} cwd
+   * @param {string} path
+   * @param {boolean} cwd
    * @return {Boolean}
    */
   exists(path, cwd = true) {
@@ -24,8 +24,8 @@ module.exports = {
 
   /**
    * Create directory
-   * @param  {String}  dir
-   * @param  {Boolean} cwd
+   * @param {string} dir
+   * @param {boolean} cwd
    * @return {void}
    */
   mkdir(dir, cwd = true) {
@@ -34,9 +34,9 @@ module.exports = {
 
   /**
    * Read file contents
-   * @param  {String}  path
-   * @param  {Boolean} cwd
-   * @param  {String}  flag
+   * @param {string} path
+   * @param {boolean} cwd
+   * @param {string} flag
    * @return {String}
    */
   read(path, cwd = true, flag = 'r') {
@@ -45,8 +45,8 @@ module.exports = {
 
   /**
    * Get file paths from directory
-   * @param  {String}  path
-   * @param  {Boolean} cwd
+   * @param {string} path
+   * @param {boolean} cwd
    * @return {Array}
    */
   readDir(path, cwd = true) {
@@ -56,8 +56,8 @@ module.exports = {
 
   /**
    * Require from file
-   * @param  {String}  path
-   * @param  {Boolean} cwd
+   * @param {string} path
+   * @param {boolean} cwd
    * @return {Object}
    */
   load(path, cwd = true) {
@@ -67,10 +67,10 @@ module.exports = {
 
   /**
    * Write contents to file (relative to working directory)
-   * @param  {String}  path
-   * @param  {Boolean} cwd
-   * @param  {String}  contents
-   * @param  {String}  flag
+   * @param {string} path
+   * @param {boolean} cwd
+   * @param {string} contents
+   * @param {string} flag
    * @return {void}
    */
   write(path, cwd = true, contents, flag = 'wx+') {
@@ -79,10 +79,10 @@ module.exports = {
 
   /**
    * Create a new file from a template
-   * @param  {String}  template
-   * @param  {String}  path
-   * @param  {Boolean} cwd
-   * @param  {String}  flag
+   * @param {string} template
+   * @param {string} path
+   * @param {boolean} cwd
+   * @param {string} flag
    * @return {void}
    */
   fromTemplate(template, path, cwd = true, flag = 'wx+') {
@@ -91,9 +91,9 @@ module.exports = {
 
   /**
    * Get file name from path
-   * @param  {String}  path
-   * @param  {Boolean} cwd
-   * @param  {Boolean} ext
+   * @param {string} path
+   * @param {boolean} cwd
+   * @param {boolean} ext
    * @return {String}
    */
   name(path, ext = true) {

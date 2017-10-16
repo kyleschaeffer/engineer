@@ -3,8 +3,8 @@ const log = require('./log');
 const error = {
   /**
    * Handle SharePoint error response
-   * @param {Object}  response
-   * @param {Boolean} failOnError
+   * @param {Object} response
+   * @param {boolean} failOnError
    * @type {void}
    */
   handle(response, failOnError = true) {
@@ -38,8 +38,8 @@ const error = {
 
   /**
    * End the process
-   * @param  {String} message
-   * @param  {Object} tokens
+   * @param {string} message
+   * @param {Object} tokens
    * @return {void}
    */
   fail(message = null, tokens = {}) {
@@ -49,7 +49,7 @@ const error = {
 
   /**
    * Generic error handler
-   * @param  {Object} response
+   * @param {Object} response
    * @return {void}
    */
   failed(response) {

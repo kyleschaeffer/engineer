@@ -1,8 +1,8 @@
 const config = require('../config');
-const sharepoint = require('../sharepoint');
+const pnp = require('sp-pnp-js');
 const utility = require('../utility');
 
-module.exports = {
+const Status = {
   /**
    * Migration history
    * @type {Object}
@@ -11,7 +11,7 @@ module.exports = {
 
   /**
    * Is Engineer installed?
-   * @type {Boolean}
+   * @type {boolean}
    */
   installed: false,
 
@@ -22,50 +22,53 @@ module.exports = {
   get() {
     const p = new Promise((resolve) => {
       // Get migration status
-      sharepoint.web.get().lists.getByTitle(config.sharepoint.lists.migrations).items.get().then((items) => {
+      pnp.sp.web.lists.getByTitle(config.sharepoint.lists.migrations).items.get().then((items) => {
+        // Save history
         this.installed = true;
         items.forEach((item) => {
           this.history[item.Title] = item;
         });
         resolve();
-      }).catch(utility.error.handle);
+      }).catch(resolve);
     });
     return p;
   },
 
   /**
    * Update migration status
-   * @param  {String}  name
-   * @param  {Boolean} migrated
+   * @param {string} name
+   * @param {boolean} migrated
    * @return {Promise}
    */
   update(name, migrated) {
     const p = new Promise((resolve) => {
       // Get migration
-      const migration = this.history[name];
+      const migration = Status.history[name];
       utility.log.info('status.set', { migration: name });
 
       // Create new status
       if (!migration) {
-        sharepoint.web.get().lists.getByTitle(config.sharepoint.lists.migrations).items.add({
+        pnp.sp.web.lists.getByTitle(config.sharepoint.lists.migrations).items.add({
           Title: name,
           Migrated: migrated,
         }).then(() => {
           utility.log.success('success.done');
           resolve();
-        }).catch(utility.error.handle);
+        });
       }
 
       // Update status
       else {
-        sharepoint.web.get().lists.getByTitle(config.sharepoint.lists.migrations).items.getById(migration.Id).update({
+        pnp.sp.web.lists.getByTitle(config.sharepoint.lists.migrations).items.getById(migration.Id).update({
           Migrated: migrated,
         }).then(() => {
           utility.log.success('success.done');
           resolve();
-        }).catch(utility.error.handle);
+        });
       }
     });
     return p;
   },
 };
+
+module.exports = Status;

@@ -11,10 +11,10 @@ const Engineer = {
 
   /**
    * Load configuration from file
-   * @param  {String} path
-   * @return {void}
+   * @param {string} path
+   * @return {Promise}
    */
-  load(path = './env.js') {
+  load(path = 'env.js') {
     // Load config file
     const options = utility.file.load(path);
 
@@ -22,8 +22,11 @@ const Engineer = {
     if (!options || !options.site) utility.error.fail('error.config', { path: utility.file.path(path) });
 
     // Configure
-    utility.log.important('config.using', { path: utility.file.path(path) });
-    _.extend(config, options);
+    utility.log.info('config.using', { path: utility.file.path(path) });
+    _.merge(config.env, options);
+
+    // Set up authentication
+    utility.sharepoint.setup();
   },
 };
 

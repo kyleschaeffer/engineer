@@ -13,40 +13,40 @@ module.exports = {
   },
 
   auth: {
-    begin: 'Authenticating: %site%...',
+    begin: 'Authenticating: <%= site %>...',
     context: 'Getting context...',
-    error: 'failed.\n%title%: %message%\n',
+    error: 'failed.\n<%= title %>: <%= message %>\n',
   },
 
   browse: {
-    begin: 'Opening: %path%...\n',
+    begin: 'Opening: <%= path %>...\n',
     description: 'Browse SharePoint site',
   },
 
   config: {
     description: 'Path to configuration file if not using "env.js"',
-    failed: 'Failed to load config file: %path%\nUse "engineer init" to create a new config file.',
-    using: 'Using config file: %path%\n',
+    failed: 'Failed to load config file: <%= path %>\nUse "engineer init" to create a new config file.',
+    using: 'Using config file: <%= path %>\n',
   },
 
   contentType: {
-    create: 'Creating content type in %target%: %contentType%...',
-    delete: 'Deleting content type from %target%: %contentType%...',
-    get: 'Getting content type from %target%: %contentType%...',
-    update: 'Updating content type in %target%: %contentType%...',
+    create: 'Creating content type in <%= target %>: <%= contentType %>...',
+    delete: 'Deleting content type from <%= target %>: <%= contentType %>...',
+    get: 'Getting content type from <%= target %>: <%= contentType %>...',
+    update: 'Updating content type in <%= target %>: <%= contentType %>...',
   },
 
   error: {
     exists: 'already exists.\n',
     failed: 'failed.\n',
-    message: '%code% Error: %message%\n',
+    message: '<%= code %> Error: <%= message %>\n',
   },
 
   field: {
-    create: 'Creating field in %target%: %field%...',
-    delete: 'Deleting field from %target%: %field%...',
-    get: 'Getting field from %target%: %field%...',
-    update: 'Updating field in %target%: %field%...',
+    create: 'Creating field in <%= target %>: <%= field %>...',
+    delete: 'Deleting field from <%= target %>: <%= field %>...',
+    get: 'Getting field from <%= target %>: <%= field %>...',
+    update: 'Updating field in <%= target %>: <%= field %>...',
   },
 
   guid: {
@@ -69,24 +69,25 @@ module.exports = {
   },
 
   list: {
-    create: 'Creating list: %list%...',
-    delete: 'Deleting list: %list%...',
-    get: 'Getting list: %list%...',
-    list: 'list "%list%"',
-    update: 'Updating list: %list%...',
+    create: 'Creating list: <%= list %>...',
+    delete: 'Deleting list: <%= list %>...',
+    get: 'Getting list: <%= list %>...',
+    list: 'list "<%= list %>"',
+    update: 'Updating list: <%= list %>...',
   },
 
   make: {
-    begin: 'Creating migration: %name%...',
+    begin: 'Creating migration: <%= name %>...',
     description: 'Create a new migration file',
   },
 
   migrate: {
-    begin: 'Migrating: %name%...\n',
+    begin: 'Migrating: <%= name %>...\n',
     complete: 'Migration complete.\n',
+    count: 'Task #<%= current %> of <%= total %>...',
     description: 'Run pending migrations',
     empty: 'Nothing to migrate. Use "engineer make <name>" to create a new migration.\n',
-    exist: 'Migration file does not exist: %file%\n',
+    exist: 'Migration file does not exist: <%= file %>\n',
     force: 'Run migrations even if they\'re already migrated\n',
     only: 'Migrate only this file\n',
     to: 'Migrate up to this file, but don\'t run later migrations',
@@ -94,7 +95,7 @@ module.exports = {
   },
 
   rollback: {
-    begin: 'Rolling back: %name%...\n',
+    begin: 'Rolling back: <%= name %>...\n',
     complete: 'Rollback complete.\n',
     description: 'Roll back migrations',
     empty: 'Nothing to roll back.\n',
@@ -105,7 +106,7 @@ module.exports = {
   },
 
   site: {
-    site: 'site "%site%"',
+    site: 'site "<%= site %>"',
   },
 
   status: {
@@ -113,7 +114,7 @@ module.exports = {
     get: 'Getting migration status...',
     migrated: 'Migrated',
     pending: 'Pending',
-    set: 'Updating migration status: %migration%...',
+    set: 'Updating migration status: <%= migration %>...',
     uninstalled: 'Engineer is not installed. Use "engineer install" to begin.\n',
   },
 
@@ -129,14 +130,14 @@ module.exports = {
   },
 
   view: {
-    create: 'Creating view on list "%list%": %view%...',
-    delete: 'Deleting view on list "%list%": %view%...',
-    get: 'Getting view on list "%list%": %view%...',
-    update: 'Updating view on list "%list%": %view%...',
+    create: 'Creating view on list "<%= list %>": <%= view %>...',
+    delete: 'Deleting view on list "<%= list %>": <%= view %>...',
+    get: 'Getting view on list "<%= list %>": <%= view %>...',
+    update: 'Updating view on list "<%= list %>": <%= view %>...',
   },
 
   viewField: {
-    add: 'Adding field to view "%view%" on list "%list%": %field%...',
-    move: 'Moving field in view "%view%" on list "%list%": %field%...',
+    add: 'Adding field to view "<%= view %>" on list "<%= list %>": <%= field %>...',
+    move: 'Moving field in view "<%= view %>" on list "<%= list %>": <%= field %>...',
   },
 };

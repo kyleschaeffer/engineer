@@ -7,7 +7,7 @@ const Table = require('cli-table');
 const Log = {
   /**
    * Print to log
-   * @param  {String} str
+   * @param {string} str
    * @return {void}
    */
   print(str) {
@@ -16,7 +16,7 @@ const Log = {
 
   /**
    * Dump to log
-   * @param  {Object} obj
+   * @param {Object} obj
    * @return {void}
    */
   dump(obj) {
@@ -25,8 +25,8 @@ const Log = {
 
   /**
    * Log info
-   * @param  {String} str
-   * @param  {Object} tokens
+   * @param {string} str
+   * @param {Object} tokens
    * @return {void}
    */
   info(str, tokens = {}) {
@@ -36,8 +36,8 @@ const Log = {
 
   /**
    * Log error
-   * @param  {String} str
-   * @param  {Object} tokens
+   * @param {string} str
+   * @param {Object} tokens
    * @return {void}
    */
   error(str, tokens = {}) {
@@ -47,8 +47,8 @@ const Log = {
 
   /**
    * Log warning
-   * @param  {String} str
-   * @param  {Object} tokens
+   * @param {string} str
+   * @param {Object} tokens
    * @return {void}
    */
   warning(str, tokens = {}) {
@@ -58,8 +58,8 @@ const Log = {
 
   /**
    * Log important
-   * @param  {String} str
-   * @param  {Object} tokens
+   * @param {string} str
+   * @param {Object} tokens
    * @return {void}
    */
   important(str, tokens = {}) {
@@ -69,8 +69,8 @@ const Log = {
 
   /**
    * Log success
-   * @param  {String} str
-   * @param  {Object} tokens
+   * @param {string} str
+   * @param {Object} tokens
    * @return {void}
    */
   success(str, tokens = {}) {
@@ -80,38 +80,29 @@ const Log = {
 
   /**
    * Get localized language string
-   * @param  {String} key
-   * @param  {Object}  tokens
+   * @param {string} key
+   * @param {Object} tokens
    * @return {String}
    */
   translate(key, tokens = {}) {
-    let msg = key;
-    try {
-      msg = _.get(lang, `${config.env.lang}.${key}`);
-      if (!msg) msg = _.get(lang, `en.${key}`);
-    } catch (e) {
-      return key;
-    }
-    Object.keys(tokens).forEach((token) => {
-      const regex = new RegExp(`%${token}%`, 'i');
-      msg = msg.replace(regex, tokens[token]);
-    });
-    return msg;
+    const translation = _.get(lang, `${config.env.lang}.${key}`, _.get(lang, `en.${key}`, key));
+    if (translation === key) return translation;
+    const template = _.template(translation);
+    return template(tokens);
   },
 
   /**
    * Log tabular data
-   * @param  {Array}  columns
-   * @param  {Array}  rows
+   * @param {Array} columns
+   * @param {Array} rows
    * @return {void}
    */
   table(rows = []) {
-    // Table style
-    const t = new Table();
+    const table = new Table();
     rows.forEach((row) => {
-      t.push(row);
+      table.push(row);
     });
-    return this.dump(t.toString());
+    return this.dump(table.toString());
   },
 };
 

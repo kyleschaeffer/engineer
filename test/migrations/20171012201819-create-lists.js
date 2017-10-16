@@ -5,13 +5,7 @@ module.exports = {
    * Engineer tasks.
    */
   up(engineer) {
-    engineer.list.create({
-      list: {
-        Title: 'TestList',
-        Description: 'A test list',
-        ContentTypesEnabled: true,
-      },
-    });
+    engineer.task(pnp => pnp.sp.web.lists.add('My List', 'My list description', 100, true));
   },
 
   /**
@@ -20,6 +14,6 @@ module.exports = {
    * Engineer tasks.
    */
   down(engineer) {
-    engineer.list.delete('TestList');
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('My List').delete());
   },
 };

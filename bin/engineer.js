@@ -21,21 +21,21 @@ program.command('browse [list]')
   .description(utility.log.translate('browse.description'))
   .action((list) => {
     config();
-    engineer.commands.browse.run(list).then(() => {});
+    engineer.commands.browse.run(list);
   });
 
 // Create GUID
 program.command('guid')
   .description(utility.log.translate('guid.description'))
   .action(() => {
-    engineer.commands.guid.run().then(() => {});
+    engineer.commands.guid.run();
   });
 
 // Init
 program.command('init')
   .description(utility.log.translate('init.description'))
   .action(() => {
-    engineer.commands.init.run().then(() => {});
+    engineer.commands.init.run();
   });
 
 // Install
@@ -43,7 +43,7 @@ program.command('install')
   .description(utility.log.translate('install.description'))
   .action(() => {
     config();
-    engineer.commands.install.run().then(() => {});
+    engineer.commands.install.run();
   });
 
 // Make migration
@@ -51,7 +51,7 @@ program.command('make <name>')
   .description(utility.log.translate('make.description'))
   .action((name) => {
     config();
-    engineer.commands.make.run(name).then(() => {});
+    engineer.commands.make.run(name);
   });
 
 // Migrate
@@ -62,7 +62,7 @@ program.command('migrate')
   .option('-f, --force', utility.log.translate('migrate.force'))
   .action((options) => {
     config();
-    engineer.commands.migrate.run(options).then(() => {});
+    engineer.commands.migrate.run(options);
   });
 
 // Rollback
@@ -73,7 +73,7 @@ program.command('rollback')
   .option('-f, --force', utility.log.translate('rollback.force'))
   .action((options) => {
     config();
-    engineer.commands.rollback.run(options).then(() => {});
+    engineer.commands.rollback.run(options);
   });
 
 // Status
@@ -81,7 +81,7 @@ program.command('status')
   .description(utility.log.translate('status.description'))
   .action(() => {
     config();
-    engineer.commands.status.run().then(() => {});
+    engineer.commands.status.run();
   });
 
 // Uninstall
@@ -89,7 +89,7 @@ program.command('uninstall')
   .description(utility.log.translate('uninstall.description'))
   .action(() => {
     config();
-    engineer.commands.uninstall.run().then(() => {});
+    engineer.commands.uninstall.run();
   });
 
 // Parse command

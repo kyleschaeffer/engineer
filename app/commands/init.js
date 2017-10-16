@@ -3,36 +3,31 @@ const utility = require('../utility');
 module.exports = {
   /**
    * Initialize Engineer in the current working directory
-   * @return {Promise}
+   * @return {void}
    */
   run() {
-    const p = new Promise((resolve) => {
-      // .gitignore
-      utility.log.info('init.ignore');
+    // .gitignore
+    utility.log.info('init.ignore');
 
-      // Create new file
-      if (!utility.file.exists('.gitignore')) {
-        utility.file.write('.gitignore', true, '/env.js\n');
-        utility.log.success('success.done');
-      }
+    // Create new file
+    if (!utility.file.exists('.gitignore')) {
+      utility.file.write('.gitignore', true, '/env.js\n');
+      utility.log.success('success.done');
+    }
 
-      // Already exists
-      else utility.log.warning('error.exists');
+    // Already exists
+    else utility.log.warning('error.exists');
 
-      // env.js
-      utility.log.info('init.env');
+    // env.js
+    utility.log.info('init.env');
 
-      // Create new file
-      if (!utility.file.exists('env.js')) {
-        utility.file.fromTemplate('env.js', 'env.js', true, 'w+');
-        utility.log.success('success.done');
-      }
+    // Create new file
+    if (!utility.file.exists('env.js')) {
+      utility.file.fromTemplate('env.js', 'env.js', true, 'w+');
+      utility.log.success('success.done');
+    }
 
-      // Already exists
-      else utility.log.warning('error.exists');
-
-      resolve();
-    });
-    return p;
+    // Already exists
+    else utility.log.warning('error.exists');
   },
 };
