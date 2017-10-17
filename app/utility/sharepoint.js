@@ -9,13 +9,18 @@ const SharePoint = {
    * @return {void}
    */
   setup() {
+    // Configure authentication
     pnp.setup({
       sp: {
         fetchClientFactory: () => new NodeFetchClient(config.env.auth),
         baseUrl: config.env.site,
       },
-      log: log.dump,
     });
+
+    // Log listener
+    const listener = new pnp.FunctionListener(log.listener);
+    pnp.Logger.subscribe(listener);
+    pnp.Logger.activeLogLevel = 1;
   },
 };
 

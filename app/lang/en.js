@@ -4,53 +4,34 @@
 module.exports = {
   app: {
     name: 'Engineer',
+    string: '<%= string %>',
     welcome: `                  _
   ___ _ __   __ _(_)_ __   ___  ___ _ __
  / _ \\ '_ \\ / _\` | | '_ \\ / _ \\/ _ \\ '__|
 |  __/ | | | (_| | | | | |  __/  __/ |
  \\___|_| |_|\\__, |_|_| |_|\\___|\\___|_|
-            |___/                        \n\n`,
-  },
-
-  auth: {
-    begin: 'Authenticating: <%= site %>...',
-    context: 'Getting context...',
-    error: 'failed.\n<%= title %>: <%= message %>\n',
+            |___/                        \n`,
   },
 
   browse: {
-    begin: 'Opening: <%= path %>...\n',
+    begin: 'Opening: <%= path %>...',
     description: 'Browse SharePoint site',
   },
 
   config: {
     description: 'Path to configuration file if not using "env.js"',
-    failed: 'Failed to load config file: <%= path %>\nUse "engineer init" to create a new config file.',
-    using: 'Using config file: <%= path %>\n',
-  },
-
-  contentType: {
-    create: 'Creating content type in <%= target %>: <%= contentType %>...',
-    delete: 'Deleting content type from <%= target %>: <%= contentType %>...',
-    get: 'Getting content type from <%= target %>: <%= contentType %>...',
-    update: 'Updating content type in <%= target %>: <%= contentType %>...',
+    failed: 'Failed to load config file: <%= path %>Use "engineer init" to create a new config file.',
+    using: 'Using config file: <%= path %>',
   },
 
   error: {
-    exists: 'already exists.\n',
-    failed: 'failed.\n',
-    message: '<%= code %> Error: <%= message %>\n',
-  },
-
-  field: {
-    create: 'Creating field in <%= target %>: <%= field %>...',
-    delete: 'Deleting field from <%= target %>: <%= field %>...',
-    get: 'Getting field from <%= target %>: <%= field %>...',
-    update: 'Updating field in <%= target %>: <%= field %>...',
+    exists: 'already exists.',
+    failed: 'failed.',
+    message: '<%= code %> Error: <%= message %>',
   },
 
   guid: {
-    complete: 'GUID generated and copied to your clipboard.\n',
+    complete: 'GUID generated and copied to your clipboard.',
     description: 'Generate a random GUID string',
     guid: 'GUID:',
   },
@@ -62,18 +43,10 @@ module.exports = {
   },
 
   install: {
-    already: 'Engineer is already installed.\n',
-    begin: 'Installing Engineer...\n',
-    complete: 'Engineer installed.\n',
+    already: 'Engineer is already installed.',
+    begin: 'Installing Engineer...',
+    complete: 'Engineer installed.',
     description: 'Install Engineer tracking lists on SharePoint',
-  },
-
-  list: {
-    create: 'Creating list: <%= list %>...',
-    delete: 'Deleting list: <%= list %>...',
-    get: 'Getting list: <%= list %>...',
-    list: 'list "<%= list %>"',
-    update: 'Updating list: <%= list %>...',
   },
 
   make: {
@@ -82,31 +55,27 @@ module.exports = {
   },
 
   migrate: {
-    begin: 'Migrating: <%= name %>...\n',
-    complete: 'Migration complete.\n',
+    begin: 'Migrating: <%= name %>...',
+    complete: 'Migration complete.',
     count: 'Task #<%= current %> of <%= total %>...',
     description: 'Run pending migrations',
-    empty: 'Nothing to migrate. Use "engineer make <name>" to create a new migration.\n',
-    exist: 'Migration file does not exist: <%= file %>\n',
-    force: 'Run migrations even if they\'re already migrated\n',
-    only: 'Migrate only this file\n',
+    empty: 'Nothing to migrate. Use "engineer make <name>" to create a new migration.',
+    exist: 'Migration file does not exist: <%= file %>',
+    force: 'Run migrations even if they\'re already migrated',
+    only: 'Migrate only this file',
     to: 'Migrate up to this file, but don\'t run later migrations',
-    upToDate: 'Migrations are already up to date.\n',
+    upToDate: 'Migrations are already up to date.',
   },
 
   rollback: {
-    begin: 'Rolling back: <%= name %>...\n',
-    complete: 'Rollback complete.\n',
+    begin: 'Rolling back: <%= name %>...',
+    complete: 'Rollback complete.',
     description: 'Roll back migrations',
-    empty: 'Nothing to roll back.\n',
-    force: 'Roll back migrations even if they\'re already rolled back\n',
-    only: 'Roll back only this file\n',
+    empty: 'Nothing to roll back.',
+    force: 'Roll back migrations even if they\'re already rolled back',
+    only: 'Roll back only this file',
     to: 'Roll back all migrations after this file',
-    upToDate: 'Migrations are already rolled back.\n',
-  },
-
-  site: {
-    site: 'site "<%= site %>"',
+    upToDate: 'Migrations are already rolled back.',
   },
 
   status: {
@@ -115,29 +84,17 @@ module.exports = {
     migrated: 'Migrated',
     pending: 'Pending',
     set: 'Updating migration status: <%= migration %>...',
-    uninstalled: 'Engineer is not installed. Use "engineer install" to begin.\n',
+    uninstalled: 'Engineer is not installed. Use "engineer install" to begin.',
   },
 
   success: {
-    done: 'done.\n',
+    done: 'done.',
   },
 
   uninstall: {
-    already: 'Engineer is already uninstalled.\n',
-    begin: 'Uninstalling Engineer...\n',
-    complete: 'Engineer uninstalled.\n',
+    already: 'Engineer is already uninstalled.',
+    begin: 'Uninstalling Engineer...',
+    complete: 'Engineer uninstalled.',
     description: 'Delete Engineer tracking lists from SharePoint',
-  },
-
-  view: {
-    create: 'Creating view on list "<%= list %>": <%= view %>...',
-    delete: 'Deleting view on list "<%= list %>": <%= view %>...',
-    get: 'Getting view on list "<%= list %>": <%= view %>...',
-    update: 'Updating view on list "<%= list %>": <%= view %>...',
-  },
-
-  viewField: {
-    add: 'Adding field to view "<%= view %>" on list "<%= list %>": <%= field %>...',
-    move: 'Moving field in view "<%= view %>" on list "<%= list %>": <%= field %>...',
   },
 };

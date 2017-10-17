@@ -6,12 +6,46 @@ const Table = require('cli-table');
 
 const Log = {
   /**
-   * Print to log
-   * @param {string} str
+   * Listener for sp-pnp-js logging
+   * @param {LogEntry} entry
    * @return {void}
    */
-  print(str) {
-    return process.stdout.write(str);
+  listener(entry) {
+    if (entry.level && entry.level >= config.env.logLevel) {
+      // Error
+      if (entry.level === 3) {
+        if (entry.data && entry.data.responseBody) Log.error('app.string', { string: entry.data.responseBody['odata.error'].message.value });
+        else Log.error('app.string', { string: entry.message });
+        if (config.env.stopOnError) Log.fail();
+      }
+
+      // Warning
+      else if (entry.level === 2) Log.warning('app.string', { string: entry.message });
+
+      // Info
+      else Log.info('app.string', { string: entry.message });
+    }
+  },
+
+  /**
+   * End the process
+   * @param {string} key
+   * @param {Object} tokens
+   * @return {void}
+   */
+  fail(key = null, tokens = {}) {
+    if (key) Log.error(key, tokens);
+    process.exit();
+  },
+
+  /**
+   * Print to log
+   * @param {string} str
+   * @param {boolean} nl
+   * @return {void}
+   */
+  print(str, nl = true) {
+    return process.stdout.write(`${str}${nl ? '\n' : ''}`);
   },
 
   /**
@@ -27,62 +61,67 @@ const Log = {
    * Log info
    * @param {string} str
    * @param {Object} tokens
+   * @param {boolean} nl
    * @return {void}
    */
-  info(str, tokens = {}) {
-    if (typeof str !== 'string') return this.dump(str);
-    return this.print(this.translate(str, tokens));
+  info(str, tokens = {}, nl = true) {
+    if (typeof str !== 'string') return Log.dump(str);
+    return Log.print(Log.translate(str, tokens), nl);
   },
 
   /**
    * Log error
    * @param {string} str
    * @param {Object} tokens
+   * @param {boolean} nl
    * @return {void}
    */
-  error(str, tokens = {}) {
-    if (typeof str !== 'string') return this.dump(str);
-    return this.print(this.translate(str, tokens).red);
+  error(str, tokens = {}, nl = true) {
+    if (typeof str !== 'string') return Log.dump(str);
+    return Log.print(Log.translate(str, tokens).red, nl);
   },
 
   /**
    * Log warning
    * @param {string} str
    * @param {Object} tokens
+   * @param {boolean} nl
    * @return {void}
    */
-  warning(str, tokens = {}) {
-    if (typeof str !== 'string') return this.dump(str);
-    return this.print(this.translate(str, tokens).yellow);
+  warning(str, tokens = {}, nl = true) {
+    if (typeof str !== 'string') return Log.dump(str);
+    return Log.print(Log.translate(str, tokens).yellow, nl);
   },
 
   /**
    * Log important
    * @param {string} str
    * @param {Object} tokens
+   * @param {boolean} nl
    * @return {void}
    */
-  important(str, tokens = {}) {
-    if (typeof str !== 'string') return this.dump(str);
-    return this.print(this.translate(str, tokens).cyan);
+  important(str, tokens = {}, nl = true) {
+    if (typeof str !== 'string') return Log.dump(str);
+    return Log.print(Log.translate(str, tokens).cyan, nl);
   },
 
   /**
    * Log success
    * @param {string} str
    * @param {Object} tokens
+   * @param {boolean} nl
    * @return {void}
    */
-  success(str, tokens = {}) {
-    if (typeof str !== 'string') return this.dump(str);
-    return this.print(this.translate(str, tokens).green);
+  success(str, tokens = {}, nl) {
+    if (typeof str !== 'string') return Log.dump(str);
+    return Log.print(Log.translate(str, tokens).green, nl);
   },
 
   /**
    * Get localized language string
    * @param {string} key
    * @param {Object} tokens
-   * @return {String}
+   * @return {string}
    */
   translate(key, tokens = {}) {
     const translation = _.get(lang, `${config.env.lang}.${key}`, _.get(lang, `en.${key}`, key));
@@ -102,7 +141,7 @@ const Log = {
     rows.forEach((row) => {
       table.push(row);
     });
-    return this.dump(table.toString());
+    return Log.dump(table.toString());
   },
 };
 

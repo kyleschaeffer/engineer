@@ -14,14 +14,14 @@ module.exports = {
       // Already uninstalled
       if (!status.installed) {
         utility.log.warning('uninstall.already');
-        utility.error.fail();
+        utility.log.fail();
       }
 
       // Uninstall migration
       const uninstall = new Migration(config.install);
 
       // Run
-      utility.log.info('uninstall.begin');
+      utility.log.info('uninstall.begin', {});
       uninstall.run(true).then(() => {
         utility.log.success('uninstall.complete');
       });

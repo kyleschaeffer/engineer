@@ -33,19 +33,19 @@ module.exports = {
     // No migrations
     if (!files || !files.length) {
       utility.log.warning('migrate.empty');
-      utility.error.fail();
+      utility.log.fail();
     }
 
     // Migrate to
     if (options.to) {
       this.migrateTo = utility.file.name(options.to, false);
-      if (!utility.file.exists(`migrations/${this.migrateTo}.js`)) utility.error.fail('migrate.exist', { file: this.migrateTo });
+      if (!utility.file.exists(`migrations/${this.migrateTo}.js`)) utility.log.fail('migrate.exist', { file: this.migrateTo });
     }
 
     // Only
     if (options.only) {
       const onlyFile = utility.file.name(options.only, false);
-      if (!utility.file.exists(`migrations/${onlyFile}.js`)) utility.error.fail('migrate.exist', { file: onlyFile });
+      if (!utility.file.exists(`migrations/${onlyFile}.js`)) utility.log.fail('migrate.exist', { file: onlyFile });
       files = [`${onlyFile}.js`];
     }
 
@@ -54,7 +54,7 @@ module.exports = {
       // Not installed
       if (!status.installed) {
         utility.log.warning('status.uninstalled');
-        utility.error.fail();
+        utility.log.fail();
       }
 
       // Queue migrations
@@ -79,7 +79,7 @@ module.exports = {
       // Nothing to migrate
       if (!this.queue.length) {
         utility.log.warning('migrate.upToDate');
-        utility.error.fail();
+        utility.log.fail();
       }
 
       // Run migrations

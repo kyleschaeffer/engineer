@@ -17,10 +17,10 @@ module.exports = {
     }));
 
     // Migrated field
-    engineer.task(pnp => pnp.sp.web.lists.getByTitle(sharepoint.lists.migrations).fields.add('Migrated', engineer.type('Boolean'), {
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle(sharepoint.lists.migrations).fields.add('Migrated', 'SP.FieldBoolean', {
       DefaultValue: '0',
       Description: 'Current migration status',
-      FieldTypeKind: engineer.typeKind('Boolean'),
+      FieldTypeKind: 8,
       Group: 'Engineer',
     }));
 

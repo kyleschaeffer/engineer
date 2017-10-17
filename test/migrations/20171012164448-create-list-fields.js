@@ -6,155 +6,120 @@ module.exports = {
    */
   up(engineer) {
     // Create list
-    engineer.list.create('TestColumnsList');
+    engineer.task(pnp => pnp.sp.web.lists.add('TestColumnsList', 'A test list to run field operations', 100, true));
 
-    // Boolean field
-    engineer.field.create({
-      field: {
-        Title: 'TestBooleanField',
-        Description: '',
-        FieldTypeKind: 'Boolean',
-        DefaultValue: '0',
-      },
-      list: 'TestColumnsList',
-    });
+    // Boolean
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.add('TestBooleanField', 'SP.Field', {
+      FieldTypeKind: 8,
+      Description: 'A test Boolean field',
+      Group: '_Test List Fields',
+      DefaultValue: '0',
+    }));
 
-    // Choice field
-    engineer.field.create({
-      field: {
-        Title: 'TestChoiceField',
-        Description: '',
-        FieldTypeKind: 'Choice',
-        Choices: [
+    // Choice
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.add('TestChoiceField', 'SP.FieldChoice', {
+      FieldTypeKind: 6,
+      Description: 'A test Choice field',
+      Group: '_Test List Fields',
+      Choices: {
+        __metadata: {
+          type: 'Collection(Edm.String)',
+        },
+        results: [
           'One',
           'Two',
           'Three',
         ],
       },
-      choiceRadio: true,
-      list: 'TestColumnsList',
-    });
+    }));
 
-    // Currency field
-    engineer.field.create({
-      field: {
-        Title: 'TestCurrencyField',
-        Description: '',
-        FieldTypeKind: 'Currency',
-        CurrencyLocaleId: 1033,
-        MinimumValue: 0,
-      },
-      list: 'TestColumnsList',
-    });
+    // Currency
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.addCurrency('TestCurrencyField', 0, undefined, 1033, {
+      Description: 'A test Currency field',
+      Group: '_Test List Fields',
+    }));
 
-    // DateTime field
-    engineer.field.create({
-      field: {
-        Title: 'TestDateTimeField',
-        Description: '',
-        FieldTypeKind: 'DateTime',
-        DisplayFormat: 1,
-      },
-      list: 'TestColumnsList',
-    });
+    // DateTime
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.addDateTime('TestDateTimeField', 1, 1, 0, {
+      Description: 'A test DateTime field',
+      Group: '_Test List Fields',
+    }));
 
-    // Lookup field
-    engineer.field.create({
-      field: {
-        Title: 'TestLookupField',
-        FieldTypeKind: 'Lookup',
-        LookupListId: 'f67bb7ac-cdc3-4b47-bc5c-8b91e1d8e7c8',
-        LookupFieldName: 'Title',
-      },
-      list: 'TestColumnsList',
-    });
+    // Lookup
+    // engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.createFieldAsXml(`
+    //   <Field
+    //     Type="Lookup"
+    //     Name="TestListLookupField"
+    //     StaticName="TestListLookupField"
+    //     DisplayName="TestListLookupField"
+    //     Description="A test Lookup field"
+    //     Group="_Test List Fields"
+    //     List="Lists/Pages"
+    //     ShowField="Title"
+    //     Required="FALSE"
+    //     SourceID="http://schemas.microsoft.com/sharepoint/v3">
+    //   </Field>
+    // `));
 
-    // MultiChoice field
-    engineer.field.create({
-      field: {
-        Title: 'TestMultiChoiceField',
-        Description: '',
-        FieldTypeKind: 'MultiChoice',
-        Choices: [
+    // MultiChoice
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.add('TestMultiChoiceField', 'SP.FieldMultiChoice', {
+      FieldTypeKind: 15,
+      Description: 'A test MultiChoice field',
+      Group: '_Test List Fields',
+      Choices: {
+        __metadata: {
+          type: 'Collection(Edm.String)',
+        },
+        results: [
           'One',
           'Two',
           'Three',
           'Four',
           'Five',
         ],
-        FillInChoice: true,
-        DefaultValue: 'One',
       },
-      list: 'TestColumnsList',
-    });
+      FillInChoice: true,
+      DefaultValue: 'One',
+    }));
 
-    // MultiLineText field
-    engineer.field.create({
-      field: {
-        Title: 'TestMultiLineTextField',
-        Description: '',
-        FieldTypeKind: 'MultiLineText',
-        NumberOfLines: 8,
-      },
-      list: 'TestColumnsList',
-    });
+    // MultiLineText
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.addMultilineText('TestMultiLineTextField', 8, false, false, false, true, {
+      Description: 'A test MultiLineText field',
+      Group: '_Test List Fields',
+    }));
 
-    // Number field
-    engineer.field.create({
-      field: {
-        Title: 'TestNumberField',
-        Description: '',
-        FieldTypeKind: 'Number',
-        MinimumValue: 1,
-      },
-      list: 'TestColumnsList',
-    });
+    // Number
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.addNumber('TestNumberField', 1, undefined, {
+      Description: 'A test Number field',
+      Group: '_Test List Fields',
+    }));
 
-    // Text field
-    engineer.field.create({
-      field: {
-        Title: 'TestTextField',
-        Description: '',
-        FieldTypeKind: 'Text',
-        MaxLength: 10,
-      },
-      list: 'TestColumnsList',
-    });
+    // Text
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.addText('TestTextField', 255, {
+      Description: 'A test Text field',
+      Group: '_Test List Fields',
+    }));
 
-    // Url field
-    engineer.field.create({
-      field: {
-        Title: 'TestUrlField',
-        Description: '',
-        FieldTypeKind: 'Url',
-        DisplayFormat: 0,
-      },
-      list: 'TestColumnsList',
-    });
+    // Url
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.addUrl('TestUrlField', 0, {
+      Description: 'A test Url field',
+      Group: '_Test List Fields',
+    }));
 
-    // User field
-    engineer.field.create({
-      field: {
-        Title: 'TestUserField',
-        Description: '',
-        FieldTypeKind: 'User',
-        SelectionGroup: 8,
-        SelectionMode: 0,
-      },
-      list: 'TestColumnsList',
-    });
+    // User
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.add('TestUserField', 'SP.FieldUser', {
+      FieldTypeKind: 20,
+      Description: 'A test User field',
+      Group: '_Test List Fields',
+      SelectionGroup: 8,
+      SelectionMode: 0,
+    }));
 
     // Calculated field
-    engineer.field.create({
-      field: {
-        Title: 'TestCalculatedField',
-        Description: '',
-        FieldTypeKind: 'Calculated',
-        Formula: '=[TestNumberField]+10',
-        OutputType: 9,
-      },
-      list: 'TestColumnsList',
-    });
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.addCalculated('TestCalculatedField', '=[TestNumberField]+10', undefined, 9, {
+      Description: 'A test Calculated field',
+      Group: '_Test List Fields',
+    }));
   },
 
   /**
@@ -164,20 +129,20 @@ module.exports = {
    */
   down(engineer) {
     // Delete list fields
-    engineer.field.delete({ title: 'TestCalculatedField', list: 'TestColumnsList' });
-    engineer.field.delete({ title: 'TestBooleanField', list: 'TestColumnsList' });
-    engineer.field.delete({ title: 'TestChoiceField', list: 'TestColumnsList' });
-    engineer.field.delete({ title: 'TestCurrencyField', list: 'TestColumnsList' });
-    engineer.field.delete({ title: 'TestDateTimeField', list: 'TestColumnsList' });
-    engineer.field.delete({ title: 'TestLookupField', list: 'TestColumnsList' });
-    engineer.field.delete({ title: 'TestMultiChoiceField', list: 'TestColumnsList' });
-    engineer.field.delete({ title: 'TestMultiLineTextField', list: 'TestColumnsList' });
-    engineer.field.delete({ title: 'TestNumberField', list: 'TestColumnsList' });
-    engineer.field.delete({ title: 'TestTextField', list: 'TestColumnsList' });
-    engineer.field.delete({ title: 'TestUrlField', list: 'TestColumnsList' });
-    engineer.field.delete({ title: 'TestUserField', list: 'TestColumnsList' });
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestCalculatedField').delete());
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestBooleanField').delete());
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestChoiceField').delete());
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestCurrencyField').delete());
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestDateTimeField').delete());
+    // engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestLookupField').delete());
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestMultiChoiceField').delete());
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestMultiLineTextField').delete());
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestNumberField').delete());
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestTextField').delete());
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestUrlField').delete());
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestUserField').delete());
 
     // Delete list
-    engineer.list.delete('TestColumnsList');
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').delete());
   },
 };

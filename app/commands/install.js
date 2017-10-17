@@ -13,14 +13,14 @@ module.exports = {
       // Already installed
       if (status.installed) {
         utility.log.warning('install.already');
-        utility.error.fail();
+        utility.log.fail();
       }
 
       // Install migration
       const install = new Migration(config.install);
 
       // Run
-      utility.log.info('install.begin');
+      utility.log.info('install.begin', {});
       install.run().then(() => {
         utility.log.success('install.complete');
       });

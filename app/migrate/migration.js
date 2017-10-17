@@ -76,7 +76,7 @@ class Migration {
       // Run next task
       else {
         const task = this.queue[dir].shift();
-        utility.log.info('migrate.count', { current: this.queue.migrated + 1, total: this.queue.total });
+        utility.log.info('migrate.count', { current: this.queue.migrated + 1, total: this.queue.total }, false);
         task.run().then(() => {
           utility.log.success('success.done');
           this.queue.migrated += 1;

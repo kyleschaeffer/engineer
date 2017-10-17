@@ -22,7 +22,9 @@ const Status = {
   get() {
     const p = new Promise((resolve) => {
       // Get migration status
+      utility.log.info('status.get', {}, false);
       pnp.sp.web.lists.getByTitle(config.sharepoint.lists.migrations).items.get().then((items) => {
+        utility.log.success('success.done');
         // Save history
         this.installed = true;
         items.forEach((item) => {
@@ -44,7 +46,7 @@ const Status = {
     const p = new Promise((resolve) => {
       // Get migration
       const migration = Status.history[name];
-      utility.log.info('status.set', { migration: name });
+      utility.log.info('status.set', { migration: name }, false);
 
       // Create new status
       if (!migration) {

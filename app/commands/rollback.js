@@ -33,19 +33,19 @@ module.exports = {
     // No migrations
     if (!files || !files.length) {
       utility.log.warning('rollback.empty');
-      utility.error.fail();
+      utility.log.fail();
     }
 
     // Roll back to
     if (options.to) {
       this.rollbackTo = utility.file.name(options.to, false);
-      if (!utility.file.exists(`migrations/${this.rollbackTo}.js`)) utility.error.fail('migrate.exist', { file: this.rollbackTo });
+      if (!utility.file.exists(`migrations/${this.rollbackTo}.js`)) utility.log.fail('migrate.exist', { file: this.rollbackTo });
     }
 
     // Only
     if (options.only) {
       const onlyFile = utility.file.name(options.only, false);
-      if (!utility.file.exists(`migrations/${onlyFile}.js`)) utility.error.fail('migrate.exist', { file: onlyFile });
+      if (!utility.file.exists(`migrations/${onlyFile}.js`)) utility.log.fail('migrate.exist', { file: onlyFile });
       files = [`${onlyFile}.js`];
     }
 
@@ -54,7 +54,7 @@ module.exports = {
       // Not installed
       if (!status.installed) {
         utility.log.warning('status.uninstalled');
-        utility.error.fail();
+        utility.log.fail();
       }
 
       // Queue rollbacks
@@ -79,7 +79,7 @@ module.exports = {
       // Nothing to roll back
       if (!this.queue.length) {
         utility.log.warning('rollback.upToDate');
-        utility.error.fail();
+        utility.log.fail();
       }
 
       // Run rollbacks

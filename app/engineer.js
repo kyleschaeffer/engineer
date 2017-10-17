@@ -19,7 +19,7 @@ const Engineer = {
     const options = utility.file.load(path);
 
     // No config
-    if (!options || !options.site) utility.error.fail('error.config', { path: utility.file.path(path) });
+    if (!options || !options.site) utility.log.fail('error.config', { path: utility.file.path(path) });
 
     // Configure
     utility.log.info('config.using', { path: utility.file.path(path) });

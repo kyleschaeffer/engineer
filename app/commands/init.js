@@ -7,7 +7,7 @@ module.exports = {
    */
   run() {
     // .gitignore
-    utility.log.info('init.ignore');
+    utility.log.info('init.ignore', {}, false);
 
     // Create new file
     if (!utility.file.exists('.gitignore')) {
@@ -19,7 +19,7 @@ module.exports = {
     else utility.log.warning('error.exists');
 
     // env.js
-    utility.log.info('init.env');
+    utility.log.info('init.env', {}, false);
 
     // Create new file
     if (!utility.file.exists('env.js')) {

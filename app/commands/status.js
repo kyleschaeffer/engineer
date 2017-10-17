@@ -13,7 +13,7 @@ module.exports = {
     // No migrations
     if (!files || !files.length) {
       utility.log.warning('migrate.empty');
-      utility.error.fail();
+      utility.log.fail();
     }
 
     // Get migration status

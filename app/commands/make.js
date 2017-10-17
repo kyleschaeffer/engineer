@@ -10,7 +10,7 @@ module.exports = {
    */
   run(name = 'New Migration') {
     // Create migration
-    utility.log.info('make.begin', { name });
+    utility.log.info('make.begin', { name }, false);
 
     // Create migrations directory
     utility.file.mkdir('migrations');
