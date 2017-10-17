@@ -6,12 +6,22 @@ const Table = require('cli-table');
 
 const Log = {
   /**
+   * Temporary storage for suppressed logging
+   */
+  oldLogLevel: null,
+  oldStopOnError: null,
+
+  /**
    * Listener for sp-pnp-js logging
    * @param {LogEntry} entry
    * @return {void}
    */
   listener(entry) {
-    if (entry.level && entry.level >= config.env.logLevel) {
+    if (config.env.logLevel === 0) {
+      Log.dump(entry);
+    }
+
+    else if (entry.level && entry.level >= config.env.logLevel) {
       // Error
       if (entry.level === 3) {
         if (entry.data && entry.data.responseBody) Log.error('app.string', { string: entry.data.responseBody['odata.error'].message.value });
@@ -25,6 +35,26 @@ const Log = {
       // Info
       else Log.info('app.string', { string: entry.message });
     }
+  },
+
+  /**
+   * Suppress logging
+   * @return {void}
+   */
+  suppress() {
+    Log.oldLogLevel = config.env.logLevel;
+    Log.oldStopOnError = config.env.stopOnError;
+    config.env.logLevel = 4;
+    config.env.stopOnError = false;
+  },
+
+  /**
+   * Restore suppressed logging
+   * @return {void}
+   */
+  restore() {
+    config.env.logLevel = Log.oldLogLevel;
+    config.env.stopOnError = Log.oldStopOnError;
   },
 
   /**

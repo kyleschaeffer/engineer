@@ -13,9 +13,11 @@ module.exports = {
 
   /**
    * Logging level
+   * 0 = Verbose
    * 1 = Info
-   * 2 = Warning (Default)
+   * 2 = Warning
    * 3 = Error
+   * 99 = Off
    * @type {Number}
    */
   logLevel: 2,
@@ -30,5 +32,5 @@ module.exports = {
    * Stop configuration changes on error
    * @type {Boolean}
    */
-  stopOnError: true,
+  stopOnError: false,
 };

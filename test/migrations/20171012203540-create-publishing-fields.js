@@ -6,7 +6,7 @@ module.exports = {
    */
   up(engineer) {
     // HTML field
-    engineer.field.fromSchema(`
+    engineer.task(pnp => pnp.sp.web.fields.createFieldAsXml(`
       <Field
         Type="HTML"
         Name="TestHTMLField"
@@ -19,10 +19,10 @@ module.exports = {
         Required="FALSE"
         SourceID="http://schemas.microsoft.com/sharepoint/v3">
       </Field>
-    `);
+    `));
 
     // Image field
-    engineer.field.fromSchema(`
+    engineer.task(pnp => pnp.sp.web.fields.createFieldAsXml(`
       <Field
         Type="Image"
         Name="TestImageField"
@@ -35,10 +35,10 @@ module.exports = {
         Required="FALSE"
         SourceID="http://schemas.microsoft.com/sharepoint/v3">
       </Field>
-    `);
+    `));
 
     // Link field
-    engineer.field.fromSchema(`
+    engineer.task(pnp => pnp.sp.web.fields.createFieldAsXml(`
       <Field
         Type="Link"
         Name="TestLinkField"
@@ -51,10 +51,10 @@ module.exports = {
         Required="FALSE"
         SourceID="http://schemas.microsoft.com/sharepoint/v3">
       </Field>
-    `);
+    `));
 
     // SummaryLinks field
-    engineer.field.fromSchema(`
+    engineer.task(pnp => pnp.sp.web.fields.createFieldAsXml(`
       <Field
         Type="SummaryLinks"
         Name="TestSummaryLinksField"
@@ -67,7 +67,7 @@ module.exports = {
         Required="FALSE"
         SourceID="http://schemas.microsoft.com/sharepoint/v3">
       </Field>
-    `);
+    `));
   },
 
   /**
@@ -77,9 +77,9 @@ module.exports = {
    */
   down(engineer) {
     // Delete fields
-    engineer.field.delete('TestHTMLField');
-    engineer.field.delete('TestImageField');
-    engineer.field.delete('TestLinkField');
-    engineer.field.delete('TestSummaryLinksField');
+    engineer.task(pnp => pnp.sp.web.fields.getByTitle('TestHTMLField').delete());
+    engineer.task(pnp => pnp.sp.web.fields.getByTitle('TestImageField').delete());
+    engineer.task(pnp => pnp.sp.web.fields.getByTitle('TestLinkField').delete());
+    engineer.task(pnp => pnp.sp.web.fields.getByTitle('TestSummaryLinksField').delete());
   },
 };

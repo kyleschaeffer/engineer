@@ -11,13 +11,13 @@ module.exports = {
    */
   up(engineer) {
     // Migrations list
-    engineer.task(pnp => pnp.sp.web.lists.ensure(sharepoint.lists.migrations, 'Migrations tracking list installed automatically by Engineer', 100, true, {
+    engineer.task(pnp => pnp.sp.web.lists.add(sharepoint.lists.migrations, 'Migrations tracking list installed automatically by Engineer', 100, true, {
       Hidden: true,
       NoCrawl: true,
     }));
 
     // Migrated field
-    engineer.task(pnp => pnp.sp.web.lists.getByTitle(sharepoint.lists.migrations).fields.add('Migrated', 'SP.FieldBoolean', {
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle(sharepoint.lists.migrations).fields.add('Migrated', 'SP.Field', {
       DefaultValue: '0',
       Description: 'Current migration status',
       FieldTypeKind: 8,
@@ -26,6 +26,21 @@ module.exports = {
 
     // Add Migrated to view
     engineer.task(pnp => pnp.sp.web.lists.getByTitle(sharepoint.lists.migrations).views.getByTitle('All Items').fields.add('Migrated'));
+
+    // Manifest list
+    engineer.task(pnp => pnp.sp.web.lists.add(sharepoint.lists.manifest, 'Content type ID tracking list installed automatically by Engineer', 100, true, {
+      Hidden: true,
+      NoCrawl: true,
+    }));
+
+    // Value field
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle(sharepoint.lists.manifest).fields.addMultilineText('Value', 2, false, false, false, false, {
+      Description: 'Content type ID',
+      Group: 'Engineer',
+    }));
+
+    // Add Value to view
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle(sharepoint.lists.manifest).views.getByTitle('All Items').fields.add('Value'));
   },
 
   /**
@@ -34,7 +49,8 @@ module.exports = {
    * Engineer tasks.
    */
   down(engineer) {
-    // Delete migrations list
+    // Delete lists
     engineer.task(pnp => pnp.sp.web.lists.getByTitle(sharepoint.lists.migrations).delete());
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle(sharepoint.lists.manifest).delete());
   },
 };

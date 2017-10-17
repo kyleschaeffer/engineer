@@ -1,4 +1,5 @@
 const config = require('../config');
+const manifest = require('./manifest');
 const pnp = require('sp-pnp-js');
 const utility = require('../utility');
 
@@ -21,17 +22,36 @@ const Status = {
    */
   get() {
     const p = new Promise((resolve) => {
+      // Suppress error logging
+      utility.log.suppress();
+
       // Get migration status
       utility.log.info('status.get', {}, false);
       pnp.sp.web.lists.getByTitle(config.sharepoint.lists.migrations).items.get().then((items) => {
         utility.log.success('success.done');
+
         // Save history
         this.installed = true;
         items.forEach((item) => {
           this.history[item.Title] = item;
         });
-        resolve();
-      }).catch(resolve);
+
+        // Get manifest data
+        manifest.get().then(() => {
+          // Restore logging
+          utility.log.restore();
+          resolve();
+        });
+      }).catch(() => {
+        utility.log.success('success.done');
+
+        // Get manifest data
+        manifest.get().then(() => {
+          // Restore logging
+          utility.log.restore();
+          resolve();
+        });
+      });
     });
     return p;
   },

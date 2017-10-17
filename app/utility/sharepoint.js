@@ -20,7 +20,7 @@ const SharePoint = {
     // Log listener
     const listener = new pnp.FunctionListener(log.listener);
     pnp.Logger.subscribe(listener);
-    pnp.Logger.activeLogLevel = 1;
+    pnp.Logger.activeLogLevel = config.env.logLevel;
   },
 };
 

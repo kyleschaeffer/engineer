@@ -6,14 +6,23 @@ module.exports = {
    */
   up(engineer) {
     // Create content type
-    engineer.contentType.create({
-      contentType: {
-        Id: '0x0100CF8C8F30CBCE4BA1B9E29FD675CCEBB0',
-        Name: 'TestContentType',
-        Description: 'A test content type',
-        Group: null,
+    engineer.task(pnp => pnp.sp.web.contentTypes.add('0x01000D11931E4784CC488B49472B60DDE8DC', 'TestContentType', 'A test content type', '_Test Content Types', {
+      FieldLinks: {
+        results: [
+          {
+            __metadata: {
+              type: 'SP.FieldLink',
+            },
+            Id: '6df9bd52-550e-4a30-bc31-a4366832a87d',
+            Name: 'Category',
+            Required: false,
+          },
+        ],
       },
-    });
+    }).then(engineer.saveContentType));
+
+    // Add fields to content type
+    // engineer.task(pnp => pnp.sp.web.contentTypes.getById(engineer.getContentType('TestContentType')).fieldLinks.add('TestBooleanField'));
   },
 
   /**
@@ -23,6 +32,6 @@ module.exports = {
    */
   down(engineer) {
     // Delete content type
-    engineer.contentType.delete('0x0100CF8C8F30CBCE4BA1B9E29FD675CCEBB0');
+    engineer.task(pnp => pnp.sp.web.contentTypes.getById(engineer.getContentType('TestContentType')).delete());
   },
 };

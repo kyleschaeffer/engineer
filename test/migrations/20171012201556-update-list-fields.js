@@ -5,148 +5,65 @@ module.exports = {
    * Engineer tasks.
    */
   up(engineer) {
-    // Boolean field
-    engineer.field.update({
-      title: 'TestBooleanField',
-      field: {
-        DefaultValue: '1',
-        Description: 'Adding this test description',
-        FieldTypeKind: 'Boolean',
-      },
-      list: 'TestColumnsList',
-    });
+    // Boolean
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByInternalNameOrTitle('TestBooleanField').update({
+      Description: 'Adding this test description',
+    }, 'SP.Field'));
 
-    // Choice field
-    engineer.field.update({
-      title: 'TestChoiceField',
-      field: {
-        Choices: [
-          'One',
-          'Two',
-          'Three',
-          'Four',
-        ],
-        Description: 'Adding this test description',
-        FieldTypeKind: 'Choice',
-      },
-      choiceRadio: false,
-      list: 'TestColumnsList',
-    });
+    // Choice
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestChoiceField').update({
+      Description: 'Adding this test description',
+    }));
 
-    // Currency field
-    engineer.field.update({
-      title: 'TestCurrencyField',
-      field: {
-        Description: 'Adding this test description',
-        FieldTypeKind: 'Currency',
-        MinimumValue: 1,
-      },
-      list: 'TestColumnsList',
-    });
+    // Currency
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestCurrencyField').update({
+      Description: 'Adding this test description',
+    }));
 
-    // DateTime field
-    engineer.field.update({
-      title: 'TestDateTimeField',
-      field: {
-        FieldTypeKind: 'DateTime',
-        DisplayFormat: 0,
-        Description: 'Adding this test description',
-      },
-      list: 'TestColumnsList',
-    });
+    // DateTime
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestDateTimeField').update({
+      Description: 'Adding this test description',
+    }));
 
-    // Lookup field
-    engineer.field.update({
-      title: 'TestLookupField',
-      field: {
-        FieldTypeKind: 'Lookup',
-        AllowMultipleValues: true,
-        Description: 'Adding this test description',
-      },
-      list: 'TestColumnsList',
-    });
+    // Lookup
+    // engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestLookupField').update({
+    //   Description: 'Adding this test description',
+    // }));
 
-    // MultiChoice field
-    engineer.field.update({
-      title: 'TestMultiChoiceField',
-      field: {
-        FieldTypeKind: 'MultiChoice',
-        Choices: [
-          'One',
-          'Two',
-          'Three',
-        ],
-        FillInChoice: false,
-        Description: 'Adding this test description',
-      },
-      list: 'TestColumnsList',
-    });
+    // MultiChoice
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestMultiChoiceField').update({
+      Description: 'Adding this test description',
+    }));
 
-    // MultiLineText field
-    engineer.field.update({
-      title: 'TestMultiLineTextField',
-      field: {
-        FieldTypeKind: 'MultiLineText',
-        NumberOfLines: 12,
-        Description: 'Adding this test description',
-      },
-      list: 'TestColumnsList',
-    });
+    // MultiLineText
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestMultiLineTextField').update({
+      Description: 'Adding this test description',
+    }));
 
-    // Number field
-    engineer.field.update({
-      title: 'TestNumberField',
-      field: {
-        FieldTypeKind: 'Number',
-        MinimumValue: 0,
-        Description: 'Adding this test description',
-      },
-      list: 'TestColumnsList',
-    });
+    // Number
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestNumberField').update({
+      Description: 'Adding this test description',
+    }));
 
-    // Text field
-    engineer.field.update({
-      title: 'TestTextField',
-      field: {
-        FieldTypeKind: 'Text',
-        MaxLength: 255,
-        Description: 'Adding this test description',
-      },
-      list: 'TestColumnsList',
-    });
+    // Text
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestTextField').update({
+      Description: 'Adding this test description',
+    }));
 
-    // Url field
-    engineer.field.update({
-      title: 'TestUrlField',
-      field: {
-        FieldTypeKind: 'Url',
-        DisplayFormat: 1,
-        Description: 'Adding this test description',
-      },
-      list: 'TestColumnsList',
-    });
+    // Url
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestUrlField').update({
+      Description: 'Adding this test description',
+    }));
 
-    // User field
-    engineer.field.update({
-      title: 'TestUserField',
-      field: {
-        FieldTypeKind: 'User',
-        SelectionGroup: 6,
-        Description: 'Adding this test description',
-      },
-      list: 'TestColumnsList',
-    });
+    // User
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestUserField').update({
+      Description: 'Adding this test description',
+    }));
 
-    // Calculated field
-    engineer.field.update({
-      title: 'TestCalculatedField',
-      field: {
-        FieldTypeKind: 'Calculated',
-        Formula: '=[TestNumberField]+30',
-        Description: 'Adding this test description',
-      },
-      list: 'TestColumnsList',
-    });
+    // Calculated
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestCalculatedField').update({
+      Description: 'Adding this test description',
+    }));
   },
 
   /**
@@ -155,148 +72,64 @@ module.exports = {
    * Engineer tasks.
    */
   down(engineer) {
-    // Boolean field
-    engineer.field.update({
-      title: 'TestBooleanField',
-      field: {
-        DefaultValue: '0',
-        Description: '',
-        FieldTypeKind: 'Boolean',
-      },
-      list: 'TestColumnsList',
-    });
+    // Boolean
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByInternalNameOrTitle('TestBooleanField').update({
+      Description: 'A test Boolean field',
+    }, 'SP.Field'));
 
-    // Choice field
-    engineer.field.update({
-      title: 'TestChoiceField',
-      field: {
-        Choices: [
-          'One',
-          'Two',
-          'Three',
-        ],
-        Description: '',
-        FieldTypeKind: 'Choice',
-      },
-      choiceRadio: true,
-      list: 'TestColumnsList',
-    });
+    // Choice
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestChoiceField').update({
+      Description: 'A test Choice field',
+    }));
 
-    // Currency field
-    engineer.field.update({
-      title: 'TestCurrencyField',
-      field: {
-        FieldTypeKind: 'Currency',
-        MinimumValue: 0,
-        Description: '',
-      },
-      list: 'TestColumnsList',
-    });
+    // Currency
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestCurrencyField').update({
+      Description: 'A test Currency field',
+    }));
 
-    // DateTime field
-    engineer.field.update({
-      title: 'TestDateTimeField',
-      field: {
-        FieldTypeKind: 'DateTime',
-        DisplayFormat: 1,
-        Description: '',
-      },
-      list: 'TestColumnsList',
-    });
+    // DateTime
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestDateTimeField').update({
+      Description: 'A test DateTime field',
+    }));
 
-    // Lookup field
-    engineer.field.update({
-      title: 'TestLookupField',
-      field: {
-        FieldTypeKind: 'Lookup',
-        AllowMultipleValues: false,
-        Description: '',
-      },
-      list: 'TestColumnsList',
-    });
+    // Lookup
+    // engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestLookupField').update({
+    //   Description: 'A test Lookup field',
+    // }));
 
-    // MultiChoice field
-    engineer.field.update({
-      title: 'TestMultiChoiceField',
-      field: {
-        FieldTypeKind: 'MultiChoice',
-        Choices: [
-          'One',
-          'Two',
-          'Three',
-          'Four',
-          'Five',
-        ],
-        FillInChoice: true,
-        Description: '',
-      },
-      list: 'TestColumnsList',
-    });
+    // MultiChoice
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestMultiChoiceField').update({
+      Description: 'A test MultiChoice field',
+    }));
 
-    // MultiLineText field
-    engineer.field.update({
-      title: 'TestMultiLineTextField',
-      field: {
-        FieldTypeKind: 'MultiLineText',
-        NumberOfLines: 8,
-        Description: '',
-      },
-      list: 'TestColumnsList',
-    });
+    // MultiLineText
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestMultiLineTextField').update({
+      Description: 'A test MultiLineText field',
+    }));
 
-    // Number field
-    engineer.field.update({
-      title: 'TestNumberField',
-      field: {
-        FieldTypeKind: 'Number',
-        MinimumValue: 1,
-        Description: '',
-      },
-      list: 'TestColumnsList',
-    });
+    // Number
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestNumberField').update({
+      Description: 'A test Number field',
+    }));
 
-    // Text field
-    engineer.field.update({
-      title: 'TestTextField',
-      field: {
-        FieldTypeKind: 'Text',
-        MaxLength: 10,
-        Description: '',
-      },
-      list: 'TestColumnsList',
-    });
+    // Text
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestTextField').update({
+      Description: 'A test Text field',
+    }));
 
-    // Url field
-    engineer.field.update({
-      title: 'TestUrlField',
-      field: {
-        FieldTypeKind: 'Url',
-        DisplayFormat: 0,
-        Description: '',
-      },
-      list: 'TestColumnsList',
-    });
+    // Url
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestUrlField').update({
+      Description: 'A test Url field',
+    }));
 
-    // User field
-    engineer.field.update({
-      title: 'TestUserField',
-      field: {
-        FieldTypeKind: 'User',
-        SelectionGroup: 8,
-        Description: '',
-      },
-      list: 'TestColumnsList',
-    });
+    // User
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestUserField').update({
+      Description: 'A test User field',
+    }));
 
-    // Calculated field
-    engineer.field.update({
-      title: 'TestCalculatedField',
-      field: {
-        FieldTypeKind: 'Calculated',
-        Formula: '=[TestNumberField]+10',
-        Description: '',
-      },
-      list: 'TestColumnsList',
-    });
+    // Calculated
+    engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestCalculatedField').update({
+      Description: 'A test Calculated field',
+    }));
   },
 };

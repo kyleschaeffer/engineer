@@ -1,4 +1,5 @@
 const bus = require('./bus');
+const manifest = require('./manifest');
 const pnp = require('sp-pnp-js');
 const Task = require('./task');
 
@@ -34,6 +35,30 @@ class Builder {
       e(pnp).then(resolve);
     });
     bus.load(task);
+  }
+
+  /**
+   * Save content type data to manifest
+   * @param {Object} response
+   * @return {Promise}
+   */
+  saveContentType(response) {
+    const p = new Promise((resolve) => {
+      if (!response || !response.data || !response.data.Name || !response.data.StringId) resolve();
+      else manifest.save(response.data.Name, response.data.StringId).then(resolve);
+    });
+    return p;
+  }
+
+  /**
+   * Get content type ID from manifest
+   * @param {string} name
+   * @return {string}
+   */
+  getContentType(name) {
+    const contentType = manifest.data[name];
+    if (contentType) return contentType.Value;
+    return '';
   }
 }
 

@@ -18,7 +18,7 @@ module.exports = {
     const termSetId = 'ff79f618-1092-461e-be79-4fc76c557071';
 
     // Create associated Note field for TaxonomyFieldType field
-    engineer.field.fromSchema(`
+    engineer.task(pnp => pnp.sp.web.fields.createFieldAsXml(`
       <Field
         ID="{03d84ed2-16d9-eb48-c553-f9eac9b348a1}"
         Type="Note"
@@ -32,10 +32,10 @@ module.exports = {
         CanToggleHidden="TRUE"
         SourceID="http://schemas.microsoft.com/sharepoint/v3">
       </Field>
-    `);
+    `));
 
     // Create TaxonomyFieldType field (references associated Note field ID above)
-    engineer.field.fromSchema(`
+    engineer.task(pnp => pnp.sp.web.fields.createFieldAsXml(`
       <Field
         ID="{3ecd32b9-0f23-0004-2fbc-96c117d8326a}"
         Type="TaxonomyFieldType"
@@ -75,10 +75,10 @@ module.exports = {
           </ArrayOfProperty>
         </Customization>
       </Field>
-    `);
+    `));
 
     // Create associated Note field for TaxonomyFieldTypeMulti field
-    engineer.field.fromSchema(`
+    engineer.task(pnp => pnp.sp.web.fields.createFieldAsXml(`
       <Field
         ID="{8535ae4c-dbc4-aec7-d8eb-d25ea81520d5}"
         Type="Note"
@@ -92,10 +92,10 @@ module.exports = {
         CanToggleHidden="TRUE"
         SourceID="http://schemas.microsoft.com/sharepoint/v3">
       </Field>
-    `);
+    `));
 
     // Create TaxonomyFieldTypeMulti field (references associated Note field ID above)
-    engineer.field.fromSchema(`
+    engineer.task(pnp => pnp.sp.web.fields.createFieldAsXml(`
       <Field
         ID="{cdfb2e18-908a-6e90-7969-581dee544225}"
         Type="TaxonomyFieldTypeMulti"
@@ -135,7 +135,7 @@ module.exports = {
           </ArrayOfProperty>
         </Customization>
       </Field>
-    `);
+    `));
   },
 
   /**
@@ -145,9 +145,9 @@ module.exports = {
    */
   down(engineer) {
     // Delete fields
-    engineer.field.delete('TestTaxonomyField');
-    engineer.field.delete('TestTaxonomyField Tags_0');
-    engineer.field.delete('TestMultiTaxonomyField');
-    engineer.field.delete('TestMultiTaxonomyField Tags_0');
+    engineer.task(pnp => pnp.sp.web.fields.getByTitle('TestTaxonomyField').delete());
+    engineer.task(pnp => pnp.sp.web.fields.getByTitle('TestTaxonomyField Tags_0').delete());
+    engineer.task(pnp => pnp.sp.web.fields.getByTitle('TestMultiTaxonomyField').delete());
+    engineer.task(pnp => pnp.sp.web.fields.getByTitle('TestMultiTaxonomyField Tags_0').delete());
   },
 };

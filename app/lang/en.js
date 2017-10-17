@@ -54,6 +54,11 @@ module.exports = {
     description: 'Create a new migration file',
   },
 
+  manifest: {
+    get: 'Getting manifeset...',
+    set: 'Updating manifest: <%= contentType %>...',
+  },
+
   migrate: {
     begin: 'Migrating: <%= name %>...',
     complete: 'Migration complete.',
