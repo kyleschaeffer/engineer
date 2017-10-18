@@ -6,11 +6,11 @@ const utility = require('../app/utility');
 
 /**
  * Load configuration when on command
- * @return {[type]}
+ * @return {Promise}
  */
-const config = () => {
-  engineer.load(program.config);
-};
+const config = () => new Promise((resolve) => {
+  engineer.load(program.config).then(resolve);
+});
 
 // Program
 program.version('1.0.0')
@@ -20,8 +20,7 @@ program.version('1.0.0')
 program.command('browse [list]')
   .description(utility.log.translate('browse.description'))
   .action((list) => {
-    config();
-    engineer.commands.browse.run(list);
+    config().then(engineer.commands.browse.run(list));
   });
 
 // Create GUID
@@ -42,16 +41,14 @@ program.command('init')
 program.command('install')
   .description(utility.log.translate('install.description'))
   .action(() => {
-    config();
-    engineer.commands.install.run();
+    config().then(engineer.commands.install.run());
   });
 
 // Make migration
 program.command('make <name>')
   .description(utility.log.translate('make.description'))
   .action((name) => {
-    config();
-    engineer.commands.make.run(name);
+    config().then(engineer.commands.make.run(name));
   });
 
 // Migrate
@@ -61,8 +58,7 @@ program.command('migrate')
   .option('-o, --only <file>', utility.log.translate('migrate.only'))
   .option('-f, --force', utility.log.translate('migrate.force'))
   .action((options) => {
-    config();
-    engineer.commands.migrate.run(options);
+    config().then(engineer.commands.migrate.run(options));
   });
 
 // Rollback
@@ -72,24 +68,21 @@ program.command('rollback')
   .option('-o, --only <file>', utility.log.translate('migrate.only'))
   .option('-f, --force', utility.log.translate('rollback.force'))
   .action((options) => {
-    config();
-    engineer.commands.rollback.run(options);
+    config().then(engineer.commands.rollback.run(options));
   });
 
 // Status
 program.command('status')
   .description(utility.log.translate('status.description'))
   .action(() => {
-    config();
-    engineer.commands.status.run();
+    config().then(engineer.commands.status.run());
   });
 
 // Uninstall
 program.command('uninstall')
   .description(utility.log.translate('uninstall.description'))
   .action(() => {
-    config();
-    engineer.commands.uninstall.run();
+    config().then(engineer.commands.uninstall.run());
   });
 
 // Parse command

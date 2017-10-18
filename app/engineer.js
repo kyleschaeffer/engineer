@@ -15,18 +15,21 @@ const Engineer = {
    * @return {Promise}
    */
   load(path = 'env.js') {
-    // Load config file
-    const options = utility.file.load(path);
+    const p = new Promise((resolve) => {
+      // Load config file
+      const options = utility.file.load(path);
 
-    // No config
-    if (!options || !options.site) utility.log.fail('error.config', { path: utility.file.path(path) });
+      // No config
+      if (!options || !options.site) utility.log.fail('error.config', { path: utility.file.path(path) });
 
-    // Configure
-    utility.log.info('config.using', { path: utility.file.path(path) });
-    _.merge(config.env, options);
+      // Configure
+      utility.log.info('config.using', { path: utility.file.path(path) });
+      _.merge(config.env, options);
 
-    // Set up authentication
-    utility.sharepoint.setup();
+      // Set up authentication
+      utility.sharepoint.setup().then(resolve);
+    });
+    return p;
   },
 };
 
