@@ -6,7 +6,12 @@ module.exports = {
    */
   up(engineer) {
     // Create list
-    engineer.task(pnp => pnp.sp.web.lists.add('TestColumnsList', 'A test list to run field operations', 100, true));
+    engineer.web.lists.add({
+      Title: 'TestColumnsList',
+      Description: 'A test list to run field operations',
+      BaseTemplate: 100,
+      ContentTypesEnabled: true,
+    });
 
     // Boolean
     engineer.task(pnp => pnp.sp.web.lists.getByTitle('TestColumnsList').fields.add('TestBooleanField', 'SP.Field', {

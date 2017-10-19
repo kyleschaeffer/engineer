@@ -6,10 +6,15 @@ module.exports = {
    */
   up(engineer) {
     // Create content type
-    engineer.task(pnp => pnp.sp.web.contentTypes.add('0x01000D11931E4784CC488B49472B60DDE8DC', 'TestContentType', 'A test content type', '_Test Content Types').then(engineer.saveContentType));
+    engineer.web.contentTypes.add({
+      ParentContentTypeId: '0x01',
+      Name: 'TestContentType',
+      Description: 'A test content type',
+      Group: '_Test Content Types',
+    });
 
     // Add fields
-    engineer.contentTypes.fields.add('TestContentType', 'TestTextField');
+    engineer.web.contentTypes.getByName('TestContentType').fieldLinks.add('TestTextField');
   },
 
   /**
@@ -18,7 +23,10 @@ module.exports = {
    * Engineer tasks.
    */
   down(engineer) {
+    // Remove fields
+    engineer.web.contentTypes.getByName('TestContentType').fieldLinks.remove('TestTextField');
+
     // Delete content type
-    engineer.task(pnp => pnp.sp.web.contentTypes.getById(engineer.getContentType('TestContentType')).delete());
+    engineer.web.contentTypes.getByName('TestContentType').delete();
   },
 };

@@ -13,6 +13,10 @@ module.exports = {
             |___/                        \n`,
   },
 
+  auth: {
+    csom: 'Some operations are not supported using the authentication credentials you provided. You must use either user credentials (SAML) or add-in credentials (client ID and secret ID) to use some features of Engineer.',
+  },
+
   browse: {
     begin: 'Opening: <%= path %>...',
     description: 'Browse SharePoint site',
@@ -55,7 +59,7 @@ module.exports = {
   },
 
   manifest: {
-    get: 'Getting manifeset...',
+    get: 'Getting manifset...',
     set: 'Updating manifest: <%= contentType %>...',
   },
 

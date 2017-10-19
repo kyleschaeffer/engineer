@@ -1,9 +1,10 @@
+const _ = require('lodash');
 const bus = require('./bus');
 const csom = require('csom-node');
 const fs = require('fs');
-const manifest = require('./manifest');
 const pnp = require('sp-pnp-js');
 const Task = require('./task');
+const Web = require('./api/web');
 
 class Builder {
   /**
@@ -49,33 +50,19 @@ class Builder {
   api() {
     fs.readdirSync(`${__dirname}/api`).forEach((file) => {
       if (file === 'index.js') return;
-      this[file.replace(/(\.\/|\.js)/g, '')] = require(`./api/${file}`);
+      const Endpoint = require(`./api/${file}`);
+      this[_.camelCase(file.replace('.js', ''))] = new Endpoint();
     });
     return this;
   }
 
   /**
-   * Save content type data to manifest
-   * @param {Object} response
-   * @return {Promise}
+   * Get web relative to site
+   * @param {string} Url
+   * @return {Web}
    */
-  saveContentType(response) {
-    const p = new Promise((resolve) => {
-      if (!response || !response.data || !response.data.Name || !response.data.StringId) resolve();
-      else manifest.save(response.data.Name, response.data.StringId).then(resolve);
-    });
-    return p;
-  }
-
-  /**
-   * Get content type ID from manifest
-   * @param {string} name
-   * @return {string}
-   */
-  getContentType(name) {
-    const contentType = manifest.data[name];
-    if (contentType) return contentType.Value;
-    return '';
+  web(Url = '/') {
+    return new Web({ Url });
   }
 }
 

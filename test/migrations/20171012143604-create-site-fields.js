@@ -6,12 +6,13 @@ module.exports = {
    */
   up(engineer) {
     // Boolean
-    engineer.task(pnp => pnp.sp.web.fields.add('TestBooleanField', 'SP.Field', {
-      FieldTypeKind: 8,
+    engineer.fields.add({
+      Type: 'Boolean',
+      Title: 'TestBooleanField',
       Description: 'A test Boolean field',
       Group: '_Test Site Fields',
       DefaultValue: '0',
-    }));
+    });
 
     // Choice
     engineer.task(pnp => pnp.sp.web.fields.add('TestChoiceField', 'SP.FieldChoice', {

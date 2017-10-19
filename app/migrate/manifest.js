@@ -30,6 +30,18 @@ const Manifest = {
   },
 
   /**
+   * Save response content type data to manifest
+   * @param {Object} response
+   * @return {Promise}
+   */
+  process(response) {
+    return new Promise((resolve) => {
+      if (!response || !response.data || !response.data.Name || !response.data.StringId) resolve();
+      else Manifest.save(response.data.Name, response.data.StringId).then(resolve);
+    });
+  },
+
+  /**
    * Update migration status
    * @param {string} name
    * @param {string} id
