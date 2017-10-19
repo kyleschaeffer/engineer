@@ -67,6 +67,22 @@ class Fields {
     delete options.Type;
     options.FieldTypeKind = Field.kind(type);
 
+    // Choices
+    if (options.Choices && Array.isArray(options.Choices)) {
+      const results = options.Choices;
+      options.Choices = {
+        __metadata: {
+          type: 'Collection(Edm.String)',
+        },
+        results,
+      };
+    }
+
+    // OutputType
+    if (options.OutputType && typeof options.OutputType === 'string') {
+      options.OutputType = Field.kind(options.OutputType);
+    }
+
     // Add field
     bus.load(new Task((resolve) => {
       this.get().add(options.Title, Field.type(type), options).then(resolve);

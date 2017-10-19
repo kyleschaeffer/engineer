@@ -6,7 +6,7 @@ module.exports = {
    */
   up(engineer) {
     // Boolean
-    engineer.fields.add({
+    engineer.web.fields.add({
       Type: 'Boolean',
       Title: 'TestBooleanField',
       Description: 'A test Boolean field',
@@ -15,36 +15,42 @@ module.exports = {
     });
 
     // Choice
-    engineer.task(pnp => pnp.sp.web.fields.add('TestChoiceField', 'SP.FieldChoice', {
-      FieldTypeKind: 6,
+    engineer.web.fields.add({
+      Type: 'Choice',
+      Title: 'TestChoiceField',
       Description: 'A test Choice field',
       Group: '_Test Site Fields',
-      Choices: {
-        __metadata: {
-          type: 'Collection(Edm.String)',
-        },
-        results: [
-          'One',
-          'Two',
-          'Three',
-        ],
-      },
-    }));
+      Choices: [
+        'One',
+        'Two',
+        'Three',
+      ],
+    });
 
     // Currency
-    engineer.task(pnp => pnp.sp.web.fields.addCurrency('TestCurrencyField', 0, undefined, 1033, {
+    engineer.web.fields.add({
+      Type: 'Currency',
+      Title: 'TestCurrencyField',
       Description: 'A test Currency field',
       Group: '_Test Site Fields',
-    }));
+      CurrencyLocaleId: 1033,
+      MinimumValue: 0,
+      MaximumValue: 100,
+    });
 
     // DateTime
-    engineer.task(pnp => pnp.sp.web.fields.addDateTime('TestDateTimeField', 1, 1, 0, {
+    engineer.web.fields.add({
+      Type: 'DateTime',
+      Title: 'TestDateTimeField',
       Description: 'A test DateTime field',
       Group: '_Test Site Fields',
-    }));
+      DisplayFormat: 1,
+      DateTimeCalendarType: 1,
+      FriendlyDisplayFormat: 0,
+    });
 
     // Lookup
-    engineer.task(pnp => pnp.sp.web.fields.createFieldAsXml(`
+    engineer.web.fields.addXml(`
       <Field
         Type="Lookup"
         Name="TestLookupField"
@@ -57,67 +63,85 @@ module.exports = {
         Required="FALSE"
         SourceID="http://schemas.microsoft.com/sharepoint/v3">
       </Field>
-    `));
+    `);
 
     // MultiChoice
-    engineer.task(pnp => pnp.sp.web.fields.add('TestMultiChoiceField', 'SP.FieldMultiChoice', {
-      FieldTypeKind: 15,
+    engineer.web.fields.add({
+      Type: 'MultiChoice',
+      Title: 'TestMultiChoiceField',
       Description: 'A test MultiChoice field',
       Group: '_Test Site Fields',
-      Choices: {
-        __metadata: {
-          type: 'Collection(Edm.String)',
-        },
-        results: [
-          'One',
-          'Two',
-          'Three',
-          'Four',
-          'Five',
-        ],
-      },
+      Choices: [
+        'One',
+        'Two',
+        'Three',
+        'Four',
+        'Five',
+      ],
       FillInChoice: true,
       DefaultValue: 'One',
-    }));
+    });
 
     // MultiLineText
-    engineer.task(pnp => pnp.sp.web.fields.addMultilineText('TestMultiLineTextField', 8, false, false, false, true, {
+    engineer.web.fields.add({
+      Type: 'MultiLineText',
+      Title: 'TestMultiLineTextField',
       Description: 'A test MultiLineText field',
       Group: '_Test Site Fields',
-    }));
+      NumberOfLines: 8,
+      RichText: true,
+      AllowHyperlink: true,
+      RestrictedMode: false,
+      AppendOnly: false,
+    });
 
     // Number
-    engineer.task(pnp => pnp.sp.web.fields.addNumber('TestNumberField', 1, undefined, {
+    engineer.web.fields.add({
+      Type: 'Number',
+      Title: 'TestNumberField',
       Description: 'A test Number field',
       Group: '_Test Site Fields',
-    }));
+      MinimumValue: 0,
+      MaximumValue: 100,
+    });
 
     // Text
-    engineer.task(pnp => pnp.sp.web.fields.addText('TestTextField', 255, {
+    engineer.web.fields.add({
+      Type: 'Text',
+      Title: 'TestTextField',
       Description: 'A test Text field',
       Group: '_Test Site Fields',
-    }));
+      MaxLength: 255,
+    });
 
     // Url
-    engineer.task(pnp => pnp.sp.web.fields.addUrl('TestUrlField', 0, {
+    engineer.web.fields.add({
+      Type: 'Url',
+      Title: 'TestUrlField',
       Description: 'A test Url field',
       Group: '_Test Site Fields',
-    }));
+      DisplayFormat: 1,
+    });
 
     // User
-    engineer.task(pnp => pnp.sp.web.fields.add('TestUserField', 'SP.FieldUser', {
-      FieldTypeKind: 20,
+    engineer.web.fields.add({
+      Type: 'User',
+      Title: 'TestUserField',
       Description: 'A test User field',
       Group: '_Test Site Fields',
       SelectionGroup: 8,
       SelectionMode: 0,
-    }));
+    });
 
     // Calculated field
-    engineer.task(pnp => pnp.sp.web.fields.addCalculated('TestCalculatedField', '=[TestNumberField]+10', undefined, 9, {
+    engineer.web.fields.add({
+      Type: 'Calculated',
+      Title: 'TestCalculatedField',
       Description: 'A test Calculated field',
       Group: '_Test Site Fields',
-    }));
+      Formula: '=[TestNumberField]+10',
+      OutputType: 'Number',
+    });
   },
 
   /**
@@ -127,17 +151,17 @@ module.exports = {
    */
   down(engineer) {
     // Delete site fields
-    engineer.task(pnp => pnp.sp.web.fields.getByTitle('TestCalculatedField').delete());
-    engineer.task(pnp => pnp.sp.web.fields.getByTitle('TestBooleanField').delete());
-    engineer.task(pnp => pnp.sp.web.fields.getByTitle('TestChoiceField').delete());
-    engineer.task(pnp => pnp.sp.web.fields.getByTitle('TestCurrencyField').delete());
-    engineer.task(pnp => pnp.sp.web.fields.getByTitle('TestDateTimeField').delete());
-    engineer.task(pnp => pnp.sp.web.fields.getByTitle('TestLookupField').delete());
-    engineer.task(pnp => pnp.sp.web.fields.getByTitle('TestMultiChoiceField').delete());
-    engineer.task(pnp => pnp.sp.web.fields.getByTitle('TestMultiLineTextField').delete());
-    engineer.task(pnp => pnp.sp.web.fields.getByTitle('TestNumberField').delete());
-    engineer.task(pnp => pnp.sp.web.fields.getByTitle('TestTextField').delete());
-    engineer.task(pnp => pnp.sp.web.fields.getByTitle('TestUrlField').delete());
-    engineer.task(pnp => pnp.sp.web.fields.getByTitle('TestUserField').delete());
+    engineer.web.fields.getByTitle('TestCalculatedField').delete();
+    engineer.web.fields.getByTitle('TestBooleanField').delete();
+    engineer.web.fields.getByTitle('TestChoiceField').delete();
+    engineer.web.fields.getByTitle('TestCurrencyField').delete();
+    engineer.web.fields.getByTitle('TestDateTimeField').delete();
+    engineer.web.fields.getByTitle('TestLookupField').delete();
+    engineer.web.fields.getByTitle('TestMultiChoiceField').delete();
+    engineer.web.fields.getByTitle('TestMultiLineTextField').delete();
+    engineer.web.fields.getByTitle('TestNumberField').delete();
+    engineer.web.fields.getByTitle('TestTextField').delete();
+    engineer.web.fields.getByTitle('TestUrlField').delete();
+    engineer.web.fields.getByTitle('TestUserField').delete();
   },
 };
