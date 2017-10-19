@@ -23,9 +23,9 @@ class Web {
       contentTypes: new ContentTypes({ $parent: this }),
       fields: new Fields({ $parent: this }),
       lists: new Lists({ $parent: this }),
+      webs: new Webs({ $parent: this }),
       Url: '/',
       Web: null,
-      webs: new Webs({ $parent: this }),
     }, params);
 
     return this;

@@ -60,7 +60,7 @@ class Field {
     // Options
     const options = _.merge({}, params);
 
-    // Update content type
+    // Update view
     bus.load(new Task((resolve) => {
       this.get().update(options).then(resolve);
     }));

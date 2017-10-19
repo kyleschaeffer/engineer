@@ -1,56 +1,69 @@
 const sharepoint = require('./sharepoint');
+// const utility = require('../utility');
 
 /**
  * Migration for installing Engineer
  */
 module.exports = {
   /**
-   * Run these tasks when activating this migration. See
-   * https://github.com/oldrivercreative/engineer for more information on
-   * Engineer tasks.
+   * Install Engineer lists and fields
    */
   up(engineer) {
     // Migrations list
-    engineer.task(pnp => pnp.sp.web.lists.add(sharepoint.lists.migrations, 'Migrations tracking list installed automatically by Engineer', 100, true, {
+    engineer.web.lists.add({
+      Title: sharepoint.lists.migrations,
+      Description: 'install.list.migrations',
+      BaseTemplate: 100,
+      ContentTypesEnabled: true,
       Hidden: true,
       NoCrawl: true,
-    }));
+    });
 
     // Migrated field
-    engineer.task(pnp => pnp.sp.web.lists.getByTitle(sharepoint.lists.migrations).fields.add('Migrated', 'SP.Field', {
-      DefaultValue: '0',
-      Description: 'Current migration status',
-      FieldTypeKind: 8,
+    engineer.web.lists.getByTitle(sharepoint.lists.migrations).fields.add({
+      Type: 'Boolean',
+      Title: 'Migrated',
+      Description: 'install.list.migrated',
       Group: 'Engineer',
-    }));
+      DefaultValue: '0',
+    });
 
     // Add Migrated to view
-    engineer.task(pnp => pnp.sp.web.lists.getByTitle(sharepoint.lists.migrations).views.getByTitle('All Items').fields.add('Migrated'));
+    engineer.web.lists.getByTitle(sharepoint.lists.migrations).views.getByTitle('All Items').viewFields.add('Migrated');
 
     // Manifest list
-    engineer.task(pnp => pnp.sp.web.lists.add(sharepoint.lists.manifest, 'Content type ID tracking list installed automatically by Engineer', 100, true, {
+    engineer.web.lists.add({
+      Title: sharepoint.lists.manifest,
+      Description: 'install.list.manifest',
+      BaseTemplate: 100,
+      ContentTypesEnabled: true,
       Hidden: true,
       NoCrawl: true,
-    }));
+    });
 
     // Value field
-    engineer.task(pnp => pnp.sp.web.lists.getByTitle(sharepoint.lists.manifest).fields.addMultilineText('Value', 2, false, false, false, false, {
-      Description: 'Content type ID',
+    engineer.web.lists.getByTitle(sharepoint.lists.manifest).fields.add({
+      Type: 'MultiLineText',
+      Title: 'Value',
+      Description: 'install.list.value',
       Group: 'Engineer',
-    }));
+      NumberOfLines: 2,
+      RichText: false,
+      AllowHyperlink: false,
+      RestrictedMode: false,
+      AppendOnly: false,
+    });
 
     // Add Value to view
-    engineer.task(pnp => pnp.sp.web.lists.getByTitle(sharepoint.lists.manifest).views.getByTitle('All Items').fields.add('Value'));
+    engineer.web.lists.getByTitle(sharepoint.lists.manifest).views.getByTitle('All Items').viewFields.add('Value');
   },
 
   /**
-   * Run these tasks when rolling back this migration. See
-   * https://github.com/oldrivercreative/engineer for more information on
-   * Engineer tasks.
+   * Uninstall Engineer lists
    */
   down(engineer) {
     // Delete lists
-    engineer.task(pnp => pnp.sp.web.lists.getByTitle(sharepoint.lists.migrations).delete());
-    engineer.task(pnp => pnp.sp.web.lists.getByTitle(sharepoint.lists.manifest).delete());
+    engineer.web.lists.getByTitle(sharepoint.lists.migrations).delete();
+    engineer.web.lists.getByTitle(sharepoint.lists.manifest).delete();
   },
 };

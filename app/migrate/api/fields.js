@@ -42,7 +42,7 @@ class Fields {
   /**
    * Get field by title
    * @param {string} Title
-   * @return {ContentType}
+   * @return {Field}
    */
   getByTitle(Title) {
     return new Field({ $parent: this, Title });

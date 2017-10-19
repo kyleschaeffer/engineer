@@ -3,6 +3,7 @@ const bus = require('../bus');
 const ContentTypes = require('./content-types');
 const Fields = require('./fields');
 const Task = require('../task');
+const Views = require('./views');
 
 /**
  * List
@@ -20,6 +21,7 @@ class List {
       $parent: null,
       contentTypes: new ContentTypes({ $parent: this }),
       fields: new Fields({ $parent: this }),
+      views: new Views({ $parent: this }),
       Id: null,
       Title: null,
     }, params);
@@ -45,7 +47,7 @@ class List {
     // Options
     const options = _.merge({}, params);
 
-    // Update content type
+    // Update list
     bus.load(new Task((resolve) => {
       this.get().update(options).then(resolve);
     }));

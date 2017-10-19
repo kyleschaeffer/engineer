@@ -29,7 +29,7 @@ module.exports = {
   site: null,
 
   /**
-   * Stop configuration changes on error
+   * Halt tasks on error
    * @type {Boolean}
    */
   stopOnError: false,

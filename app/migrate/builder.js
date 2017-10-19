@@ -1,9 +1,6 @@
 const _ = require('lodash');
 const bus = require('./bus');
-const csom = require('csom-node');
 const fs = require('fs');
-const pnp = require('sp-pnp-js');
-const Task = require('./task');
 const Web = require('./api/web');
 
 class Builder {
@@ -29,18 +26,6 @@ class Builder {
     this.tasks = bus.stop();
 
     return this;
-  }
-
-  /**
-   * Load task
-   * @param {Event} e
-   * @return {void}
-   */
-  task(e) {
-    const task = new Task((resolve) => {
-      e(pnp, csom).then(resolve);
-    });
-    bus.load(task);
   }
 
   /**

@@ -1,49 +1,41 @@
 const _ = require('lodash');
 const bus = require('../bus');
-const FieldLinks = require('./field-links');
-const manifest = require('../manifest');
 const Task = require('../task');
+const ViewFields = require('./view-fields');
 
 /**
- * Content type
- * @type {ContentType}
+ * View
+ * @type {View}
  */
-class ContentType {
+class View {
   /**
    * Constructor
    * @param {Object} params
-   * @return {ContentType}
+   * @return {View}
    */
   constructor(params = {}) {
     // Properties
     _.merge(this, {
       $parent: null,
-      fieldLinks: new FieldLinks({ $parent: this }),
+      viewFields: new ViewFields({ $parent: this }),
       Id: null,
-      Name: null,
+      Title: null,
     }, params);
 
     return this;
   }
 
   /**
-   * Get most up-to-date content type ID from manifest
-   * @return {string}
-   */
-  id() {
-    return this.Name && manifest.data[this.Name] ? manifest.data[this.Name].Value : this.Id;
-  }
-
-  /**
-   * Get content type
-   * @return {pnp.ContentType}
+   * Get view by ID or title
+   * @return {pnp.View}
    */
   get() {
-    return this.$parent.get().getById(this.id());
+    if (this.Id) return this.$parent.get().getById(this.Id);
+    return this.$parent.get().getByTitle(this.Title);
   }
 
   /**
-   * Update content type
+   * Update view
    * @param {Object} params
    * @return {void}
    */
@@ -51,14 +43,14 @@ class ContentType {
     // Options
     const options = _.merge({}, params);
 
-    // Update content type
+    // Update view
     bus.load(new Task((resolve) => {
       this.get().update(options).then(resolve);
     }));
   }
 
   /**
-   * Delete content type
+   * Delete view
    * @return {void}
    */
   delete() {
@@ -68,4 +60,4 @@ class ContentType {
   }
 }
 
-module.exports = ContentType;
+module.exports = View;
