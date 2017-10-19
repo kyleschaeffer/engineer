@@ -43,7 +43,7 @@ class Webs {
       Url: '',
       UseSamePermissionsAsParentSite: true,
       WebTemplate: 'STS',
-    }, params);
+    }, typeof params === 'object' ? params : { Title: params, Url: _.kebabCase(params) });
 
     // Add web
     bus.load(new Task((resolve) => {

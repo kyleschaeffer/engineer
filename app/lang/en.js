@@ -51,12 +51,6 @@ module.exports = {
     begin: 'Installing Engineer...',
     complete: 'Engineer installed.',
     description: 'Install Engineer tracking lists on SharePoint',
-    list: {
-      manifest: 'Content type ID tracking list installed automatically by Engineer',
-      migrated: 'Current migration status',
-      migrations: 'Migrations tracking list installed automatically by Engineer',
-      value: 'Content type ID',
-    },
   },
 
   make: {
@@ -65,7 +59,7 @@ module.exports = {
   },
 
   manifest: {
-    get: 'Getting manifset...',
+    get: 'Getting manifest...',
     set: 'Updating manifest: <%= contentType %>...',
   },
 

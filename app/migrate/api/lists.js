@@ -60,7 +60,7 @@ class Lists {
       ContentTypesEnabled: false,
       Description: '',
       Title: null,
-    }, params);
+    }, typeof params === 'object' ? params : { Title: params });
 
     // Add list
     bus.load(new Task((resolve) => {

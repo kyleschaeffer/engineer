@@ -46,13 +46,14 @@ const SharePoint = {
 
   /**
    * Configure CSOM authentication
+   * @param {string} url
    * @return {Promise}
    */
-  configureCsom() {
+  configureCsom(url = null) {
     return new Promise((resolve) => {
       // Configure CSOM authentication
       csom.setLoaderOptions({
-        url: config.env.site,
+        url: url || config.env.site,
       });
       const auth = new csom.AuthenticationContext(config.env.site);
 

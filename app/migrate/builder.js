@@ -46,7 +46,7 @@ class Builder {
    * @param {string} Url
    * @return {Web}
    */
-  web(Url = '/') {
+  getWeb(Url = '/') {
     return new Web({ Url });
   }
 }

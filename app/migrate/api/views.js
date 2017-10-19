@@ -58,7 +58,7 @@ class Views {
     const options = _.merge({
       Title: null,
       PersonalView: false,
-    }, params);
+    }, typeof params === 'object' ? params : { Title: params });
 
     // Add view
     bus.load(new Task((resolve) => {

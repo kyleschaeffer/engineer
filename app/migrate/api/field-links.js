@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const bus = require('../bus');
+const config = require('../../config');
 const csom = require('csom-node');
 const Task = require('../task');
 const utility = require('../../utility');
@@ -32,31 +33,67 @@ class FieldLinks {
   }
 
   /**
+   * Get parent objects to help with CSOM targeting
+   * @return {Object}
+   */
+  getParents() {
+    // Parent objects
+    const parents = {
+      web: this,
+      list: null,
+    };
+
+    // Iterate parents to find webs and lists
+    while (parents.web.$parent) {
+      parents.web = parents.web.$parent;
+      if (parents.web.constructor.name === 'List') parents.list = parents.web;
+      if (parents.web.constructor.name === 'Web') break;
+    }
+
+    return parents;
+  }
+
+  /**
    * Add field link to content type
    * @param {string} fieldName
    * @return {void}
    */
   add(fieldName) {
     bus.load(new Task((resolve) => {
-      // Get content type
-      const contentType = csom.web.get_contentTypes().getById(this.$parent.id());
+      // Get parents
+      const parents = this.getParents();
 
-      // Get field
-      const field = csom.web.get_fields().getByInternalNameOrTitle(fieldName);
+      // Continue after parent resolution
+      const addContentType = () => {
+        // Target web or list
+        let target = csom.web;
 
-      // Add field link
-      const fieldLink = new SP.FieldLinkCreationInformation();
-      fieldLink.set_field(field);
-      const fieldLinks = contentType.get_fieldLinks();
-      fieldLinks.add(fieldLink);
-      contentType.update(true);
+        // Target object
+        if (parents.list) target = parents.list.Title ? target.get_lists().getByTitle(parents.list.Title) : target.get_lists().getById(parents.list.Id);
 
-      // Commit
-      csom.ctx.executeQueryAsync(() => {
-        resolve();
-      }, (sender, args) => {
-        utility.log.error('app.string', { string: args.get_message() });
-      });
+        // Get content type
+        const contentType = target.get_contentTypes().getById(this.$parent.id());
+
+        // Get field
+        const field = target.get_fields().getByInternalNameOrTitle(fieldName);
+
+        // Add field link
+        const fieldLink = new SP.FieldLinkCreationInformation();
+        fieldLink.set_field(field);
+        const fieldLinks = contentType.get_fieldLinks();
+        fieldLinks.add(fieldLink);
+        contentType.update(true);
+
+        // Commit
+        csom.ctx.executeQueryAsync(() => {
+          resolve();
+        }, (sender, args) => {
+          utility.log.error('app.string', { string: args.get_message() });
+        });
+      };
+      // Target web
+      if (parents.web.Url !== '/') utility.configureCsom(`${_.trim(config.env.site, '/')}/${_.trim(parents.web.Url, '/')}`).then(addContentType);
+      else addContentType();
     }));
   }
 
@@ -67,32 +104,47 @@ class FieldLinks {
    */
   remove(fieldName) {
     bus.load(new Task((resolve) => {
-      // Get content type
-      const contentType = csom.web.get_contentTypes().getById(this.$parent.id());
+      // Get parents
+      const parents = this.getParents();
 
-      // Remove field link
-      const fieldLinks = contentType.get_fieldLinks();
-      csom.ctx.load(fieldLinks);
+      // Continue after parent resolution
+      const addContentType = () => {
+        // Target web or list
+        let target = csom.web;
 
-      // Commit
-      csom.ctx.executeQueryAsync(() => {
-        const allFieldLinks = fieldLinks.getEnumerator();
-        while (allFieldLinks.moveNext()) {
-          const fieldLink = allFieldLinks.get_current();
-          if (fieldLink.get_name() === fieldName) {
-            fieldLink.deleteObject();
-            break;
-          }
-        }
-        contentType.update(true);
+        // Target object
+        if (parents.list) target = parents.list.Title ? target.get_lists().getByTitle(parents.list.Title) : target.get_lists().getById(parents.list.Id);
+
+        // Get content type
+        const contentType = target.get_contentTypes().getById(this.$parent.id());
+
+        // Remove field link
+        const fieldLinks = contentType.get_fieldLinks();
+        csom.ctx.load(fieldLinks);
+
+        // Commit
         csom.ctx.executeQueryAsync(() => {
-          resolve();
+          const allFieldLinks = fieldLinks.getEnumerator();
+          while (allFieldLinks.moveNext()) {
+            const fieldLink = allFieldLinks.get_current();
+            if (fieldLink.get_name() === fieldName) {
+              fieldLink.deleteObject();
+              break;
+            }
+          }
+          contentType.update(true);
+          csom.ctx.executeQueryAsync(() => {
+            resolve();
+          }, (sender, args) => {
+            utility.log.error('app.string', { string: args.get_message() });
+          });
         }, (sender, args) => {
           utility.log.error('app.string', { string: args.get_message() });
         });
-      }, (sender, args) => {
-        utility.log.error('app.string', { string: args.get_message() });
-      });
+      };
+      // Target web
+      if (parents.web.Url !== '/') utility.configureCsom(`${_.trim(config.env.site, '/')}/${_.trim(parents.web.Url, '/')}`).then(addContentType);
+      else addContentType();
     }));
   }
 }

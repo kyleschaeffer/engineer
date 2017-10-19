@@ -58,11 +58,11 @@ class ContentTypes {
     // Options
     const options = _.merge({
       ParentContentTypeId: '0x01',
-      Id: utility.sharepoint.guid(),
+      Id: _.upperCase(utility.sharepoint.guid().replace('-', '')),
       Name: null,
-      Description: null,
-      Group: null,
-    }, params);
+      Description: '',
+      Group: undefined,
+    }, typeof params === 'object' ? params : { Name: params });
 
     // Add content type
     bus.load(new Task((resolve) => {

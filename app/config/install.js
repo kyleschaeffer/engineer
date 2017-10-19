@@ -1,5 +1,4 @@
 const sharepoint = require('./sharepoint');
-// const utility = require('../utility');
 
 /**
  * Migration for installing Engineer
@@ -12,7 +11,7 @@ module.exports = {
     // Migrations list
     engineer.web.lists.add({
       Title: sharepoint.lists.migrations,
-      Description: 'install.list.migrations',
+      Description: 'Migrations tracking list installed automatically by Engineer',
       BaseTemplate: 100,
       ContentTypesEnabled: true,
       Hidden: true,
@@ -23,7 +22,7 @@ module.exports = {
     engineer.web.lists.getByTitle(sharepoint.lists.migrations).fields.add({
       Type: 'Boolean',
       Title: 'Migrated',
-      Description: 'install.list.migrated',
+      Description: 'Current migration status',
       Group: 'Engineer',
       DefaultValue: '0',
     });
@@ -34,7 +33,7 @@ module.exports = {
     // Manifest list
     engineer.web.lists.add({
       Title: sharepoint.lists.manifest,
-      Description: 'install.list.manifest',
+      Description: 'Content type ID tracking list installed automatically by Engineer',
       BaseTemplate: 100,
       ContentTypesEnabled: true,
       Hidden: true,
@@ -45,7 +44,7 @@ module.exports = {
     engineer.web.lists.getByTitle(sharepoint.lists.manifest).fields.add({
       Type: 'MultiLineText',
       Title: 'Value',
-      Description: 'install.list.value',
+      Description: 'Content type ID',
       Group: 'Engineer',
       NumberOfLines: 2,
       RichText: false,

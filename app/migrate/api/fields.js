@@ -59,8 +59,8 @@ class Fields {
       Type: 'Text',
       Title: null,
       Description: '',
-      Group: null,
-    }, params);
+      Group: undefined,
+    }, typeof params === 'object' ? params : { Title: params });
 
     // Field kind
     const type = options.Type;

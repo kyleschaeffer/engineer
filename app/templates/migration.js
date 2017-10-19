@@ -5,7 +5,12 @@ module.exports = {
    * Engineer tasks.
    */
   up(engineer) {
-    engineer.task(pnp => pnp.sp.web.lists.add('My List'));
+    engineer.web.lists.add({
+      Title: 'My List',
+      Description: 'My list description',
+      BaseTemplate: 100,
+      ContentTypesEnabled: true,
+    });
   },
 
   /**
@@ -14,6 +19,6 @@ module.exports = {
    * Engineer tasks.
    */
   down(engineer) {
-    engineer.task(pnp => pnp.sp.web.lists.getByTitle('My List').delete());
+    engineer.web.lists.getByTitle('My List').delete();
   },
 };

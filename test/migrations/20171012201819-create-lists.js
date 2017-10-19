@@ -6,12 +6,7 @@ module.exports = {
    */
   up(engineer) {
     // Add list
-    engineer.web.lists.add({
-      Title: 'My List',
-      Description: 'My list description',
-      BaseTemplate: 100,
-      ContentTypesEnabled: true,
-    });
+    engineer.web.lists.add('My List');
   },
 
   /**
