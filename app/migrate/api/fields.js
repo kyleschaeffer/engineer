@@ -2,6 +2,7 @@ const _ = require('lodash');
 const bus = require('../bus');
 const Field = require('./field');
 const Task = require('../task');
+const utility = require('../../utility');
 
 /**
  * Field collection
@@ -85,7 +86,8 @@ class Fields {
 
     // Add field
     bus.load(new Task((resolve) => {
-      this.get().add(options.Title, Field.type(type), options).then(resolve);
+      utility.log.info('field.add', { field: options.Title });
+      this.get().add(options.Title, Field.type(type), options).then(resolve).catch(resolve);
     }));
   }
 
@@ -96,7 +98,8 @@ class Fields {
   addXml(xml = '') {
     // Add field
     bus.load(new Task((resolve) => {
-      this.get().createFieldAsXml(xml).then(resolve);
+      utility.log.info('field.add', { field: 'XmlSchema' });
+      this.get().createFieldAsXml(xml).then(resolve).catch(resolve);
     }));
   }
 }

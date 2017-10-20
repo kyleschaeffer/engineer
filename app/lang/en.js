@@ -4,6 +4,7 @@
 module.exports = {
   app: {
     name: 'Engineer',
+    start: 'Starting up...',
     string: '<%= string %>',
     welcome: `                  _
   ___ _ __   __ _(_)_ __   ___  ___ _ __
@@ -25,13 +26,30 @@ module.exports = {
   config: {
     description: 'Path to configuration file if not using "env.js"',
     failed: 'Failed to load config file: <%= path %>Use "engineer init" to create a new config file.',
-    using: 'Using config file: <%= path %>',
+    using: `Using config file: ${'<%= path %>'.magenta}`,
+  },
+
+  contentType: {
+    add: 'Adding content type: <%= contentType %>',
+    delete: 'Deleting content type: <%= contentType %>',
+    update: 'Updating content type: <%= contentType %>',
   },
 
   error: {
     exists: 'already exists.',
     failed: 'failed.',
     message: '<%= code %> Error: <%= message %>',
+  },
+
+  field: {
+    add: 'Adding field: <%= field %>',
+    delete: 'Deleting field: <%= field %>',
+    update: 'Updating field: <%= field %>',
+  },
+
+  fieldLink: {
+    add: 'Adding field link: <%= fieldLink %>',
+    remove: 'Removing field link: <%= fieldLink %>',
   },
 
   guid: {
@@ -53,6 +71,12 @@ module.exports = {
     description: 'Install Engineer tracking lists on SharePoint',
   },
 
+  list: {
+    add: 'Adding list: <%= list %>',
+    delete: 'Deleting list: <%= list %>',
+    update: 'Updating list: <%= list %>',
+  },
+
   make: {
     begin: 'Creating migration: <%= name %>...',
     description: 'Create a new migration file',
@@ -64,9 +88,9 @@ module.exports = {
   },
 
   migrate: {
-    begin: 'Migrating: <%= name %>...',
-    complete: 'Migration complete.',
-    count: 'Task #<%= current %> of <%= total %>...',
+    begin: `Migrating: ${'<%= name %>'.cyan.bold}`,
+    complete: 'Migration complete.'.bold,
+    count: `${'Task #<%= current %>'.white.bold} of <%= total %>:`,
     description: 'Run pending migrations',
     empty: 'Nothing to migrate. Use "engineer make <name>" to create a new migration.',
     exist: 'Migration file does not exist: <%= file %>',
@@ -77,8 +101,8 @@ module.exports = {
   },
 
   rollback: {
-    begin: 'Rolling back: <%= name %>...',
-    complete: 'Rollback complete.',
+    begin: `Rolling back: ${'<%= name %>'.cyan.bold}`,
+    complete: 'Rollback complete.'.bold,
     description: 'Roll back migrations',
     empty: 'Nothing to roll back.',
     force: 'Roll back migrations even if they\'re already rolled back',
@@ -92,7 +116,7 @@ module.exports = {
     get: 'Getting migration status...',
     migrated: 'Migrated',
     pending: 'Pending',
-    set: 'Updating migration status: <%= migration %>...',
+    set: 'Updating migration status...',
     uninstalled: 'Engineer is not installed. Use "engineer install" to begin.',
   },
 
@@ -105,5 +129,24 @@ module.exports = {
     begin: 'Uninstalling Engineer...',
     complete: 'Engineer uninstalled.',
     description: 'Delete Engineer tracking lists from SharePoint',
+  },
+
+  view: {
+    add: 'Adding view: <%= view %>',
+    delete: 'Deleting view: <%= view %>',
+    update: 'Updating view: <%= view %>',
+  },
+
+  viewField: {
+    add: 'Adding field to view: <%= view %>/<%= fieldName %>',
+    move: 'Moving field in view: <%= view %>/<%= fieldName %>',
+    remove: 'Removing field from view: <%= view %>/<%= fieldName %>',
+    removeAll: 'Removing all fields from view: <%= view %>',
+  },
+
+  web: {
+    add: 'Adding web: <%= web %>',
+    delete: 'Deleting web: <%= web %>',
+    update: 'Updating web: <%= web %>',
   },
 };

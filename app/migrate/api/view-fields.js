@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const bus = require('../bus');
 const Task = require('../task');
+const utility = require('../../utility');
 
 /**
  * View field collection
@@ -36,7 +37,8 @@ class ViewFields {
    */
   add(fieldName) {
     bus.load(new Task((resolve) => {
-      this.get().add(fieldName).then(resolve);
+      utility.log.info('viewField.add', { fieldName, view: this.$parent.Title || this.$parent.Id });
+      this.get().add(fieldName).then(resolve).catch(resolve);
     }));
   }
 
@@ -47,7 +49,8 @@ class ViewFields {
    */
   remove(fieldName) {
     bus.load(new Task((resolve) => {
-      this.get().remove(fieldName).then(resolve);
+      utility.log.info('viewField.remove', { fieldName, view: this.$parent.Title || this.$parent.Id });
+      this.get().remove(fieldName).then(resolve).catch(resolve);
     }));
   }
 
@@ -57,7 +60,8 @@ class ViewFields {
    */
   removeAll() {
     bus.load(new Task((resolve) => {
-      this.get().removeAll().then(resolve);
+      utility.log.info('viewField.removeAll', { view: this.$parent.Title || this.$parent.Id });
+      this.get().removeAll().then(resolve).catch(resolve);
     }));
   }
 
@@ -69,7 +73,8 @@ class ViewFields {
    */
   move(fieldName, index) {
     bus.load(new Task((resolve) => {
-      this.get().move(fieldName, index).then(resolve);
+      utility.log.info('viewField.move', { fieldName, view: this.$parent.Title || this.$parent.Id });
+      this.get().move(fieldName, index).then(resolve).catch(resolve);
     }));
   }
 }

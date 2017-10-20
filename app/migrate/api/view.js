@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const bus = require('../bus');
 const Task = require('../task');
+const utility = require('../../utility');
 const ViewFields = require('./view-fields');
 
 /**
@@ -45,7 +46,8 @@ class View {
 
     // Update view
     bus.load(new Task((resolve) => {
-      this.get().update(options).then(resolve);
+      utility.log.info('view.update', { view: this.Title || this.Id });
+      this.get().update(options).then(resolve).catch(resolve);
     }));
   }
 
@@ -55,7 +57,8 @@ class View {
    */
   delete() {
     bus.load(new Task((resolve) => {
-      this.get().delete().then(resolve);
+      utility.log.info('view.delete', { view: this.Title || this.Id });
+      this.get().delete().then(resolve).catch(resolve);
     }));
   }
 }

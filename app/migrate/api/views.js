@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const bus = require('../bus');
 const Task = require('../task');
+const utility = require('../../utility');
 const View = require('./view');
 
 /**
@@ -62,7 +63,8 @@ class Views {
 
     // Add view
     bus.load(new Task((resolve) => {
-      this.get().add(options.Title, options.PersonalView, options).then(resolve);
+      utility.log.info('view.add', { view: options.Title });
+      this.get().add(options.Title, options.PersonalView, options).then(resolve).catch(resolve);
     }));
   }
 }

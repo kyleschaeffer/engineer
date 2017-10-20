@@ -3,6 +3,7 @@ const bus = require('../bus');
 const ContentTypes = require('./content-types');
 const Fields = require('./fields');
 const Task = require('../task');
+const utility = require('../../utility');
 const Views = require('./views');
 
 /**
@@ -49,7 +50,8 @@ class List {
 
     // Update list
     bus.load(new Task((resolve) => {
-      this.get().update(options).then(resolve);
+      utility.log.info('list.update', { list: this.Title || this.Id });
+      this.get().update(options).then(resolve).catch(resolve);
     }));
   }
 
@@ -59,7 +61,8 @@ class List {
    */
   delete() {
     bus.load(new Task((resolve) => {
-      this.get().delete().then(resolve);
+      utility.log.info('list.delete', { list: this.Title || this.Id });
+      this.get().delete().then(resolve).catch(resolve);
     }));
   }
 }

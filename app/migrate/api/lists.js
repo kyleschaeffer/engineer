@@ -2,6 +2,7 @@ const _ = require('lodash');
 const bus = require('../bus');
 const List = require('./list');
 const Task = require('../task');
+const utility = require('../../utility');
 
 /**
  * List collection
@@ -64,7 +65,8 @@ class Lists {
 
     // Add list
     bus.load(new Task((resolve) => {
-      this.get().add(options.Title, options.Description, options.BaseTemplate, options.ContentTypesEnabled, options).then(resolve);
+      utility.log.info('list.add', { list: options.Title });
+      this.get().add(options.Title, options.Description, options.BaseTemplate, options.ContentTypesEnabled, options).then(resolve).catch(resolve);
     }));
   }
 }

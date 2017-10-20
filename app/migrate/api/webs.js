@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const bus = require('../bus');
 const Task = require('../task');
+const utility = require('../../utility');
 
 /**
  * Web collection
@@ -40,14 +41,15 @@ class Webs {
       Description: '',
       Language: 1033,
       Title: null,
-      Url: '',
+      Url: typeof params === 'object' && params.Title && !params.Url ? _.kebabCase(params.Title) : '',
       UseSamePermissionsAsParentSite: true,
       WebTemplate: 'STS',
     }, typeof params === 'object' ? params : { Title: params, Url: _.kebabCase(params) });
 
     // Add web
     bus.load(new Task((resolve) => {
-      this.get().add(options.Title, options.Url, options.Description, options.WebTemplate, options.Language, options.UseSamePermissionsAsParentSite, options).then(resolve);
+      utility.log.info('web.add', { web: options.Url });
+      this.get().add(options.Title, options.Url, options.Description, options.WebTemplate, options.Language, options.UseSamePermissionsAsParentSite, options).then(resolve).catch(resolve);
     }));
   }
 }

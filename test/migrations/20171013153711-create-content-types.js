@@ -5,7 +5,7 @@ module.exports = {
    * Engineer tasks.
    */
   up(engineer) {
-    // Create content type
+    // Create content type on web
     engineer.web.contentTypes.add({
       ParentContentTypeId: '0x01',
       Name: 'TestContentType',
@@ -13,8 +13,19 @@ module.exports = {
       Group: '_Test Content Types',
     });
 
-    // Add fields
+    // Add field
     engineer.web.contentTypes.getByName('TestContentType').fieldLinks.add('TestTextField');
+
+    // Create content type on list
+    engineer.web.lists.getByTitle('TestColumnsList').contentTypes.add({
+      ParentContentTypeId: '0x01',
+      Name: 'TestListContentType',
+      Description: 'A test list content type',
+      Group: '_Test Content Types',
+    });
+
+    // Add field
+    engineer.web.lists.getByTitle('TestColumnsList').contentTypes.getByName('TestListContentType').fieldLinks.add('TestTextField');
   },
 
   /**

@@ -5,6 +5,7 @@ const Fields = require('./fields');
 const Lists = require('./lists');
 const pnp = require('sp-pnp-js');
 const Task = require('../task');
+const utility = require('../../utility');
 const Webs = require('./webs');
 
 /**
@@ -51,7 +52,8 @@ class Web {
 
     // Update web
     bus.load(new Task((resolve) => {
-      this.get().update(options).then(resolve);
+      utility.log.info('web.update', { web: this.Url });
+      this.get().update(options).then(resolve).catch(resolve);
     }));
   }
 
@@ -61,7 +63,8 @@ class Web {
    */
   delete() {
     bus.load(new Task((resolve) => {
-      this.get().delete().then(resolve);
+      utility.log.info('web.delete', { web: this.Url });
+      this.get().delete().then(resolve).catch(resolve);
     }));
   }
 }

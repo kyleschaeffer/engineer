@@ -85,10 +85,12 @@ class FieldLinks {
         contentType.update(true);
 
         // Commit
+        utility.log.info('fieldLink.add', { fieldName });
         csom.ctx.executeQueryAsync(() => {
           resolve();
         }, (sender, args) => {
           utility.log.error('app.string', { string: args.get_message() });
+          resolve();
         });
       };
       // Target web
@@ -123,6 +125,7 @@ class FieldLinks {
         csom.ctx.load(fieldLinks);
 
         // Commit
+        utility.log.info('fieldLink.remove', { fieldName });
         csom.ctx.executeQueryAsync(() => {
           const allFieldLinks = fieldLinks.getEnumerator();
           while (allFieldLinks.moveNext()) {
@@ -137,9 +140,11 @@ class FieldLinks {
             resolve();
           }, (sender, args) => {
             utility.log.error('app.string', { string: args.get_message() });
+            resolve();
           });
         }, (sender, args) => {
           utility.log.error('app.string', { string: args.get_message() });
+          resolve();
         });
       };
       // Target web

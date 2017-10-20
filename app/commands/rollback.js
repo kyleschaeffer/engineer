@@ -110,9 +110,12 @@ module.exports = {
 
         else {
           utility.log.info('rollback.begin', { name: migration.name });
+          utility.log.indent();
           migration.migration.run(true).then(() => {
             // Update migration status
             status.update(migration.name, false).then(() => {
+              utility.log.outdent();
+
               // Next
               this.next().then(() => {
                 resolve();

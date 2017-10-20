@@ -12,6 +12,11 @@ const Log = {
   oldStopOnError: null,
 
   /**
+   * Current indentation
+   */
+  indentation: '',
+
+  /**
    * Listener for sp-pnp-js logging
    * @param {LogEntry} entry
    * @return {void}
@@ -75,7 +80,25 @@ const Log = {
    * @return {void}
    */
   print(str, nl = true) {
-    return process.stdout.write(`${str}${nl ? '\n' : ''}`);
+    return process.stdout.write(`${Log.indentation}${str}${nl ? '\n' : ''}`);
+  },
+
+  /**
+   * Increase indent
+   * @return {void}
+   */
+  indent() {
+    Log.indentation += '  ';
+  },
+
+  /**
+   * Decrease indentation
+   * @param {boolean} reset
+   * @return {void}
+   */
+  outdent(reset = false) {
+    if (reset) Log.indentation = '';
+    else Log.indentation = Log.indentation.replace(/ {2}$/, '');
   },
 
   /**

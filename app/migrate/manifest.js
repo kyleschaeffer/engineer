@@ -19,6 +19,7 @@ const Manifest = {
       utility.log.info('manifest.get', {}, false);
       pnp.sp.web.lists.getByTitle(config.sharepoint.lists.manifest).items.get().then((items) => {
         utility.log.success('success.done');
+        utility.log.outdent();
 
         // Save data
         items.forEach((item) => {
@@ -28,6 +29,7 @@ const Manifest = {
         resolve();
       }).catch(() => {
         utility.log.success('success.done');
+        utility.log.outdent();
         resolve();
       });
     });

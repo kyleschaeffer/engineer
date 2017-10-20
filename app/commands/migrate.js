@@ -102,9 +102,11 @@ module.exports = {
       else {
         const migration = this.queue.shift();
         utility.log.info('migrate.begin', { name: migration.name });
+        utility.log.indent();
         migration.migration.run().then(() => {
           // Update migration status
           status.update(migration.name, true).then(() => {
+            utility.log.outdent();
             // Migrate to
             if (this.migrateTo && this.migrateTo === migration.name) {
               this.stop = true;

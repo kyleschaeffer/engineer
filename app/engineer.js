@@ -15,7 +15,10 @@ const Engineer = {
    * @return {Promise}
    */
   load(path = 'env.js') {
-    const p = new Promise((resolve) => {
+    return new Promise((resolve) => {
+      utility.log.info('app.start');
+      utility.log.indent();
+
       // Load config file
       const options = utility.file.load(path);
 
@@ -29,7 +32,6 @@ const Engineer = {
       // Set up authentication
       utility.sharepoint.setup().then(resolve);
     });
-    return p;
   },
 };
 

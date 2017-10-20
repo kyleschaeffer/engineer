@@ -2,6 +2,7 @@ const _ = require('lodash');
 const bus = require('../bus');
 const config = require('../../config');
 const Task = require('../task');
+const utility = require('../../utility');
 
 /**
  * Field
@@ -62,7 +63,8 @@ class Field {
 
     // Update view
     bus.load(new Task((resolve) => {
-      this.get().update(options).then(resolve);
+      utility.log.info('field.update', { field: this.Title || this.Id });
+      this.get().update(options).then(resolve).catch(resolve);
     }));
   }
 
@@ -72,7 +74,8 @@ class Field {
    */
   delete() {
     bus.load(new Task((resolve) => {
-      this.get().delete().then(resolve);
+      utility.log.info('field.delete', { field: this.Title || this.Id });
+      this.get().delete().then(resolve).catch(resolve);
     }));
   }
 }

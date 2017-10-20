@@ -14,10 +14,9 @@ class Task {
    * @return {Promise}
    */
   run() {
-    const p = new Promise((resolve) => {
+    return new Promise((resolve) => {
       this.exec(resolve);
     });
-    return p;
   }
 }
 

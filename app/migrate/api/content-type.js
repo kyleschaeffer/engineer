@@ -3,6 +3,7 @@ const bus = require('../bus');
 const FieldLinks = require('./field-links');
 const manifest = require('../manifest');
 const Task = require('../task');
+const utility = require('../../utility');
 
 /**
  * Content type
@@ -53,7 +54,8 @@ class ContentType {
 
     // Update content type
     bus.load(new Task((resolve) => {
-      this.get().update(options).then(resolve);
+      utility.log.info('contentType.update', { contentType: this.Name || this.Id });
+      this.get().update(options).then(resolve).catch(resolve);
     }));
   }
 
@@ -63,7 +65,8 @@ class ContentType {
    */
   delete() {
     bus.load(new Task((resolve) => {
-      this.get().delete().then(resolve);
+      utility.log.info('contentType.delete', { contentType: this.Name || this.Id });
+      this.get().delete().then(resolve).catch(resolve);
     }));
   }
 }
