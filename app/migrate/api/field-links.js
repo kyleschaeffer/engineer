@@ -65,37 +65,46 @@ class FieldLinks {
 
       // Connect, then add content type to target
       utility.sharepoint.configureCsom(`${_.trim(config.env.site, '/')}/${_.trim(parents.web.Url, '/')}`).then(() => {
-        // Target web or list
-        let target = csom.web;
+        try {
+          // Target web or list
+          let target = csom.web;
 
-        // Target object
-        if (parents.list) target = parents.list.Title ? target.get_lists().getByTitle(parents.list.Title) : target.get_lists().getById(parents.list.Id);
+          // Target object
+          if (parents.list) target = parents.list.Title ? target.get_lists().getByTitle(parents.list.Title) : target.get_lists().getById(parents.list.Id);
 
-        // Get content type
-        const contentType = target.get_contentTypes().getById(this.$parent.id());
+          // Get content type
+          const contentType = target.get_contentTypes().getById(this.$parent.id());
 
-        // Get field
-        const field = target.get_fields().getByInternalNameOrTitle(fieldName);
+          // Get field
+          const field = target.get_fields().getByInternalNameOrTitle(fieldName);
 
-        // Add field link
-        const fieldLink = new SP.FieldLinkCreationInformation();
-        fieldLink.set_field(field);
-        const fieldLinks = contentType.get_fieldLinks();
-        fieldLinks.add(fieldLink);
-        contentType.update(true);
+          // Add field link
+          const fieldLink = new SP.FieldLinkCreationInformation();
+          fieldLink.set_field(field);
+          const fieldLinks = contentType.get_fieldLinks();
+          fieldLinks.add(fieldLink);
+          contentType.update(true);
 
-        // Commit
-        utility.log.info({
-          level: 2,
-          key: 'fieldLink.add',
-          tokens: { fieldName },
-        });
-        csom.ctx.executeQueryAsync(() => {
+          // Commit
+          utility.log.info({
+            level: 2,
+            key: 'fieldLink.add',
+            tokens: {
+              fieldName,
+              contentType: this.$parent.Name || this.$parent.Id,
+            },
+          });
+          csom.ctx.executeQueryAsync(() => {
+            resolve();
+          }, (sender, args) => {
+            utility.log.error({ content: args.get_message() });
+            resolve();
+          });
+        }
+        catch (e) {
+          utility.log.error({ content: e.message });
           resolve();
-        }, (sender, args) => {
-          utility.log.error({ content: args.get_message() });
-          resolve();
-        });
+        }
       });
     }));
   }
@@ -112,45 +121,54 @@ class FieldLinks {
 
       // Connect, then remove content type from target
       utility.sharepoint.configureCsom(`${_.trim(config.env.site, '/')}/${_.trim(parents.web.Url, '/')}`).then(() => {
-        // Target web or list
-        let target = csom.web;
+        try {
+          // Target web or list
+          let target = csom.web;
 
-        // Target object
-        if (parents.list) target = parents.list.Title ? target.get_lists().getByTitle(parents.list.Title) : target.get_lists().getById(parents.list.Id);
+          // Target object
+          if (parents.list) target = parents.list.Title ? target.get_lists().getByTitle(parents.list.Title) : target.get_lists().getById(parents.list.Id);
 
-        // Get content type
-        const contentType = target.get_contentTypes().getById(this.$parent.id());
+          // Get content type
+          const contentType = target.get_contentTypes().getById(this.$parent.id());
 
-        // Remove field link
-        const fieldLinks = contentType.get_fieldLinks();
-        csom.ctx.load(fieldLinks);
+          // Remove field link
+          const fieldLinks = contentType.get_fieldLinks();
+          csom.ctx.load(fieldLinks);
 
-        // Commit
-        utility.log.info({
-          level: 2,
-          key: 'fieldLink.remove',
-          tokens: { fieldName },
-        });
-        csom.ctx.executeQueryAsync(() => {
-          const allFieldLinks = fieldLinks.getEnumerator();
-          while (allFieldLinks.moveNext()) {
-            const fieldLink = allFieldLinks.get_current();
-            if (fieldLink.get_name() === fieldName) {
-              fieldLink.deleteObject();
-              break;
-            }
-          }
-          contentType.update(true);
+          // Commit
+          utility.log.info({
+            level: 2,
+            key: 'fieldLink.remove',
+            tokens: {
+              fieldName,
+              contentType: this.$parent.Name || this.$parent.Id,
+            },
+          });
           csom.ctx.executeQueryAsync(() => {
-            resolve();
+            const allFieldLinks = fieldLinks.getEnumerator();
+            while (allFieldLinks.moveNext()) {
+              const fieldLink = allFieldLinks.get_current();
+              if (fieldLink.get_name() === fieldName) {
+                fieldLink.deleteObject();
+                break;
+              }
+            }
+            contentType.update(true);
+            csom.ctx.executeQueryAsync(() => {
+              resolve();
+            }, (sender, args) => {
+              utility.log.error({ content: args.get_message() });
+              resolve();
+            });
           }, (sender, args) => {
             utility.log.error({ content: args.get_message() });
             resolve();
           });
-        }, (sender, args) => {
-          utility.log.error({ content: args.get_message() });
+        }
+        catch (e) {
+          utility.log.error({ content: e.message });
           resolve();
-        });
+        }
       });
     }));
   }

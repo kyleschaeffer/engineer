@@ -58,20 +58,20 @@ module.exports = {
     });
 
     // Lookup
-    // engineer.web.lists.getByTitle('TestColumnsList').fields.addXml(`
-    //   <Field
-    //     Type="Lookup"
-    //     Name="TestLookupField"
-    //     StaticName="TestLookupField"
-    //     DisplayName="TestLookupField"
-    //     Description="A test Lookup field"
-    //     Group="_Test Site Fields"
-    //     List="Lists/Pages"
-    //     ShowField="Title"
-    //     Required="FALSE"
-    //     SourceID="http://schemas.microsoft.com/sharepoint/v3">
-    //   </Field>
-    // `);
+    engineer.web.lists.getByTitle('TestColumnsList').fields.addXml(`
+      <Field
+        Type="Lookup"
+        Name="TestLookupField"
+        StaticName="TestLookupField"
+        DisplayName="TestLookupField"
+        Description="A test Lookup field"
+        Group="_Test Site Fields"
+        List="Lists/Pages"
+        ShowField="Title"
+        Required="FALSE"
+        SourceID="http://schemas.microsoft.com/sharepoint/v3">
+      </Field>
+    `);
 
     // MultiChoice
     engineer.web.lists.getByTitle('TestColumnsList').fields.add({
@@ -164,7 +164,7 @@ module.exports = {
     engineer.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestChoiceField').delete();
     engineer.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestCurrencyField').delete();
     engineer.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestDateTimeField').delete();
-    // engineer.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestLookupField').delete();
+    engineer.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestLookupField').delete();
     engineer.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestMultiChoiceField').delete();
     engineer.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestMultiLineTextField').delete();
     engineer.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestNumberField').delete();

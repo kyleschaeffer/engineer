@@ -7,6 +7,12 @@ const uuid = require('uuid/v4');
 
 const SharePoint = {
   /**
+   * Cached CSOM url
+   * @type {string}
+   */
+  csomUrl: null,
+
+  /**
    * Generate globally unique identifier (GUID)
    * @return {string}
    */
@@ -52,30 +58,36 @@ const SharePoint = {
    */
   configureCsom(url = null) {
     return new Promise((resolve) => {
+      // Already authenticated
+      if (url === SharePoint.csomUrl) resolve();
+
       // Configure CSOM authentication
-      csom.setLoaderOptions({
-        url: url || config.env.site,
-      });
-      const auth = new csom.AuthenticationContext(config.env.site);
-
-      // Set auth cookie
-      const authSave = (err, data) => {
-        csom.ctx = new SP.ClientContext(config.env.site);
-        auth.setAuthenticationCookie(csom.ctx);
-        csom.web = csom.ctx.get_web();
-        resolve();
-      };
-
-      // Authenticate
-      if (config.env.auth.username && config.env.auth.password) {
-        auth.acquireTokenForUser(config.env.auth.username, config.env.auth.password, authSave);
-      }
-      else if (config.env.auth.clientId && config.env.auth.clientSecret) {
-        auth.acquireTokenForApp(config.env.auth.clientId, config.env.auth.clientSecret, authSave);
-      }
       else {
-        log.warning({ key: 'auth.csom' });
-        resolve();
+        csom.setLoaderOptions({
+          url: url || config.env.site,
+        });
+        const auth = new csom.AuthenticationContext(config.env.site);
+
+        // Set auth cookie
+        const authSave = (err, data) => {
+          csom.ctx = new SP.ClientContext(config.env.site);
+          auth.setAuthenticationCookie(csom.ctx);
+          csom.web = csom.ctx.get_web();
+          SharePoint.csomUrl = url || config.env.site;
+          resolve();
+        };
+
+        // Authenticate
+        if (config.env.auth.username && config.env.auth.password) {
+          auth.acquireTokenForUser(config.env.auth.username, config.env.auth.password, authSave);
+        }
+        else if (config.env.auth.clientId && config.env.auth.clientSecret) {
+          auth.acquireTokenForApp(config.env.auth.clientId, config.env.auth.clientSecret, authSave);
+        }
+        else {
+          log.warning({ key: 'auth.csom' });
+          resolve();
+        }
       }
     });
   },

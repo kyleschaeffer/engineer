@@ -50,8 +50,8 @@ module.exports = {
   },
 
   fieldLink: {
-    add: 'Add field link **<%= fieldLink %>**',
-    remove: 'Remove field link **<%= fieldLink %>**',
+    add: 'Add field **<%= fieldName %>** to content type **<%= contentType %>**',
+    remove: 'Remove field **<%= fieldName %>** from content type **<%= contentType %>**',
   },
 
   guid: {

@@ -5,8 +5,10 @@ module.exports = {
    * Engineer tasks.
    */
   up(engineer) {
-    // Add list
-    engineer.web.lists.add('My List');
+    // Add lists
+    engineer.web.lists.add('TestList1');
+    engineer.web.lists.add('TestList2');
+    engineer.web.lists.add('TestList3');
   },
 
   /**
@@ -15,7 +17,9 @@ module.exports = {
    * Engineer tasks.
    */
   down(engineer) {
-    // Delete list
-    engineer.web.lists.getByTitle('My List').delete();
+    // Delete lists
+    engineer.web.lists.getByTitle('TestList1').delete();
+    engineer.web.lists.getByTitle('TestList2').delete();
+    engineer.web.lists.getByTitle('TestList3').delete();
   },
 };

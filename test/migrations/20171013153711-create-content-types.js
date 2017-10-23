@@ -5,7 +5,12 @@ module.exports = {
    * Engineer tasks.
    */
   up(engineer) {
-    // Create content type on web
+    // Create content type fields
+    engineer.web.fields.add('TestContentTypeField1');
+    engineer.web.fields.add('TestContentTypeField2');
+    engineer.web.fields.add('TestContentTypeField3');
+
+    // Create content type
     engineer.web.contentTypes.add({
       ParentContentTypeId: '0x01',
       Name: 'TestContentType',
@@ -13,19 +18,10 @@ module.exports = {
       Group: '_Test Content Types',
     });
 
-    // Add field
-    // engineer.web.contentTypes.getByName('TestContentType').fieldLinks.add('TestTextField');
-
-    // // Create content type on list
-    // engineer.web.lists.getByTitle('TestColumnsList').contentTypes.add({
-    //   ParentContentTypeId: '0x01',
-    //   Name: 'TestListContentType',
-    //   Description: 'A test list content type',
-    //   Group: '_Test Content Types',
-    // });
-    //
-    // // Add field
-    // engineer.web.lists.getByTitle('TestColumnsList').contentTypes.getByName('TestListContentType').fieldLinks.add('TestTextField');
+    // Add fields
+    engineer.web.contentTypes.getByName('TestContentType').fieldLinks.add('TestContentTypeField1');
+    engineer.web.contentTypes.getByName('TestContentType').fieldLinks.add('TestContentTypeField2');
+    engineer.web.contentTypes.getByName('TestContentType').fieldLinks.add('TestContentTypeField3');
   },
 
   /**
@@ -35,9 +31,16 @@ module.exports = {
    */
   down(engineer) {
     // Remove fields
-    // engineer.web.contentTypes.getByName('TestContentType').fieldLinks.remove('TestTextField');
+    engineer.web.contentTypes.getByName('TestContentType').fieldLinks.remove('TestContentTypeField1');
+    engineer.web.contentTypes.getByName('TestContentType').fieldLinks.remove('TestContentTypeField2');
+    engineer.web.contentTypes.getByName('TestContentType').fieldLinks.remove('TestContentTypeField3');
 
     // Delete content type
     engineer.web.contentTypes.getByName('TestContentType').delete();
+
+    // Delete content type fields
+    engineer.web.fields.getByTitle('TestContentTypeField1').delete();
+    engineer.web.fields.getByTitle('TestContentTypeField2').delete();
+    engineer.web.fields.getByTitle('TestContentTypeField3').delete();
   },
 };
