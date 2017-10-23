@@ -29,7 +29,7 @@ module.exports = {
         const name = `${file.replace(/\.js$/i, '')}`;
         rows.push([
           name,
-          status.history[name] && status.history[name].Migrated ? utility.log.translate('status.migrated').green : utility.log.translate('status.pending').yellow,
+          status.history[name] && status.history[name].Migrated ? utility.log.translate('status.migrated') : utility.log.translate('status.pending'),
         ]);
       });
 
