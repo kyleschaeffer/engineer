@@ -16,6 +16,12 @@ module.exports = {
   rollbackTo: null,
 
   /**
+   * Steps
+   * @type {Number}
+   */
+  step: null,
+
+  /**
    * Stop!
    * @type {boolean}
    */
@@ -52,6 +58,13 @@ module.exports = {
       files = [`${onlyFile}.js`];
     }
 
+    // Step
+    if (options.step) {
+      const steps = parseInt(options.step, 10);
+      if (!steps || steps < 1) utility.log.fail({ key: 'error.step' });
+      this.step = steps;
+    }
+
     // Get migration status
     status.get().then(() => {
       // Not installed
@@ -81,6 +94,9 @@ module.exports = {
           });
         }
       });
+
+      // Truncate when stepping
+      if (this.step) this.queue = this.queue.slice(this.queue.length - this.step);
 
       // Nothing to roll back
       if (!this.queue.length) {

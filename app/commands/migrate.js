@@ -16,6 +16,12 @@ module.exports = {
   migrateTo: null,
 
   /**
+   * Steps
+   * @type {Number}
+   */
+  step: null,
+
+  /**
    * Stop!
    * @type {boolean}
    */
@@ -52,6 +58,13 @@ module.exports = {
       files = [`${onlyFile}.js`];
     }
 
+    // Step
+    if (options.step) {
+      const steps = parseInt(options.step, 10);
+      if (!steps || steps < 1) utility.log.fail({ key: 'error.step' });
+      this.step = steps;
+    }
+
     // Get migration status
     status.get().then(() => {
       // Not installed
@@ -69,7 +82,7 @@ module.exports = {
         const name = `${file.replace(/\.js$/i, '')}`;
 
         // Not already migrated?
-        if (options.force || !status.history[name] || !status.history[name].Migrated) {
+        if ((options.force || !status.history[name] || !status.history[name].Migrated) && (!this.step || this.queue.length < this.step)) {
           // Load migration file
           const data = require(`${process.cwd()}/migrations/${file}`);
           const migration = new Migration(data);

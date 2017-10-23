@@ -36,6 +36,7 @@ module.exports = {
   error: {
     exists: '[c=yellow]already exists[/c]',
     message: '<%= code %> Error: <%= message %>',
+    step: 'Option **step** must be a valid positive number',
   },
 
   field: {
@@ -95,6 +96,7 @@ module.exports = {
     exist: 'Migration file does not exist: **<%= file %>**',
     force: 'Run migrations even if they\'re already migrated',
     only: 'Migrate only this file',
+    step: 'Migrate only this many files',
     to: 'Migrate up to this file, but don\'t run later migrations',
     upToDate: 'Migrations are already up to date.',
   },
@@ -106,6 +108,7 @@ module.exports = {
     empty: 'Nothing to roll back.',
     force: 'Roll back migrations even if they\'re already rolled back',
     only: 'Roll back only this file',
+    step: 'Roll back only this many files',
     to: 'Roll back all migrations after this file',
     upToDate: 'Migrations are already rolled back.',
   },
