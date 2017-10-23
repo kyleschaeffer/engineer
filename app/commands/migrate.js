@@ -85,7 +85,7 @@ module.exports = {
       // Nothing to migrate
       if (!this.queue.length) {
         utility.log.warning({
-          level: 2,
+          level: 3,
           key: 'migrate.upToDate',
         });
         utility.log.fail();
@@ -94,7 +94,7 @@ module.exports = {
       // Run migrations
       this.next().then(() => {
         utility.log.info({
-          level: 2,
+          level: 3,
           key: 'migrate.complete',
         });
       });
