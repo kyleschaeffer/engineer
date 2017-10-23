@@ -86,7 +86,11 @@ class Fields {
 
     // Add field
     bus.load(new Task((resolve) => {
-      utility.log.info('field.add', { field: options.Title });
+      utility.log.info({
+        level: 2,
+        key: 'field.add',
+        tokens: { field: options.Title },
+      });
       this.get().add(options.Title, Field.type(type), options).then(resolve).catch(resolve);
     }));
   }
@@ -98,7 +102,11 @@ class Fields {
   addXml(xml = '') {
     // Add field
     bus.load(new Task((resolve) => {
-      utility.log.info('field.add', { field: 'XmlSchema' });
+      utility.log.info({
+        level: 2,
+        key: 'field.add',
+        tokens: { field: 'XmlSchema' },
+      });
       this.get().createFieldAsXml(xml).then(resolve).catch(resolve);
     }));
   }

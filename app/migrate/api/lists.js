@@ -65,7 +65,11 @@ class Lists {
 
     // Add list
     bus.load(new Task((resolve) => {
-      utility.log.info('list.add', { list: options.Title });
+      utility.log.info({
+        level: 2,
+        key: 'list.add',
+        tokens: { list: options.Title },
+      });
       this.get().add(options.Title, options.Description, options.BaseTemplate, options.ContentTypesEnabled, options).then(resolve).catch(resolve);
     }));
   }

@@ -4,8 +4,6 @@
 module.exports = {
   app: {
     name: 'Engineer',
-    start: 'Starting up...',
-    string: '<%= string %>',
     welcome: `                  _
   ___ _ __   __ _(_)_ __   ___  ___ _ __
  / _ \\ '_ \\ / _\` | | '_ \\ / _ \\/ _ \\ '__|
@@ -19,81 +17,82 @@ module.exports = {
   },
 
   browse: {
-    begin: 'Opening: <%= path %>...',
+    begin: 'Opening **<%= path %>**...',
     description: 'Browse SharePoint site',
   },
 
   config: {
-    description: 'Path to configuration file if not using "env.js"',
-    failed: 'Failed to load config file: <%= path %>Use "engineer init" to create a new config file.',
-    using: `Using config file: ${'<%= path %>'.magenta}`,
+    description: 'Path to configuration file if not using **env.js**',
+    failed: 'Failed to load config file: **<%= path %>**\n[c=white]Use **engineer init** to create a new config file.[/c]',
+    using: 'Using config file: [c=cyan]<%= path %>[/c]',
   },
 
   contentType: {
-    add: 'Adding content type: <%= contentType %>',
-    delete: 'Deleting content type: <%= contentType %>',
-    update: 'Updating content type: <%= contentType %>',
+    add: 'Add content type **<%= contentType %>**',
+    delete: 'Delete content type **<%= contentType %>**',
+    update: 'Update content type **<%= contentType %>**',
   },
 
   error: {
-    exists: 'already exists.',
-    failed: 'failed.',
+    exists: '[c=yellow]already exists[/c]',
     message: '<%= code %> Error: <%= message %>',
   },
 
   field: {
-    add: 'Adding field: <%= field %>',
-    delete: 'Deleting field: <%= field %>',
-    update: 'Updating field: <%= field %>',
+    add: 'Add field **<%= field %>**',
+    delete: 'Delete field **<%= field %>**',
+    update: 'Update field **<%= field %>**',
   },
 
   fieldLink: {
-    add: 'Adding field link: <%= fieldLink %>',
-    remove: 'Removing field link: <%= fieldLink %>',
+    add: 'Add field link **<%= fieldLink %>**',
+    remove: 'Remove field link **<%= fieldLink %>**',
   },
 
   guid: {
-    complete: 'GUID generated and copied to your clipboard.',
+    complete: 'This GUID has been copied to your clipboard.',
     description: 'Generate a random GUID string',
     guid: 'GUID:',
   },
 
   init: {
-    description: 'Create "env.js" in the current directory',
-    env: 'Creating environment config file "env.js"...',
-    ignore: 'Creating ignore file ".gitignore"...',
+    begin: 'Initializing Engineer...',
+    complete: 'Use **engineer make <name>** to create your first migration.',
+    description: 'Create **env.js** in the current directory',
+    env: '+ **env.js**...',
+    ignore: '+ **.gitignore**...',
   },
 
   install: {
     already: 'Engineer is already installed.',
     begin: 'Installing Engineer...',
-    complete: 'Engineer installed.',
+    complete: '[c=green]Engineer installed.[/c]',
     description: 'Install Engineer tracking lists on SharePoint',
   },
 
   list: {
-    add: 'Adding list: <%= list %>',
-    delete: 'Deleting list: <%= list %>',
-    update: 'Updating list: <%= list %>',
+    add: 'Add list **<%= list %>**',
+    delete: 'Delete list **<%= list %>**',
+    update: 'Update list **<%= list %>**',
   },
 
   make: {
-    begin: 'Creating migration: <%= name %>...',
+    begin: 'Create migration **<%= name %>**...',
     description: 'Create a new migration file',
   },
 
   manifest: {
     get: 'Getting manifest...',
-    set: 'Updating manifest: <%= contentType %>...',
+    set: 'Updating manifest <%= contentType %>...',
   },
 
   migrate: {
-    begin: `Migrating: ${'<%= name %>'.cyan.bold}`,
-    complete: 'Migration complete.'.bold,
-    count: `${'Task #<%= current %>'.white.bold} of <%= total %>:`,
+    begin: 'Migrating **[c=cyan]<%= name %>[/c]**',
+    complete: '[c=green]Migration complete.[/c]',
+    count: '[c=gray][<%= current %>/<%= total %>][/c] ',
     description: 'Run pending migrations',
-    empty: 'Nothing to migrate. Use "engineer make <name>" to create a new migration.',
-    exist: 'Migration file does not exist: <%= file %>',
+    empty: 'Nothing to migrate. Use **engineer make <name>** to create a new migration.',
+    exist: 'Migration file does not exist: **<%= file %>**',
     force: 'Run migrations even if they\'re already migrated',
     only: 'Migrate only this file',
     to: 'Migrate up to this file, but don\'t run later migrations',
@@ -101,8 +100,8 @@ module.exports = {
   },
 
   rollback: {
-    begin: `Rolling back: ${'<%= name %>'.cyan.bold}`,
-    complete: 'Rollback complete.'.bold,
+    begin: 'Rolling back **[c=cyan]<%= name %>[/c]**',
+    complete: '[c=green]Rollback complete.[/c]',
     description: 'Roll back migrations',
     empty: 'Nothing to roll back.',
     force: 'Roll back migrations even if they\'re already rolled back',
@@ -117,36 +116,36 @@ module.exports = {
     migrated: 'Migrated',
     pending: 'Pending',
     set: 'Updating migration status...',
-    uninstalled: 'Engineer is not installed. Use "engineer install" to begin.',
+    uninstalled: 'Engineer is not installed. Use **engineer install** to begin.',
   },
 
   success: {
-    done: 'done.',
+    done: '[c=green]done[/c]',
   },
 
   uninstall: {
     already: 'Engineer is already uninstalled.',
     begin: 'Uninstalling Engineer...',
-    complete: 'Engineer uninstalled.',
+    complete: '[c=green]Engineer uninstalled.[/c]',
     description: 'Delete Engineer tracking lists from SharePoint',
   },
 
   view: {
-    add: 'Adding view: <%= view %>',
-    delete: 'Deleting view: <%= view %>',
-    update: 'Updating view: <%= view %>',
+    add: 'Add view **<%= view %>**',
+    delete: 'Delete view **<%= view %>**',
+    update: 'Update view **<%= view %>**',
   },
 
   viewField: {
-    add: 'Adding field to view: <%= view %>/<%= fieldName %>',
-    move: 'Moving field in view: <%= view %>/<%= fieldName %>',
-    remove: 'Removing field from view: <%= view %>/<%= fieldName %>',
-    removeAll: 'Removing all fields from view: <%= view %>',
+    add: 'Add field **<%= fieldName %>** to view **<%= view %>**',
+    move: 'Moving field **<%= fieldName %>** in view **<%= view %>**',
+    remove: 'Remove field **<%= fieldName %>** from view **<%= view %>**',
+    removeAll: 'Removing all fields from view **<%= view %>**',
   },
 
   web: {
-    add: 'Adding web: <%= web %>',
-    delete: 'Deleting web: <%= web %>',
-    update: 'Updating web: <%= web %>',
+    add: 'Add web **<%= web %>**',
+    delete: 'Delete web **<%= web %>**',
+    update: 'Update web **<%= web %>**e',
   },
 };

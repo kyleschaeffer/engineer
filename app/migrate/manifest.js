@@ -15,11 +15,18 @@ const Manifest = {
    */
   get() {
     const p = new Promise((resolve) => {
-      // Get data
-      utility.log.info('manifest.get', {}, false);
+      utility.log.info({
+        key: 'manifest.get',
+        nl: false,
+      });
+
+      // Suppress error logging
+      utility.log.suppress();
+
+      // Get manifest
       pnp.sp.web.lists.getByTitle(config.sharepoint.lists.manifest).items.get().then((items) => {
-        utility.log.success('success.done');
-        utility.log.outdent();
+        utility.log.restore();
+        utility.log.info({ key: 'success.done' });
 
         // Save data
         items.forEach((item) => {
@@ -28,8 +35,8 @@ const Manifest = {
 
         resolve();
       }).catch(() => {
-        utility.log.success('success.done');
-        utility.log.outdent();
+        utility.log.restore();
+        utility.log.info({ key: 'success.done' });
         resolve();
       });
     });
@@ -58,7 +65,11 @@ const Manifest = {
     const p = new Promise((resolve) => {
       // Get content type
       const contentType = Manifest.data[name];
-      // utility.log.info('manifest.set', { contentType: name }, false);
+      utility.log.info({
+        key: 'manifest.set',
+        tokens: { contentType: name },
+        nl: false,
+      });
 
       // Create new manifest
       if (!contentType) {
@@ -66,7 +77,7 @@ const Manifest = {
           Title: name,
           Value: id,
         }).then(() => {
-          // utility.log.success('success.done');
+          utility.log.info({ key: 'success.done' });
           Manifest.data[name] = {
             Title: name,
             Value: id,
@@ -80,7 +91,7 @@ const Manifest = {
         pnp.sp.web.lists.getByTitle(config.sharepoint.lists.manifest).items.getById(contentType.Id).update({
           Value: id,
         }).then(() => {
-          // utility.log.success('success.done');
+          utility.log.info({ key: 'success.done' });
           Manifest.data[name] = {
             Title: name,
             Value: id,

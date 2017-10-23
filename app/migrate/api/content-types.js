@@ -66,7 +66,11 @@ class ContentTypes {
 
     // Add content type
     bus.load(new Task((resolve) => {
-      utility.log.info('contentType.add', { contentType: options.Name });
+      utility.log.info({
+        level: 2,
+        key: 'contentType.add',
+        tokens: { contentType: options.Name },
+      });
       this.get().add(`${options.ParentContentTypeId}00${options.Id}`, options.Name, options.Description, options.Group).then(manifest.process).then(resolve).catch(resolve);
     }));
   }

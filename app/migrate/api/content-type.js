@@ -54,7 +54,11 @@ class ContentType {
 
     // Update content type
     bus.load(new Task((resolve) => {
-      utility.log.info('contentType.update', { contentType: this.Name || this.Id });
+      utility.log.info({
+        level: 2,
+        key: 'contentType.update',
+        tokens: { contentType: this.Name || this.Id },
+      });
       this.get().update(options).then(resolve).catch(resolve);
     }));
   }
@@ -65,7 +69,11 @@ class ContentType {
    */
   delete() {
     bus.load(new Task((resolve) => {
-      utility.log.info('contentType.delete', { contentType: this.Name || this.Id });
+      utility.log.info({
+        level: 2,
+        key: 'contentType.delete',
+        tokens: { contentType: this.Name || this.Id },
+      });
       this.get().delete().then(resolve).catch(resolve);
     }));
   }

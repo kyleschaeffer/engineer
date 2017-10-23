@@ -21,7 +21,8 @@ const SharePoint = {
   setup() {
     return new Promise((resolve) => {
       SharePoint.configurePnp();
-      SharePoint.configureCsom().then(resolve);
+      resolve();
+      // SharePoint.configureCsom().then(resolve);
     });
   },
 
@@ -73,7 +74,7 @@ const SharePoint = {
         auth.acquireTokenForApp(config.env.auth.clientId, config.env.auth.clientSecret, authSave);
       }
       else {
-        log.warning('auth.csom');
+        log.warning({ key: 'auth.csom' });
         resolve();
       }
     });

@@ -12,7 +12,10 @@ module.exports = {
 
     // No migrations
     if (!files || !files.length) {
-      utility.log.warning('migrate.empty');
+      utility.log.warning({
+        level: 3,
+        key: 'migrate.empty',
+      });
       utility.log.fail();
     }
 
@@ -34,7 +37,12 @@ module.exports = {
       utility.log.table(rows);
 
       // Not installed
-      if (!status.installed) utility.log.warning('status.uninstalled');
+      if (!status.installed) {
+        utility.log.warning({
+          level: 3,
+          key: 'status.uninstalled',
+        });
+      }
     });
   },
 };

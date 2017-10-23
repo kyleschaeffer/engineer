@@ -63,7 +63,11 @@ class Views {
 
     // Add view
     bus.load(new Task((resolve) => {
-      utility.log.info('view.add', { view: options.Title });
+      utility.log.info({
+        level: 2,
+        key: 'view.add',
+        tokens: { view: options.Title },
+      });
       this.get().add(options.Title, options.PersonalView, options).then(resolve).catch(resolve);
     }));
   }

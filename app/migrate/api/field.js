@@ -63,7 +63,11 @@ class Field {
 
     // Update view
     bus.load(new Task((resolve) => {
-      utility.log.info('field.update', { field: this.Title || this.Id });
+      utility.log.info({
+        level: 2,
+        key: 'field.update',
+        tokens: { field: this.Title || this.Id },
+      });
       this.get().update(options).then(resolve).catch(resolve);
     }));
   }
@@ -74,7 +78,11 @@ class Field {
    */
   delete() {
     bus.load(new Task((resolve) => {
-      utility.log.info('field.delete', { field: this.Title || this.Id });
+      utility.log.info({
+        level: 2,
+        key: 'field.delete',
+        tokens: { field: this.Title || this.Id },
+      });
       this.get().delete().then(resolve).catch(resolve);
     }));
   }

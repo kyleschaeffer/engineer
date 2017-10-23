@@ -52,7 +52,11 @@ class Web {
 
     // Update web
     bus.load(new Task((resolve) => {
-      utility.log.info('web.update', { web: this.Url });
+      utility.log.info({
+        level: 2,
+        key: 'web.update',
+        tokens: { web: this.Url },
+      });
       this.get().update(options).then(resolve).catch(resolve);
     }));
   }
@@ -63,7 +67,11 @@ class Web {
    */
   delete() {
     bus.load(new Task((resolve) => {
-      utility.log.info('web.delete', { web: this.Url });
+      utility.log.info({
+        level: 2,
+        key: 'web.delete',
+        tokens: { web: this.Url },
+      });
       this.get().delete().then(resolve).catch(resolve);
     }));
   }

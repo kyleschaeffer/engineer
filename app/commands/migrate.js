@@ -32,20 +32,23 @@ module.exports = {
 
     // No migrations
     if (!files || !files.length) {
-      utility.log.warning('migrate.empty');
+      utility.log.warning({
+        level: 3,
+        key: 'migrate.empty',
+      });
       utility.log.fail();
     }
 
     // Migrate to
     if (options.to) {
       this.migrateTo = utility.file.name(options.to, false);
-      if (!utility.file.exists(`migrations/${this.migrateTo}.js`)) utility.log.fail('migrate.exist', { file: this.migrateTo });
+      if (!utility.file.exists(`migrations/${this.migrateTo}.js`)) utility.log.fail({ key: 'migrate.exist', tokens: { file: this.migrateTo } });
     }
 
     // Only
     if (options.only) {
       const onlyFile = utility.file.name(options.only, false);
-      if (!utility.file.exists(`migrations/${onlyFile}.js`)) utility.log.fail('migrate.exist', { file: onlyFile });
+      if (!utility.file.exists(`migrations/${onlyFile}.js`)) utility.log.fail({ key: 'migrate.exist', tokens: { file: onlyFile } });
       files = [`${onlyFile}.js`];
     }
 
@@ -53,7 +56,10 @@ module.exports = {
     status.get().then(() => {
       // Not installed
       if (!status.installed) {
-        utility.log.warning('status.uninstalled');
+        utility.log.error({
+          level: 3,
+          key: 'status.uninstalled',
+        });
         utility.log.fail();
       }
 
@@ -78,13 +84,19 @@ module.exports = {
 
       // Nothing to migrate
       if (!this.queue.length) {
-        utility.log.warning('migrate.upToDate');
+        utility.log.warning({
+          level: 2,
+          key: 'migrate.upToDate',
+        });
         utility.log.fail();
       }
 
       // Run migrations
       this.next().then(() => {
-        utility.log.success('migrate.complete');
+        utility.log.info({
+          level: 2,
+          key: 'migrate.complete',
+        });
       });
     });
   },
@@ -101,7 +113,11 @@ module.exports = {
       // Run next migration
       else {
         const migration = this.queue.shift();
-        utility.log.info('migrate.begin', { name: migration.name });
+        utility.log.info({
+          level: 2,
+          key: 'migrate.begin',
+          tokens: { name: migration.name },
+        });
         utility.log.indent();
         migration.migration.run().then(() => {
           // Update migration status

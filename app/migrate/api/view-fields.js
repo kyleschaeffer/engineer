@@ -37,7 +37,11 @@ class ViewFields {
    */
   add(fieldName) {
     bus.load(new Task((resolve) => {
-      utility.log.info('viewField.add', { fieldName, view: this.$parent.Title || this.$parent.Id });
+      utility.log.info({
+        level: 2,
+        key: 'viewField.add',
+        tokens: { fieldName, view: this.$parent.Title || this.$parent.Id },
+      });
       this.get().add(fieldName).then(resolve).catch(resolve);
     }));
   }
@@ -49,7 +53,11 @@ class ViewFields {
    */
   remove(fieldName) {
     bus.load(new Task((resolve) => {
-      utility.log.info('viewField.remove', { fieldName, view: this.$parent.Title || this.$parent.Id });
+      utility.log.info({
+        level: 2,
+        key: 'viewField.remove',
+        tokens: { fieldName, view: this.$parent.Title || this.$parent.Id },
+      });
       this.get().remove(fieldName).then(resolve).catch(resolve);
     }));
   }
@@ -60,7 +68,11 @@ class ViewFields {
    */
   removeAll() {
     bus.load(new Task((resolve) => {
-      utility.log.info('viewField.removeAll', { view: this.$parent.Title || this.$parent.Id });
+      utility.log.info({
+        level: 2,
+        key: 'viewField.removeAll',
+        tokens: { view: this.$parent.Title || this.$parent.Id },
+      });
       this.get().removeAll().then(resolve).catch(resolve);
     }));
   }
@@ -73,7 +85,11 @@ class ViewFields {
    */
   move(fieldName, index) {
     bus.load(new Task((resolve) => {
-      utility.log.info('viewField.move', { fieldName, view: this.$parent.Title || this.$parent.Id });
+      utility.log.info({
+        level: 2,
+        key: 'viewField.move',
+        tokens: { fieldName, view: this.$parent.Title || this.$parent.Id },
+      });
       this.get().move(fieldName, index).then(resolve).catch(resolve);
     }));
   }

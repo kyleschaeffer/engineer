@@ -48,7 +48,11 @@ class Webs {
 
     // Add web
     bus.load(new Task((resolve) => {
-      utility.log.info('web.add', { web: options.Url });
+      utility.log.info({
+        level: 2,
+        key: 'web.add',
+        tokens: { web: options.Url },
+      });
       this.get().add(options.Title, options.Url, options.Description, options.WebTemplate, options.Language, options.UseSamePermissionsAsParentSite, options).then(resolve).catch(resolve);
     }));
   }

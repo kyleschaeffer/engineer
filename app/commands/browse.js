@@ -13,7 +13,11 @@ module.exports = {
     const path = `${config.env.site}${list ? `/Lists/${config.sharepoint.lists[list] ? config.sharepoint.lists[list] : list}` : ''}`;
 
     // Open
-    utility.log.info('browse.begin', { path });
+    utility.log.info({
+      level: 2,
+      key: 'browse.begin',
+      tokens: { path },
+    });
     open(path);
   },
 };

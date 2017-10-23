@@ -46,7 +46,11 @@ class View {
 
     // Update view
     bus.load(new Task((resolve) => {
-      utility.log.info('view.update', { view: this.Title || this.Id });
+      utility.log.info({
+        level: 2,
+        key: 'view.update',
+        tokens: { view: this.Title || this.Id },
+      });
       this.get().update(options).then(resolve).catch(resolve);
     }));
   }
@@ -57,7 +61,11 @@ class View {
    */
   delete() {
     bus.load(new Task((resolve) => {
-      utility.log.info('view.delete', { view: this.Title || this.Id });
+      utility.log.info({
+        level: 2,
+        key: 'view.delete',
+        tokens: { view: this.Title || this.Id },
+      });
       this.get().delete().then(resolve).catch(resolve);
     }));
   }

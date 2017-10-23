@@ -75,7 +75,15 @@ class Migration {
       // Run next task
       else {
         const task = this.queue[dir].shift();
-        utility.log.info('migrate.count', { current: this.queue.migrated + 1, total: this.queue.total });
+        utility.log.info({
+          level: 2,
+          key: 'migrate.count',
+          tokens: {
+            current: this.queue.migrated + 1,
+            total: this.queue.total,
+          },
+          nl: false,
+        });
         utility.log.indent();
         task.run().then(() => {
           utility.log.outdent();

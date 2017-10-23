@@ -10,7 +10,12 @@ module.exports = {
    */
   run(name = 'New Migration') {
     // Create migration
-    utility.log.info('make.begin', { name }, false);
+    utility.log.info({
+      level: 2,
+      key: 'make.begin',
+      tokens: { name },
+      nl: false,
+    });
 
     // Create migrations directory
     utility.file.mkdir('migrations');
@@ -20,6 +25,9 @@ module.exports = {
 
     // Write file from template
     utility.file.fromTemplate('migration.js', path);
-    utility.log.success('success.done');
+    utility.log.info({
+      level: 2,
+      key: 'success.done',
+    });
   },
 };

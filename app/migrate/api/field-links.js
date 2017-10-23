@@ -63,8 +63,8 @@ class FieldLinks {
       // Get parents
       const parents = this.getParents();
 
-      // Continue after parent resolution
-      const addContentType = () => {
+      // Connect, then add content type to target
+      utility.sharepoint.configureCsom(`${_.trim(config.env.site, '/')}/${_.trim(parents.web.Url, '/')}`).then(() => {
         // Target web or list
         let target = csom.web;
 
@@ -85,17 +85,18 @@ class FieldLinks {
         contentType.update(true);
 
         // Commit
-        utility.log.info('fieldLink.add', { fieldName });
+        utility.log.info({
+          level: 2,
+          key: 'fieldLink.add',
+          tokens: { fieldName },
+        });
         csom.ctx.executeQueryAsync(() => {
           resolve();
         }, (sender, args) => {
-          utility.log.error('app.string', { string: args.get_message() });
+          utility.log.error({ content: args.get_message() });
           resolve();
         });
-      };
-      // Target web
-      if (parents.web.Url !== '/') utility.configureCsom(`${_.trim(config.env.site, '/')}/${_.trim(parents.web.Url, '/')}`).then(addContentType);
-      else addContentType();
+      });
     }));
   }
 
@@ -109,8 +110,8 @@ class FieldLinks {
       // Get parents
       const parents = this.getParents();
 
-      // Continue after parent resolution
-      const addContentType = () => {
+      // Connect, then remove content type from target
+      utility.sharepoint.configureCsom(`${_.trim(config.env.site, '/')}/${_.trim(parents.web.Url, '/')}`).then(() => {
         // Target web or list
         let target = csom.web;
 
@@ -125,7 +126,11 @@ class FieldLinks {
         csom.ctx.load(fieldLinks);
 
         // Commit
-        utility.log.info('fieldLink.remove', { fieldName });
+        utility.log.info({
+          level: 2,
+          key: 'fieldLink.remove',
+          tokens: { fieldName },
+        });
         csom.ctx.executeQueryAsync(() => {
           const allFieldLinks = fieldLinks.getEnumerator();
           while (allFieldLinks.moveNext()) {
@@ -139,17 +144,14 @@ class FieldLinks {
           csom.ctx.executeQueryAsync(() => {
             resolve();
           }, (sender, args) => {
-            utility.log.error('app.string', { string: args.get_message() });
+            utility.log.error({ content: args.get_message() });
             resolve();
           });
         }, (sender, args) => {
-          utility.log.error('app.string', { string: args.get_message() });
+          utility.log.error({ content: args.get_message() });
           resolve();
         });
-      };
-      // Target web
-      if (parents.web.Url !== '/') utility.configureCsom(`${_.trim(config.env.site, '/')}/${_.trim(parents.web.Url, '/')}`).then(addContentType);
-      else addContentType();
+      });
     }));
   }
 }

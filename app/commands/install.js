@@ -12,7 +12,10 @@ module.exports = {
     status.get().then(() => {
       // Already installed
       if (status.installed) {
-        utility.log.warning('install.already');
+        utility.log.warning({
+          level: 3,
+          key: 'install.already',
+        });
         utility.log.fail();
       }
 
@@ -20,9 +23,17 @@ module.exports = {
       const install = new Migration(config.install);
 
       // Run
-      utility.log.info('install.begin', {});
+      utility.log.info({
+        level: 2,
+        key: 'install.begin',
+      });
+      utility.log.indent();
       install.run().then(() => {
-        utility.log.success('install.complete');
+        utility.log.outdent();
+        utility.log.info({
+          level: 3,
+          key: 'install.complete',
+        });
       });
     });
   },

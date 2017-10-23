@@ -32,20 +32,23 @@ module.exports = {
 
     // No migrations
     if (!files || !files.length) {
-      utility.log.warning('rollback.empty');
+      utility.log.warning({
+        level: 3,
+        key: 'rollback.empty',
+      });
       utility.log.fail();
     }
 
     // Roll back to
     if (options.to) {
       this.rollbackTo = utility.file.name(options.to, false);
-      if (!utility.file.exists(`migrations/${this.rollbackTo}.js`)) utility.log.fail('migrate.exist', { file: this.rollbackTo });
+      if (!utility.file.exists(`migrations/${this.rollbackTo}.js`)) utility.log.fail({ key: 'migrate.exist', tokens: { file: this.rollbackTo } });
     }
 
     // Only
     if (options.only) {
       const onlyFile = utility.file.name(options.only, false);
-      if (!utility.file.exists(`migrations/${onlyFile}.js`)) utility.log.fail('migrate.exist', { file: onlyFile });
+      if (!utility.file.exists(`migrations/${onlyFile}.js`)) utility.log.fail({ key: 'migrate.exist', tokens: { file: onlyFile } });
       files = [`${onlyFile}.js`];
     }
 
@@ -53,7 +56,10 @@ module.exports = {
     status.get().then(() => {
       // Not installed
       if (!status.installed) {
-        utility.log.warning('status.uninstalled');
+        utility.log.warning({
+          level: 3,
+          key: 'status.uninstalled',
+        });
         utility.log.fail();
       }
 
@@ -78,13 +84,19 @@ module.exports = {
 
       // Nothing to roll back
       if (!this.queue.length) {
-        utility.log.warning('rollback.upToDate');
+        utility.log.warning({
+          level: 2,
+          key: 'rollback.upToDate',
+        });
         utility.log.fail();
       }
 
       // Run rollbacks
       this.next().then(() => {
-        utility.log.success('rollback.complete');
+        utility.log.info({
+          level: 2,
+          key: 'rollback.complete',
+        });
       });
     });
   },
@@ -109,7 +121,11 @@ module.exports = {
         }
 
         else {
-          utility.log.info('rollback.begin', { name: migration.name });
+          utility.log.info({
+            level: 2,
+            key: 'rollback.begin',
+            tokens: { name: migration.name },
+          });
           utility.log.indent();
           migration.migration.run(true).then(() => {
             // Update migration status
