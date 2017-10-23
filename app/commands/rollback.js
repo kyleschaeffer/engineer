@@ -84,14 +84,22 @@ module.exports = {
         // Not already rolled back?
         if (options.force || (status.history[name] && status.history[name].Migrated)) {
           // Load migration file
-          const data = require(`${process.cwd()}/migrations/${file}`);
-          const migration = new Migration(data);
+          try {
+            const data = require(`${process.cwd()}/migrations/${file}`);
+            const migration = new Migration(data);
 
-          // Add to queue
-          this.queue.push({
-            name,
-            migration,
-          });
+            // Add to queue
+            this.queue.push({
+              name,
+              migration,
+            });
+          }
+          catch (e) {
+            utility.log.fail({
+              key: 'error.migrationFile',
+              tokens: { file, message: e.message },
+            });
+          }
         }
       });
 

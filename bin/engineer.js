@@ -9,12 +9,15 @@ const utility = require('../app/utility');
  * @return {Promise}
  */
 const config = () => new Promise((resolve) => {
-  engineer.load(program.config).then(resolve);
+  engineer.load(program).then(resolve);
 });
 
 // Program
 program.version('1.0.0')
-  .option('-c, --config <file>', utility.log.translate('config.description'));
+  .option('-c, --config <file>', utility.log.translate('config.description'))
+  .option('-q, --quiet', utility.log.translate('config.quiet'))
+  .option('-i, --info', utility.log.translate('config.info'))
+  .option('-v, --verbose', utility.log.translate('config.verbose'));
 
 // Browse SharePoint
 program.command('browse [list]')

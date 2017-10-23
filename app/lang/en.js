@@ -24,7 +24,10 @@ module.exports = {
   config: {
     description: 'Path to configuration file if not using **env.js**',
     failed: 'Failed to load config file: **<%= path %>**\n[c=white]Use **engineer init** to create a new config file.[/c]',
+    info: 'Run in information mode, with increased logging',
+    quiet: 'Run in quiet mode, silencing all output',
     using: 'Using config file: [c=cyan]<%= path %>[/c]',
+    verbose: 'Run in verbose mode, with maximum logging',
   },
 
   contentType: {
@@ -36,6 +39,7 @@ module.exports = {
   error: {
     exists: '[c=yellow]already exists[/c]',
     message: '<%= code %> Error: <%= message %>',
+    migrationFile: 'Error reading migration file **<%= file %>**: <%= message %>',
     step: 'Option **step** must be a valid positive number',
   },
 

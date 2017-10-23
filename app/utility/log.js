@@ -47,15 +47,14 @@ const Log = {
    * @return {void}
    */
   listener(entry) {
-    if (config.env.logLevel === 0) {
-      Log.dump(entry);
-    }
-
-    else if (entry.level) {
+    if (entry.level) {
       // Error
       if (entry.level === 3) {
-        if (entry.data && entry.data.responseBody) Log.error({ content: entry.data.responseBody['odata.error'].message.value });
-        else Log.error({ content: entry.message });
+        if (entry.data && entry.data.responseBody) {
+          Log.error({ content: entry.data.responseBody['odata.error'].message.value });
+          if (config.env.logLevel === 0) Log.dump(entry.data.responseBody['odata.error']);
+        }
+        else if (entry.message) Log.error({ content: entry.message });
         if (config.env.stopOnError) Log.fail();
       }
 
@@ -64,6 +63,9 @@ const Log = {
 
       // Info
       else Log.info({ content: entry.message });
+
+      // Dump entire entry in verbose mode
+      if (config.env.logLevel === 0) Log.dump(entry);
     }
   },
 
