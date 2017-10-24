@@ -62,7 +62,7 @@ const Manifest = {
    * @return {Promise}
    */
   save(name, id) {
-    const p = new Promise((resolve) => {
+    return new Promise((resolve) => {
       // Get content type
       const contentType = Manifest.data[name];
       utility.log.info({
@@ -100,7 +100,36 @@ const Manifest = {
         });
       }
     });
-    return p;
+  },
+
+  /**
+   * Delete entry from the manifest
+   * @param {string} name
+   * @return {Promise}
+   */
+  delete(name) {
+    return new Promise((resolve) => {
+      // Get content type
+      const contentType = Manifest.data[name];
+
+      // No manifest entry for content type
+      if (!contentType) resolve();
+
+      else {
+        utility.log.info({
+          key: 'manifest.delete',
+          tokens: { contentType: name },
+          nl: false,
+        });
+
+        // Delete from manifest
+        pnp.sp.web.lists.getByTitle(config.sharepoint.lists.manifest).items.getById(contentType.Id).delete().then(() => {
+          utility.log.info({ key: 'success.done' });
+          delete Manifest.data[name];
+          resolve();
+        });
+      }
+    });
   },
 };
 

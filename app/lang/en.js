@@ -90,6 +90,7 @@ module.exports = {
   },
 
   manifest: {
+    delete: 'Deleting manifest <%= contentType %>...',
     description: 'Show the content type ID manifest',
     empty: 'The manifest is empty',
     get: 'Getting manifest...',
