@@ -57,7 +57,10 @@ class ContentType {
       utility.log.info({
         level: 2,
         key: 'contentType.update',
-        tokens: { contentType: this.Name || this.Id },
+        tokens: {
+          contentType: this.Name || this.Id,
+          target: this.$parent.$parent.Title || this.$parent.$parent.Id || utility.sharepoint.url(this.$parent.$parent.Url),
+        },
       });
       this.get().update(options).then(resolve).catch(resolve);
     }));
@@ -72,7 +75,10 @@ class ContentType {
       utility.log.info({
         level: 2,
         key: 'contentType.delete',
-        tokens: { contentType: this.Name || this.Id },
+        tokens: {
+          contentType: this.Name || this.Id,
+          target: this.$parent.$parent.Title || this.$parent.$parent.Id || utility.sharepoint.url(this.$parent.$parent.Url),
+        },
       });
       this.get().delete().then(resolve).catch(resolve);
     }));

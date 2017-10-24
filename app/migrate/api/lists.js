@@ -50,6 +50,15 @@ class Lists {
   }
 
   /**
+   * Get list by name (getByTitle)
+   * @param {string} Name
+   * @return {List}
+   */
+  getByName(Name) {
+    return this.getByTitle(Name);
+  }
+
+  /**
    * Add list
    * @param {Object} params
    * @return {void}
@@ -68,7 +77,10 @@ class Lists {
       utility.log.info({
         level: 2,
         key: 'list.add',
-        tokens: { list: options.Title },
+        tokens: {
+          list: options.Title,
+          target: utility.sharepoint.url(this.$parent.Url),
+        },
       });
       this.get().add(options.Title, options.Description, options.BaseTemplate, options.ContentTypesEnabled, options).then(resolve).catch(resolve);
     }));

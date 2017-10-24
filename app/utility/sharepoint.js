@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const config = require('../config');
 const csom = require('csom-node');
 const log = require('./log');
@@ -18,6 +19,15 @@ const SharePoint = {
    */
   guid() {
     return uuid();
+  },
+
+  /**
+   * Generate pretty SharePoint URL
+   * @param {string} url
+   * @return {string}
+   */
+  url(url) {
+    return _.trim(`${_.trim(config.env.site, '/')}/${_.trim(url, '/')}`, '/');
   },
 
   /**
@@ -64,13 +74,13 @@ const SharePoint = {
       // Configure CSOM authentication
       else {
         csom.setLoaderOptions({
-          url: url || config.env.site,
+          url: url ? SharePoint.url(url) : config.env.site,
         });
         const auth = new csom.AuthenticationContext(config.env.site);
 
         // Set auth cookie
-        const authSave = (err, data) => {
-          csom.ctx = new SP.ClientContext(config.env.site);
+        const authSave = () => {
+          csom.ctx = new SP.ClientContext(config.env.site); // eslint-disable-line no-undef
           auth.setAuthenticationCookie(csom.ctx);
           csom.web = csom.ctx.get_web();
           SharePoint.csomUrl = url || config.env.site;
@@ -90,6 +100,28 @@ const SharePoint = {
         }
       }
     });
+  },
+
+  /**
+   * Get parent objects to help with CSOM targeting
+   * @param {Object} start
+   * @return {Object}
+   */
+  getParents(start) {
+    // Parent objects
+    const parents = {
+      web: start,
+      list: null,
+    };
+
+    // Iterate parents to find webs and lists
+    while (parents.web.$parent) {
+      parents.web = parents.web.$parent;
+      if (parents.web.constructor.name === 'List') parents.list = parents.web;
+      if (parents.web.constructor.name === 'Web') break;
+    }
+
+    return parents;
   },
 };
 

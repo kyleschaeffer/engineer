@@ -31,9 +31,12 @@ module.exports = {
   },
 
   contentType: {
-    add: 'Add content type **<%= contentType %>**',
-    delete: 'Delete content type **<%= contentType %>**',
-    update: 'Update content type **<%= contentType %>**',
+    add: 'Add content type **<%= contentType %>** to **<%= target %>**',
+    addAvailable: 'Add available content type **<%= contentType %>** to **<%= target %>**',
+    delete: 'Delete content type **<%= contentType %>** from **<%= target %>**',
+    noId: 'No manifest entry for content type **<%= contentType %>**',
+    order: 'Set content type order to **<%= contentTypes %>** on **<%= target %>**',
+    update: 'Update content type **<%= contentType %>** on **<%= target %>**',
   },
 
   error: {
@@ -44,9 +47,9 @@ module.exports = {
   },
 
   field: {
-    add: 'Add field **<%= field %>**',
-    delete: 'Delete field **<%= field %>**',
-    update: 'Update field **<%= field %>**',
+    add: 'Add field **<%= field %>** to **<%= target %>**',
+    delete: 'Delete field **<%= field %>** from **<%= target %>**',
+    update: 'Update field **<%= field %>** on **<%= target %>**',
   },
 
   fieldLink: {
@@ -76,9 +79,9 @@ module.exports = {
   },
 
   list: {
-    add: 'Add list **<%= list %>**',
-    delete: 'Delete list **<%= list %>**',
-    update: 'Update list **<%= list %>**',
+    add: 'Add list **<%= list %>** to **<%= target %>**',
+    delete: 'Delete list **<%= list %>** from **<%= target %>**',
+    update: 'Update list **<%= list %>** on **<%= target %>**',
   },
 
   make: {
@@ -144,15 +147,15 @@ module.exports = {
   },
 
   viewField: {
-    add: 'Add field **<%= fieldName %>** to view **<%= view %>**',
-    move: 'Moving field **<%= fieldName %>** in view **<%= view %>**',
-    remove: 'Remove field **<%= fieldName %>** from view **<%= view %>**',
-    removeAll: 'Removing all fields from view **<%= view %>**',
+    add: 'Add field **<%= fieldName %>** to view **<%= view %>** on **<%= target %>**',
+    move: 'Moving field **<%= fieldName %>** in view **<%= view %>** on **<%= target %>**',
+    remove: 'Remove field **<%= fieldName %>** from view **<%= view %>** on **<%= target %>**',
+    removeAll: 'Removing all fields from view **<%= view %>** on **<%= target %>**',
   },
 
   web: {
     add: 'Add web **<%= web %>**',
     delete: 'Delete web **<%= web %>**',
-    update: 'Update web **<%= web %>**e',
+    update: 'Update web **<%= web %>**',
   },
 };

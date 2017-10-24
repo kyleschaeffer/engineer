@@ -66,7 +66,10 @@ class Field {
       utility.log.info({
         level: 2,
         key: 'field.update',
-        tokens: { field: this.Title || this.Id },
+        tokens: {
+          field: this.Title || this.Id,
+          target: this.$parent.$parent.Title || this.$parent.$parent.Id || utility.sharepoint.url(this.$parent.$parent.Url),
+        },
       });
       this.get().update(options).then(resolve).catch(resolve);
     }));
@@ -81,7 +84,10 @@ class Field {
       utility.log.info({
         level: 2,
         key: 'field.delete',
-        tokens: { field: this.Title || this.Id },
+        tokens: {
+          field: this.Title || this.Id,
+          target: this.$parent.$parent.Title || this.$parent.$parent.Id || utility.sharepoint.url(this.$parent.$parent.Url),
+        },
       });
       this.get().delete().then(resolve).catch(resolve);
     }));

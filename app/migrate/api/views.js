@@ -50,6 +50,15 @@ class Views {
   }
 
   /**
+   * Get view by name (getByTitle)
+   * @param {string} Name
+   * @return {View}
+   */
+  getByName(Name) {
+    return this.getByTitle(Name);
+  }
+
+  /**
    * Add view
    * @param {Object} params
    * @return {void}

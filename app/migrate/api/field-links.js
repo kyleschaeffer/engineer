@@ -33,27 +33,6 @@ class FieldLinks {
   }
 
   /**
-   * Get parent objects to help with CSOM targeting
-   * @return {Object}
-   */
-  getParents() {
-    // Parent objects
-    const parents = {
-      web: this,
-      list: null,
-    };
-
-    // Iterate parents to find webs and lists
-    while (parents.web.$parent) {
-      parents.web = parents.web.$parent;
-      if (parents.web.constructor.name === 'List') parents.list = parents.web;
-      if (parents.web.constructor.name === 'Web') break;
-    }
-
-    return parents;
-  }
-
-  /**
    * Add field link to content type
    * @param {string} fieldName
    * @return {void}
@@ -61,10 +40,10 @@ class FieldLinks {
   add(fieldName) {
     bus.load(new Task((resolve) => {
       // Get parents
-      const parents = this.getParents();
+      const parents = utility.sharepoint.getParents(this);
 
       // Connect, then add content type to target
-      utility.sharepoint.configureCsom(`${_.trim(config.env.site, '/')}/${_.trim(parents.web.Url, '/')}`).then(() => {
+      utility.sharepoint.configureCsom(parents.web.Url).then(() => {
         try {
           // Target web or list
           let target = csom.web;
@@ -79,7 +58,7 @@ class FieldLinks {
           const field = target.get_fields().getByInternalNameOrTitle(fieldName);
 
           // Add field link
-          const fieldLink = new SP.FieldLinkCreationInformation();
+          const fieldLink = new SP.FieldLinkCreationInformation(); // eslint-disable-line no-undef
           fieldLink.set_field(field);
           const fieldLinks = contentType.get_fieldLinks();
           fieldLinks.add(fieldLink);
@@ -117,7 +96,7 @@ class FieldLinks {
   remove(fieldName) {
     bus.load(new Task((resolve) => {
       // Get parents
-      const parents = this.getParents();
+      const parents = utility.sharepoint.getParents(this);
 
       // Connect, then remove content type from target
       utility.sharepoint.configureCsom(`${_.trim(config.env.site, '/')}/${_.trim(parents.web.Url, '/')}`).then(() => {

@@ -40,7 +40,11 @@ class ViewFields {
       utility.log.info({
         level: 2,
         key: 'viewField.add',
-        tokens: { fieldName, view: this.$parent.Title || this.$parent.Id },
+        tokens: {
+          fieldName,
+          view: this.$parent.Title || this.$parent.Id,
+          target: this.$parent.$parent.Title || this.$parent.$parent.Id,
+        },
       });
       this.get().add(fieldName).then(resolve).catch(resolve);
     }));
@@ -56,7 +60,11 @@ class ViewFields {
       utility.log.info({
         level: 2,
         key: 'viewField.remove',
-        tokens: { fieldName, view: this.$parent.Title || this.$parent.Id },
+        tokens: {
+          fieldName,
+          view: this.$parent.Title || this.$parent.Id,
+          target: this.$parent.$parent.Title || this.$parent.$parent.Id,
+        },
       });
       this.get().remove(fieldName).then(resolve).catch(resolve);
     }));
@@ -71,7 +79,10 @@ class ViewFields {
       utility.log.info({
         level: 2,
         key: 'viewField.removeAll',
-        tokens: { view: this.$parent.Title || this.$parent.Id },
+        tokens: {
+          view: this.$parent.Title || this.$parent.Id,
+          target: this.$parent.$parent.Title || this.$parent.$parent.Id,
+        },
       });
       this.get().removeAll().then(resolve).catch(resolve);
     }));
@@ -88,7 +99,11 @@ class ViewFields {
       utility.log.info({
         level: 2,
         key: 'viewField.move',
-        tokens: { fieldName, view: this.$parent.Title || this.$parent.Id },
+        tokens: {
+          fieldName,
+          view: this.$parent.Title || this.$parent.Id,
+          target: this.$parent.$parent.Title || this.$parent.$parent.Id,
+        },
       });
       this.get().move(fieldName, index).then(resolve).catch(resolve);
     }));

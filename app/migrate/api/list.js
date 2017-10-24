@@ -53,7 +53,10 @@ class List {
       utility.log.info({
         level: 2,
         key: 'list.update',
-        tokens: { list: this.Title || this.Id },
+        tokens: {
+          list: this.Title || this.Id,
+          target: utility.sharepoint.url(this.$parent.$parent.Url),
+        },
       });
       this.get().update(options).then(resolve).catch(resolve);
     }));
@@ -68,7 +71,10 @@ class List {
       utility.log.info({
         level: 2,
         key: 'list.delete',
-        tokens: { list: this.Title || this.Id },
+        tokens: {
+          list: this.Title || this.Id,
+          target: utility.sharepoint.url(this.$parent.$parent.Url),
+        },
       });
       this.get().delete().then(resolve).catch(resolve);
     }));

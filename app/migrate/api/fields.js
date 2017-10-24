@@ -50,6 +50,15 @@ class Fields {
   }
 
   /**
+   * Get field by name (getByTitle)
+   * @param {string} Name
+   * @return {Field}
+   */
+  getByName(Name) {
+    return this.getByTitle(Name);
+  }
+
+  /**
    * Add field
    * @param {Object} params
    * @return {void}
@@ -89,7 +98,10 @@ class Fields {
       utility.log.info({
         level: 2,
         key: 'field.add',
-        tokens: { field: options.Title },
+        tokens: {
+          field: options.Title,
+          target: this.$parent.Title || this.$parent.Id || utility.sharepoint.url(this.$parent.Url),
+        },
       });
       this.get().add(options.Title, Field.type(type), options).then(resolve).catch(resolve);
     }));
@@ -105,7 +117,10 @@ class Fields {
       utility.log.info({
         level: 2,
         key: 'field.add',
-        tokens: { field: 'XmlSchema' },
+        tokens: {
+          field: '<XmlSchema>',
+          target: this.$parent.Title || this.$parent.Id || utility.sharepoint.url(this.$parent.Url),
+        },
       });
       this.get().createFieldAsXml(xml).then(resolve).catch(resolve);
     }));
