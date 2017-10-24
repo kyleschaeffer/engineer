@@ -80,7 +80,10 @@ class ContentType {
           target: this.$parent.$parent.Title || this.$parent.$parent.Id || utility.sharepoint.url(this.$parent.$parent.Url),
         },
       });
-      this.get().delete().then(manifest.delete(this.Name)).then(resolve).catch(resolve);
+      this.get().delete().then(() => {
+        if (this.$parent.$parent.constructor.name === 'Web') manifest.delete(this.Name).then(resolve);
+        else resolve();
+      }).catch(resolve);
     }));
   }
 }

@@ -99,7 +99,7 @@ class FieldLinks {
       const parents = utility.sharepoint.getParents(this);
 
       // Connect, then remove content type from target
-      utility.sharepoint.configureCsom(`${_.trim(config.env.site, '/')}/${_.trim(parents.web.Url, '/')}`).then(() => {
+      utility.sharepoint.configureCsom(parents.web.Url).then(() => {
         try {
           // Target web or list
           let target = csom.web;
