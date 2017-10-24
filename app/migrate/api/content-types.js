@@ -100,17 +100,6 @@ class ContentTypes {
       Name: '',
     }, typeof params === 'object' ? params : { Name: params });
 
-    // Get content type ID from manifest
-    if (!options.Id && manifest.data[options.Name]) options.Id = manifest.data[options.Name].Value;
-
-    // No Id
-    if (!options.Id && options.Name) {
-      utility.log.warning({
-        key: 'contentType.noId',
-        tokens: { contentType: options.Name },
-      });
-    }
-
     // Add content type
     bus.load(new Task((resolve) => {
       utility.log.info({
@@ -121,6 +110,19 @@ class ContentTypes {
           target: this.$parent.Title || this.$parent.Id || utility.sharepoint.url(this.$parent.Url),
         },
       });
+
+      // Get content type ID from manifest
+      if (!options.Id && manifest.data[options.Name]) options.Id = manifest.data[options.Name].Value;
+
+      // No Id
+      if (!options.Id && options.Name) {
+        utility.log.warning({
+          key: 'contentType.noId',
+          tokens: { contentType: options.Name },
+        });
+      }
+
+      // Add content type
       this.get().addAvailableContentType(options.Id).then(resolve).catch(resolve);
     }));
   }
@@ -131,17 +133,16 @@ class ContentTypes {
    * @return {void}
    */
   order(contentTypes = []) {
-    // Content type order
-    const contentTypeIds = [];
-
-    // Get content type IDs from manifest
-    (typeof contentTypes === 'string' ? [contentTypes] : contentTypes).forEach((contentType) => {
-      if (contentType.indexOf('0x01') === -1 && manifest.data[contentType]) contentTypeIds.push(manifest.data[contentType].Value);
-      else contentTypeIds.push(contentType);
-    });
-
-    // Reorder content types
     bus.load(new Task((resolve) => {
+      // Content type order
+      const contentTypeIds = [];
+
+      // Get content type IDs from manifest
+      (typeof contentTypes === 'string' ? [contentTypes] : contentTypes).forEach((contentType) => {
+        if (contentType.indexOf('0x01') === -1 && manifest.data[contentType]) contentTypeIds.push(manifest.data[contentType].Value);
+        else contentTypeIds.push(contentType);
+      });
+
       // Get parents
       const parents = utility.sharepoint.getParents(this);
 
