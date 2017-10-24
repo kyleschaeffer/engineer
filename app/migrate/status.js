@@ -43,9 +43,12 @@ const Status = {
 
         // Get manifest data
         manifest.get().then(resolve);
-      }).catch(() => {
+      }).catch((response) => {
         utility.log.restore();
         utility.log.info({ key: 'success.done' });
+
+        // Check for authentication
+        utility.log.authCheck(response);
 
         // Get manifest data
         manifest.get().then(resolve);

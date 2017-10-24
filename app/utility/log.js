@@ -220,6 +220,21 @@ const Log = {
     });
     return Log.dump(table.toString());
   },
+
+  /**
+   * Fail if not authenticated
+   * @param {string} response
+   * @return {void}
+   */
+  authCheck(response) {
+    if (response && response.message && response.name === 'Error') {
+      const code = response.message.match(/<S:Subcode>\s*<S:Value.*?>(.*)<\/S:Value>\s*<\/S:Subcode>/)[1];
+      const title = response.message.match(/<S:Text.*?>(.*)<\/S:Text>/)[1];
+      const message = response.message.match(/<psf:text>(.*)<\/psf:text>/)[1];
+      Log.error({ content: `${title}: ${message}` });
+      if (code === 'wst:FailedAuthentication') Log.fail();
+    }
+  },
 };
 
 module.exports = Log;
