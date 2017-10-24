@@ -54,6 +54,13 @@ program.command('make <name>')
     config().then(engineer.commands.make.run(name));
   });
 
+// Manifest
+program.command('manifest')
+  .description(utility.log.translate('manifest.description'))
+  .action(() => {
+    config().then(engineer.commands.manifest.run());
+  });
+
 // Migrate
 program.command('migrate')
   .description(utility.log.translate('migrate.description'))

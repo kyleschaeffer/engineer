@@ -90,6 +90,8 @@ module.exports = {
   },
 
   manifest: {
+    description: 'Show the content type ID manifest',
+    empty: 'The manifest is empty',
     get: 'Getting manifest...',
     set: 'Updating manifest <%= contentType %>...',
   },
