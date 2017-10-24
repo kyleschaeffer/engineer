@@ -6,7 +6,7 @@ module.exports = {
    */
   up(engineer) {
     // HTML field
-    engineer.field.fromSchema(`
+    engineer.web.fields.addXml(`
       <Field
         Type="HTML"
         Name="TestHTMLField"
@@ -22,7 +22,7 @@ module.exports = {
     `);
 
     // Image field
-    engineer.field.fromSchema(`
+    engineer.web.fields.addXml(`
       <Field
         Type="Image"
         Name="TestImageField"
@@ -38,7 +38,7 @@ module.exports = {
     `);
 
     // Link field
-    engineer.field.fromSchema(`
+    engineer.web.fields.addXml(`
       <Field
         Type="Link"
         Name="TestLinkField"
@@ -54,7 +54,7 @@ module.exports = {
     `);
 
     // SummaryLinks field
-    engineer.field.fromSchema(`
+    engineer.web.fields.addXml(`
       <Field
         Type="SummaryLinks"
         Name="TestSummaryLinksField"
@@ -77,9 +77,9 @@ module.exports = {
    */
   down(engineer) {
     // Delete fields
-    engineer.field.delete('TestHTMLField');
-    engineer.field.delete('TestImageField');
-    engineer.field.delete('TestLinkField');
-    engineer.field.delete('TestSummaryLinksField');
+    engineer.web.fields.getByTitle('TestHTMLField').delete();
+    engineer.web.fields.getByTitle('TestImageField').delete();
+    engineer.web.fields.getByTitle('TestLinkField').delete();
+    engineer.web.fields.getByTitle('TestSummaryLinksField').delete();
   },
 };

@@ -11,62 +11,80 @@ module.exports = {
 
   /**
    * Roll back to this file name
-   * @type {String}
+   * @type {string}
    */
   rollbackTo: null,
 
   /**
+   * Steps
+   * @type {Number}
+   */
+  step: null,
+
+  /**
    * Stop!
-   * @type {Boolean}
+   * @type {boolean}
    */
   stop: false,
 
   /**
    * Run pending rollbacks
-   * @param  {Object}  options
-   * @return {Promise}
+   * @param {Object} options
+   * @return {void}
    */
   run(options) {
-    // Promise
-    const p = new Promise((resolve) => {
-      // Get migration files
-      let files = utility.file.readDir('migrations');
+    // Get migration files
+    let files = utility.file.readDir('migrations');
 
-      // No migrations
-      if (!files || !files.length) {
-        utility.log.warning('rollback.empty');
-        utility.error.fail();
+    // No migrations
+    if (!files || !files.length) {
+      utility.log.warning({
+        level: 3,
+        key: 'rollback.empty',
+      });
+      utility.log.fail();
+    }
+
+    // Roll back to
+    if (options.to) {
+      this.rollbackTo = utility.file.name(options.to, false);
+      if (!utility.file.exists(`migrations/${this.rollbackTo}.js`)) utility.log.fail({ key: 'migrate.exist', tokens: { file: this.rollbackTo } });
+    }
+
+    // Only
+    if (options.only) {
+      const onlyFile = utility.file.name(options.only, false);
+      if (!utility.file.exists(`migrations/${onlyFile}.js`)) utility.log.fail({ key: 'migrate.exist', tokens: { file: onlyFile } });
+      files = [`${onlyFile}.js`];
+    }
+
+    // Step
+    if (options.step) {
+      const steps = parseInt(options.step, 10);
+      if (!steps || steps < 1) utility.log.fail({ key: 'error.step' });
+      this.step = steps;
+    }
+
+    // Get migration status
+    status.get().then(() => {
+      // Not installed
+      if (!status.installed) {
+        utility.log.warning({
+          level: 3,
+          key: 'status.uninstalled',
+        });
+        utility.log.fail();
       }
 
-      // Roll back to
-      if (options.to) {
-        this.rollbackTo = utility.file.name(options.to, false);
-        if (!utility.file.exists(`migrations/${this.rollbackTo}.js`)) utility.error.fail('migrate.exist', { file: this.rollbackTo });
-      }
+      // Queue rollbacks
+      files.forEach((file) => {
+        // Get migration name
+        const name = `${file.replace(/\.js$/i, '')}`;
 
-      // Only
-      if (options.only) {
-        const onlyFile = utility.file.name(options.only, false);
-        if (!utility.file.exists(`migrations/${onlyFile}.js`)) utility.error.fail('migrate.exist', { file: onlyFile });
-        files = [`${onlyFile}.js`];
-      }
-
-      // Get migration status
-      status.get().then(() => {
-        // Not installed
-        if (!status.installed) {
-          utility.log.warning('status.uninstalled');
-          utility.error.fail();
-        }
-
-        // Queue rollbacks
-        files.forEach((file) => {
-          // Get migration name
-          const name = `${file.replace(/\.js$/i, '')}`;
-
-          // Not already rolled back?
-          if (options.force || (status.history[name] && status.history[name].migrated)) {
-            // Load migration file
+        // Not already rolled back?
+        if (options.force || (status.history[name] && status.history[name].Migrated)) {
+          // Load migration file
+          try {
             const data = require(`${process.cwd()}/migrations/${file}`);
             const migration = new Migration(data);
 
@@ -76,22 +94,35 @@ module.exports = {
               migration,
             });
           }
-        });
-
-        // Nothing to roll back
-        if (!this.queue.length) {
-          utility.log.warning('rollback.upToDate');
-          utility.error.fail();
+          catch (e) {
+            utility.log.fail({
+              key: 'error.migrationFile',
+              tokens: { file, message: e.message },
+            });
+          }
         }
+      });
 
-        // Run rollbacks
-        this.next().then(() => {
-          utility.log.success('rollback.complete');
-          resolve();
+      // Truncate when stepping
+      if (this.step) this.queue = this.queue.slice(this.queue.length - this.step);
+
+      // Nothing to roll back
+      if (!this.queue.length) {
+        utility.log.warning({
+          level: 3,
+          key: 'rollback.upToDate',
+        });
+        utility.log.fail();
+      }
+
+      // Run rollbacks
+      this.next().then(() => {
+        utility.log.info({
+          level: 3,
+          key: 'rollback.complete',
         });
       });
     });
-    return p;
   },
 
   /**
@@ -114,10 +145,17 @@ module.exports = {
         }
 
         else {
-          utility.log.info('rollback.begin', { name: migration.name });
+          utility.log.info({
+            level: 2,
+            key: 'rollback.begin',
+            tokens: { name: migration.name },
+          });
+          utility.log.indent();
           migration.migration.run(true).then(() => {
             // Update migration status
             status.update(migration.name, false).then(() => {
+              utility.log.outdent();
+
               // Next
               this.next().then(() => {
                 resolve();

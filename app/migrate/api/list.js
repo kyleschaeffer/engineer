@@ -1,134 +1,84 @@
-const amp = require('amp-utils');
+const _ = require('lodash');
 const bus = require('../bus');
-const sharepoint = require('../../sharepoint');
+const ContentTypes = require('./content-types');
+const Fields = require('./fields');
 const Task = require('../task');
 const utility = require('../../utility');
+const Views = require('./views');
 
 /**
- * List resource methods
- * https://msdn.microsoft.com/en-us/library/dn531433.aspx?f=255&MSPPError=-2147217396#List resource
+ * List
+ * @type {List}
  */
-module.exports = {
+class List {
   /**
-   * Create new list
-   * @param  {Object} params
-   * @return {void}
+   * Constructor
+   * @param {Object} params
+   * @return {List}
    */
-  create(params = {}) {
-    // Options
-    const options = amp.options({
-      list: {
-        __metadata: {
-          type: 'SP.List',
-        },
-        AllowContentTypes: true,
-        BaseTemplate: 100,
-        ContentTypesEnabled: true,
-        Description: '',
-        Title: '',
-      },
-      onError: utility.error.failed,
-      onStart: () => {
-        utility.log.info('list.create', { list: options.list.Title });
-      },
-      onSuccess: utility.error.success,
-      site: bus.site,
+  constructor(params = {}) {
+    // Properties
+    _.merge(this, {
+      $parent: null,
+      contentTypes: new ContentTypes({ $parent: this }),
+      fields: new Fields({ $parent: this }),
+      views: new Views({ $parent: this }),
+      Id: null,
+      Title: null,
     }, params);
 
-    // Override: list.Title
-    if (typeof params === 'string') options.list.Title = params;
+    return this;
+  }
 
-    // Task
-    const task = new Task((resolve) => {
-      sharepoint.request.post({
-        body: options.list,
-        onError: options.onError,
-        onStart: options.onStart,
-        onSuccess: options.onSuccess,
-        site: options.site,
-        uri: '_api/web/lists',
-      }).then((response) => {
-        resolve(response);
-      });
-    });
-    bus.load(task);
-  },
+  /**
+   * Get list by ID or title
+   * @return {pnp.List}
+   */
+  get() {
+    if (this.Id) return this.$parent.get().getById(this.Id);
+    return this.$parent.get().getByTitle(this.Title);
+  }
 
   /**
    * Update list
-   * @param  {Object} params
+   * @param {Object} params
    * @return {void}
    */
   update(params = {}) {
     // Options
-    const options = amp.options({
-      id: null,
-      list: {
-        __metadata: {
-          type: 'SP.List',
+    const options = _.merge({}, params);
+
+    // Update list
+    bus.load(new Task((resolve) => {
+      utility.log.info({
+        level: 2,
+        key: 'list.update',
+        tokens: {
+          list: this.Title || this.Id,
+          target: utility.sharepoint.url(this.$parent.$parent.Url),
         },
-      },
-      onError: utility.error.failed,
-      onStart: () => {
-        utility.log.info('list.update', { list: options.id || options.title });
-      },
-      onSuccess: utility.error.success,
-      site: bus.site,
-      title: '',
-    }, params);
-
-    // Override: title
-    if (typeof params === 'string') options.title = params;
-
-    // Task
-    const task = new Task((resolve) => {
-      sharepoint.request.update({
-        body: options.list,
-        onError: options.onError,
-        onStart: options.onStart,
-        onSuccess: options.onSuccess,
-        site: options.site,
-        uri: `_api/web/lists${options.id ? `(guid'${options.id}')` : `/getbytitle('${options.title}')`}`,
-      }).then((response) => {
-        resolve(response);
       });
-    });
-    bus.load(task);
-  },
+      this.get().update(options).then(resolve).catch(resolve);
+    }));
+  }
 
   /**
-   * Delete a list
-   * @param  {Object} params
+   * Delete list
    * @return {void}
    */
-  delete(params = {}) {
-    // Options
-    const options = amp.options({
-      id: null,
-      onError: utility.error.failed,
-      onStart: () => {
-        utility.log.info('list.delete', { list: options.id || options.title });
-      },
-      onSuccess: utility.error.success,
-      site: bus.site,
-      title: '',
-    }, params);
-
-    // Override: title
-    if (typeof params === 'string') options.title = params;
-
-    // Task
-    const task = new Task((resolve) => {
-      sharepoint.request.delete({
-        onError: options.onError,
-        onStart: options.onStart,
-        onSuccess: options.onSuccess,
-        site: options.site,
-        uri: `_api/web/lists${options.id ? `(guid'${options.id}')` : `/getbytitle('${options.title}')`}`,
-      }).then((response) => {
-        resolve(response);
+  delete() {
+    bus.load(new Task((resolve) => {
+      utility.log.info({
+        level: 2,
+        key: 'list.delete',
+        tokens: {
+          list: this.Title || this.Id,
+          target: utility.sharepoint.url(this.$parent.$parent.Url),
+        },
       });
-    });
-    bus.load(task);
-  },
-};
+      this.get().delete().then(resolve).catch(resolve);
+    }));
+  }
+}
+
+module.exports = List;

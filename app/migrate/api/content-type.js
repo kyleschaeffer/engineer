@@ -1,59 +1,50 @@
 const _ = require('lodash');
 const bus = require('../bus');
-const config = require('../../config');
+const FieldLinks = require('./field-links');
+const manifest = require('../manifest');
 const Task = require('../task');
 const utility = require('../../utility');
 
 /**
- * Field
- * @type {Field}
+ * Content type
+ * @type {ContentType}
  */
-class Field {
+class ContentType {
   /**
    * Constructor
    * @param {Object} params
-   * @return {Field}
+   * @return {ContentType}
    */
   constructor(params = {}) {
     // Properties
     _.merge(this, {
       $parent: null,
+      fieldLinks: new FieldLinks({ $parent: this }),
       Id: null,
-      Title: null,
+      Name: null,
     }, params);
 
     return this;
   }
 
   /**
-   * Get FieldTypeKind value
-   * @param {string} type
-   * @return {number}
-   */
-  static kind(type) {
-    return config.sharepoint.fields[type] || 2;
-  }
-
-  /**
-   * Get SharePoint field type value
-   * @param {string} type
+   * Get most up-to-date content type ID from manifest
    * @return {string}
    */
-  static type(type) {
-    return `SP.${config.sharepoint.fieldTypeExceptions[type] || `Field${type}`}`;
+  id() {
+    return this.Name && manifest.data[this.Name] ? manifest.data[this.Name].Value : this.Id;
   }
 
   /**
-   * Get field by ID or title
-   * @return {pnp.Field}
+   * Get content type
+   * @return {pnp.ContentType}
    */
   get() {
-    if (this.Id) return this.$parent.get().getById(this.Id);
-    return this.$parent.get().getByInternalNameOrTitle(this.Title);
+    return this.$parent.get().getById(this.id());
   }
 
   /**
-   * Update field
+   * Update content type
    * @param {Object} params
    * @return {void}
    */
@@ -61,13 +52,13 @@ class Field {
     // Options
     const options = _.merge({}, params);
 
-    // Update view
+    // Update content type
     bus.load(new Task((resolve) => {
       utility.log.info({
         level: 2,
-        key: 'field.update',
+        key: 'contentType.update',
         tokens: {
-          field: this.Title || this.Id,
+          contentType: this.Name || this.Id,
           target: this.$parent.$parent.Title || this.$parent.$parent.Id || utility.sharepoint.url(this.$parent.$parent.Url),
         },
       });
@@ -76,16 +67,16 @@ class Field {
   }
 
   /**
-   * Delete field
+   * Delete content type
    * @return {void}
    */
   delete() {
     bus.load(new Task((resolve) => {
       utility.log.info({
         level: 2,
-        key: 'field.delete',
+        key: 'contentType.delete',
         tokens: {
-          field: this.Title || this.Id,
+          contentType: this.Name || this.Id,
           target: this.$parent.$parent.Title || this.$parent.$parent.Id || utility.sharepoint.url(this.$parent.$parent.Url),
         },
       });
@@ -94,4 +85,4 @@ class Field {
   }
 }
 
-module.exports = Field;
+module.exports = ContentType;

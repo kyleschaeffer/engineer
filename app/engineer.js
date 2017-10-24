@@ -1,30 +1,48 @@
-const amp = require('amp-utils');
+const _ = require('lodash');
 const commands = require('./commands');
 const config = require('./config');
 const utility = require('./utility');
 
-module.exports = {
+const Engineer = {
+  /**
+   * Engineer commands
+   */
   commands,
 
   /**
    * Load configuration from file
-   * @param  {String} path
-   * @return {void}
+   * @param {Object} program
+   * @return {Promise}
    */
-  load(path = './env.js') {
-    // Welcome
-    // utility.log.important('app.welcome');
+  load(program) {
+    return new Promise((resolve) => {
+      // Config file
+      const path = program.config || 'env.js';
+      const options = utility.file.load(path);
 
-    // Load config file
-    const options = amp.options({}, utility.file.load(path));
+      // No config
+      if (!options || !options.site) utility.log.fail({ key: 'config.failed', tokens: { path: utility.file.path(path) } });
 
-    // No config
-    if (!options.site) utility.error.fail('error.config', { path: utility.file.path(path) });
+      // Configure
+      utility.log.info({
+        key: 'config.using',
+        tokens: { path: utility.file.path(path) },
+      });
+      _.merge(config.env, options);
 
-    // Configure
-    utility.log.important('config.using', { path: utility.file.path(path) });
-    if (options.auth) config.env.auth = amp.options(config.env.auth, options.auth);
-    if (options.lang) config.env.lang = options.lang;
-    if (options.site) config.env.site = amp.string.trimSlashes(options.site);
+      // Quiet mode
+      if (program.quiet) config.env.logLevel = 99;
+
+      // Info mode
+      if (program.info) config.env.logLevel = 1;
+
+      // Verbose mode
+      if (program.verbose) config.env.logLevel = 0;
+
+      // Set up authentication
+      utility.sharepoint.setup().then(resolve);
+    });
   },
 };
+
+module.exports = Engineer;

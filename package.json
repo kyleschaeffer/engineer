@@ -24,18 +24,19 @@
   },
   "homepage": "https://github.com/oldrivercreative/engineer#readme",
   "dependencies": {
-    "amp-utils": "^1.1.0",
     "cli-table": "^0.3.1",
     "colors": "^1.1.2",
     "commander": "^2.11.0",
     "copy-paste": "^1.3.0",
+    "csom-node": "^0.1.6",
     "fs": "0.0.1-security",
+    "lodash": "^4.17.4",
     "moment": "^2.19.1",
-    "node-sp-auth": "^2.2.8",
+    "node-pnp-js": "^0.1.3",
     "open": "0.0.5",
     "path": "^0.12.7",
-    "request": "^2.83.0",
-    "request-promise-native": "^1.0.5"
+    "sp-pnp-js": "^3.0.1",
+    "uuid": "^3.1.0"
   },
   "devDependencies": {
     "eslint": "^4.8.0",

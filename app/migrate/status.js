@@ -1,8 +1,9 @@
 const config = require('../config');
-const sharepoint = require('../sharepoint');
+const manifest = require('./manifest');
+const pnp = require('sp-pnp-js');
 const utility = require('../utility');
 
-module.exports = {
+const Status = {
   /**
    * Migration history
    * @type {Object}
@@ -11,7 +12,7 @@ module.exports = {
 
   /**
    * Is Engineer installed?
-   * @type {Boolean}
+   * @type {boolean}
    */
   installed: false,
 
@@ -21,32 +22,33 @@ module.exports = {
    */
   get() {
     const p = new Promise((resolve) => {
-      // Get migration status
-      sharepoint.request.get({
-        onError: () => {
-          utility.log.success('success.done');
-        },
-        onStart: () => {
-          utility.log.info('status.get');
-        },
-        onSuccess: () => {
-          utility.log.success('success.done');
-        },
-        uri: `_api/web/lists/getbytitle('${config.sharepoint.lists.migrations}')/items`,
-      }).then((response) => {
-        // Build history
-        if (response.d && response.d.results) {
-          this.installed = true;
-          response.d.results.forEach((item) => {
-            this.history[item.Title] = {
-              id: item.Id,
-              title: item.Title,
-              migrated: item.Migrated,
-            };
-          });
-        }
+      utility.log.info({
+        key: 'status.get',
+        nl: false,
+      });
 
-        resolve();
+      // Suppress error logging
+      utility.log.suppress();
+
+      // Get status
+      pnp.sp.web.lists.getByTitle(config.sharepoint.lists.migrations).items.get().then((items) => {
+        utility.log.restore();
+        utility.log.info({ key: 'success.done' });
+
+        // Save history
+        this.installed = true;
+        items.forEach((item) => {
+          this.history[item.Title] = item;
+        });
+
+        // Get manifest data
+        manifest.get().then(resolve);
+      }).catch(() => {
+        utility.log.restore();
+        utility.log.info({ key: 'success.done' });
+
+        // Get manifest data
+        manifest.get().then(resolve);
       });
     });
     return p;
@@ -54,62 +56,37 @@ module.exports = {
 
   /**
    * Update migration status
-   * @param  {String}  name
-   * @param  {Boolean} migrated
+   * @param {string} name
+   * @param {boolean} migrated
    * @return {Promise}
    */
   update(name, migrated) {
     const p = new Promise((resolve) => {
       // Get migration
-      const migration = this.history[name];
+      const migration = Status.history[name];
+      utility.log.info({
+        key: 'status.set',
+        tokens: { migration: name },
+        nl: false,
+      });
 
       // Create new status
       if (!migration) {
-        sharepoint.request.post({
-          body: {
-            __metadata: {
-              type: `SP.Data.${config.sharepoint.lists.migrations}ListItem`,
-            },
-            Title: name,
-            Migrated: migrated,
-          },
-          onError: (response) => {
-            utility.log.error('error.failed');
-            utility.error.handle(response);
-          },
-          onStart: () => {
-            utility.log.info('status.set', { migration: name });
-          },
-          onSuccess: () => {
-            utility.log.success('success.done');
-          },
-          uri: `_api/web/lists/getbytitle('${config.sharepoint.lists.migrations}')/items`,
+        pnp.sp.web.lists.getByTitle(config.sharepoint.lists.migrations).items.add({
+          Title: name,
+          Migrated: migrated,
         }).then(() => {
+          utility.log.info({ key: 'success.done' });
           resolve();
         });
       }
 
       // Update status
       else {
-        sharepoint.request.update({
-          body: {
-            __metadata: {
-              type: `SP.Data.${config.sharepoint.lists.migrations}ListItem`,
-            },
-            Migrated: migrated,
-          },
-          onError: (response) => {
-            utility.log.error('error.failed');
-            utility.error.handle(response);
-          },
-          onStart: () => {
-            utility.log.info('status.set', { migration: name });
-          },
-          onSuccess: () => {
-            utility.log.success('success.done');
-          },
-          uri: `_api/web/lists/getbytitle('${config.sharepoint.lists.migrations}')/items(${migration.id})`,
+        pnp.sp.web.lists.getByTitle(config.sharepoint.lists.migrations).items.getById(migration.Id).update({
+          Migrated: migrated,
         }).then(() => {
+          utility.log.info({ key: 'success.done' });
           resolve();
         });
       }
@@ -117,3 +94,5 @@ module.exports = {
     return p;
   },
 };
+
+module.exports = Status;

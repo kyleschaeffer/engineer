@@ -5,151 +5,142 @@ module.exports = {
    * Engineer tasks.
    */
   up(engineer) {
-    // Boolean field
-    engineer.field.create({
-      field: {
-        FieldTypeKind: 'Boolean',
-        Title: 'TestBooleanField',
-        Description: '',
-        Group: '_Test Site Fields',
-        DefaultValue: '0',
-      },
+    // Boolean
+    engineer.web.fields.add({
+      Type: 'Boolean',
+      Title: 'TestBooleanField',
+      Description: 'A test Boolean field',
+      Group: '_Test Site Fields',
+      DefaultValue: '0',
     });
 
-    // Choice field
-    engineer.field.create({
-      field: {
-        FieldTypeKind: 'Choice',
-        Title: 'TestChoiceField',
-        Description: '',
-        Group: '_Test Site Fields',
-        Choices: [
-          'One',
-          'Two',
-          'Three',
-        ],
-      },
-      choiceRadio: true,
+    // Choice
+    engineer.web.fields.add({
+      Type: 'Choice',
+      Title: 'TestChoiceField',
+      Description: 'A test Choice field',
+      Group: '_Test Site Fields',
+      Choices: [
+        'One',
+        'Two',
+        'Three',
+      ],
     });
 
-    // Currency field
-    engineer.field.create({
-      field: {
-        FieldTypeKind: 'Currency',
-        Title: 'TestCurrencyField',
-        Description: '',
-        Group: '_Test Site Fields',
-        CurrencyLocaleId: 1033,
-        MinimumValue: 0,
-      },
+    // Currency
+    engineer.web.fields.add({
+      Type: 'Currency',
+      Title: 'TestCurrencyField',
+      Description: 'A test Currency field',
+      Group: '_Test Site Fields',
+      CurrencyLocaleId: 1033,
+      MinimumValue: 0,
+      MaximumValue: 100,
     });
 
-    // DateTime field
-    engineer.field.create({
-      field: {
-        FieldTypeKind: 'DateTime',
-        Title: 'TestDateTimeField',
-        Description: '',
-        Group: '_Test Site Fields',
-        DisplayFormat: 1,
-      },
+    // DateTime
+    engineer.web.fields.add({
+      Type: 'DateTime',
+      Title: 'TestDateTimeField',
+      Description: 'A test DateTime field',
+      Group: '_Test Site Fields',
+      DisplayFormat: 1,
+      DateTimeCalendarType: 1,
+      FriendlyDisplayFormat: 0,
     });
 
-    // Lookup field
-    engineer.field.create({
-      field: {
-        FieldTypeKind: 'Lookup',
-        Title: 'TestLookupField',
-        LookupListId: 'f67bb7ac-cdc3-4b47-bc5c-8b91e1d8e7c8',
-        LookupFieldName: 'Title',
-      },
+    // Lookup
+    engineer.web.fields.addXml(`
+      <Field
+        Type="Lookup"
+        Name="TestLookupField"
+        StaticName="TestLookupField"
+        DisplayName="TestLookupField"
+        Description="A test Lookup field"
+        Group="_Test Site Fields"
+        List="Lists/Pages"
+        ShowField="Title"
+        Required="FALSE"
+        SourceID="http://schemas.microsoft.com/sharepoint/v3">
+      </Field>
+    `);
+
+    // MultiChoice
+    engineer.web.fields.add({
+      Type: 'MultiChoice',
+      Title: 'TestMultiChoiceField',
+      Description: 'A test MultiChoice field',
+      Group: '_Test Site Fields',
+      Choices: [
+        'One',
+        'Two',
+        'Three',
+        'Four',
+        'Five',
+      ],
+      FillInChoice: true,
+      DefaultValue: 'One',
     });
 
-    // MultiChoice field
-    engineer.field.create({
-      field: {
-        FieldTypeKind: 'MultiChoice',
-        Title: 'TestMultiChoiceField',
-        Description: '',
-        Group: '_Test Site Fields',
-        Choices: [
-          'One',
-          'Two',
-          'Three',
-          'Four',
-          'Five',
-        ],
-        FillInChoice: true,
-        DefaultValue: 'One',
-      },
+    // MultiLineText
+    engineer.web.fields.add({
+      Type: 'MultiLineText',
+      Title: 'TestMultiLineTextField',
+      Description: 'A test MultiLineText field',
+      Group: '_Test Site Fields',
+      NumberOfLines: 8,
+      RichText: true,
+      AllowHyperlink: true,
+      RestrictedMode: false,
+      AppendOnly: false,
     });
 
-    // MultiLineText field
-    engineer.field.create({
-      field: {
-        FieldTypeKind: 'MultiLineText',
-        Title: 'TestMultiLineTextField',
-        Description: '',
-        Group: '_Test Site Fields',
-        NumberOfLines: 8,
-      },
+    // Number
+    engineer.web.fields.add({
+      Type: 'Number',
+      Title: 'TestNumberField',
+      Description: 'A test Number field',
+      Group: '_Test Site Fields',
+      MinimumValue: 0,
+      MaximumValue: 100,
     });
 
-    // Number field
-    engineer.field.create({
-      field: {
-        FieldTypeKind: 'Number',
-        Title: 'TestNumberField',
-        Description: '',
-        Group: '_Test Site Fields',
-        MinimumValue: 1,
-      },
+    // Text
+    engineer.web.fields.add({
+      Type: 'Text',
+      Title: 'TestTextField',
+      Description: 'A test Text field',
+      Group: '_Test Site Fields',
+      MaxLength: 255,
     });
 
-    // Text field
-    engineer.field.create({
-      field: {
-        FieldTypeKind: 'Text',
-        Title: 'TestTextField',
-        Description: '',
-        Group: '_Test Site Fields',
-        MaxLength: 10,
-      },
+    // Url
+    engineer.web.fields.add({
+      Type: 'Url',
+      Title: 'TestUrlField',
+      Description: 'A test Url field',
+      Group: '_Test Site Fields',
+      DisplayFormat: 1,
     });
 
-    // Url field
-    engineer.field.create({
-      field: {
-        FieldTypeKind: 'Url',
-        Title: 'TestUrlField',
-        Description: '',
-        Group: '_Test Site Fields',
-        DisplayFormat: 0,
-      },
-    });
-
-    // User field
-    engineer.field.create({
-      field: {
-        FieldTypeKind: 'User',
-        Title: 'TestUserField',
-        Description: '',
-        Group: '_Test Site Fields',
-        SelectionGroup: 8,
-        SelectionMode: 0,
-      },
+    // User
+    engineer.web.fields.add({
+      Type: 'User',
+      Title: 'TestUserField',
+      Description: 'A test User field',
+      Group: '_Test Site Fields',
+      SelectionGroup: 8,
+      SelectionMode: 0,
     });
 
     // Calculated field
-    engineer.field.create({
-      field: {
-        FieldTypeKind: 'Calculated',
-        Title: 'TestCalculatedField',
-        Description: '',
-        Group: '_Test Site Fields',
-        Formula: '=[TestNumberField]+10',
-        OutputType: 9,
-      },
+    engineer.web.fields.add({
+      Type: 'Calculated',
+      Title: 'TestCalculatedField',
+      Description: 'A test Calculated field',
+      Group: '_Test Site Fields',
+      Formula: '=[TestNumberField]+10',
+      OutputType: 'Number',
     });
   },
 
@@ -160,17 +151,17 @@ module.exports = {
    */
   down(engineer) {
     // Delete site fields
-    engineer.field.delete('TestCalculatedField');
-    engineer.field.delete('TestBooleanField');
-    engineer.field.delete('TestChoiceField');
-    engineer.field.delete('TestCurrencyField');
-    engineer.field.delete('TestDateTimeField');
-    engineer.field.delete('TestLookupField');
-    engineer.field.delete('TestMultiChoiceField');
-    engineer.field.delete('TestMultiLineTextField');
-    engineer.field.delete('TestNumberField');
-    engineer.field.delete('TestTextField');
-    engineer.field.delete('TestUrlField');
-    engineer.field.delete('TestUserField');
+    engineer.web.fields.getByTitle('TestCalculatedField').delete();
+    engineer.web.fields.getByTitle('TestBooleanField').delete();
+    engineer.web.fields.getByTitle('TestChoiceField').delete();
+    engineer.web.fields.getByTitle('TestCurrencyField').delete();
+    engineer.web.fields.getByTitle('TestDateTimeField').delete();
+    engineer.web.fields.getByTitle('TestLookupField').delete();
+    engineer.web.fields.getByTitle('TestMultiChoiceField').delete();
+    engineer.web.fields.getByTitle('TestMultiLineTextField').delete();
+    engineer.web.fields.getByTitle('TestNumberField').delete();
+    engineer.web.fields.getByTitle('TestTextField').delete();
+    engineer.web.fields.getByTitle('TestUrlField').delete();
+    engineer.web.fields.getByTitle('TestUserField').delete();
   },
 };

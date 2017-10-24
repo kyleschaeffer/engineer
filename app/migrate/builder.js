@@ -1,10 +1,12 @@
+const _ = require('lodash');
 const bus = require('./bus');
 const fs = require('fs');
+const Web = require('./api/web');
 
 class Builder {
   /**
    * New builder
-   * @param  {Event} migrate
+   * @param {Event} migrate
    * @return {Builder}
    */
   constructor(migrate) {
@@ -14,7 +16,7 @@ class Builder {
      */
     this.tasks = [];
 
-    // Load API and build
+    // Load the builder API
     this.api();
 
     // Process migration tasks
@@ -33,9 +35,19 @@ class Builder {
   api() {
     fs.readdirSync(`${__dirname}/api`).forEach((file) => {
       if (file === 'index.js') return;
-      this[file.replace(/(\.\/|\.js)/g, '')] = require(`./api/${file}`);
+      const Endpoint = require(`./api/${file}`);
+      this[_.camelCase(file.replace('.js', ''))] = new Endpoint();
     });
     return this;
+  }
+
+  /**
+   * Get web relative to site
+   * @param {string} Url
+   * @return {Web}
+   */
+  getWeb(Url = '/') {
+    return new Web({ Url });
   }
 }
 

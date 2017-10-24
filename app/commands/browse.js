@@ -5,20 +5,19 @@ const utility = require('../utility');
 module.exports = {
   /**
    * Open SharePoint list in web browser
-   * @param  {String} list
-   * @return {Promise}
+   * @param {string} list
+   * @return {void}
    */
   run(list = null) {
-    const p = new Promise((resolve) => {
-      // Build list URI
-      const path = list ? `${config.env.site}/Lists/${config.sharepoint.lists[list] ? config.sharepoint.lists[list] : list}` : config.env.site;
+    // Build list URI
+    const path = `${config.env.site}${list ? `/Lists/${config.sharepoint.lists[list] ? config.sharepoint.lists[list] : list}` : ''}`;
 
-      // Open
-      utility.log.info('browse.begin', { path });
-      open(path);
-
-      resolve();
+    // Open
+    utility.log.info({
+      level: 2,
+      key: 'browse.begin',
+      tokens: { path },
     });
-    return p;
+    open(path);
   },
 };

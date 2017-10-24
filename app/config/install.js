@@ -5,44 +5,64 @@ const sharepoint = require('./sharepoint');
  */
 module.exports = {
   /**
-   * Run these tasks when activating this migration. See
-   * https://github.com/oldrivercreative/engineer for more information on
-   * Engineer tasks.
+   * Install Engineer lists and fields
    */
   up(engineer) {
     // Migrations list
-    engineer.list.create({
-      list: {
-        Title: sharepoint.lists.migrations,
-        Description: 'Migrations tracking list installed automatically by Engineer',
-        Hidden: true,
-        NoCrawl: true,
-      },
+    engineer.web.lists.add({
+      Title: sharepoint.lists.migrations,
+      Description: 'Migrations tracking list installed automatically by Engineer',
+      BaseTemplate: 100,
+      ContentTypesEnabled: true,
+      Hidden: true,
+      NoCrawl: true,
     });
 
     // Migrated field
-    engineer.field.create({
-      field: {
-        FieldTypeKind: 'Boolean',
-        Title: 'Migrated',
-        Description: 'Current migration status',
-        DefaultValue: '0',
-      },
-      list: sharepoint.lists.migrations,
+    engineer.web.lists.getByTitle(sharepoint.lists.migrations).fields.add({
+      Type: 'Boolean',
+      Title: 'Migrated',
+      Description: 'Current migration status',
+      Group: 'Engineer',
+      DefaultValue: '0',
     });
-    engineer.viewField.add({
-      field: 'Migrated',
-      list: sharepoint.lists.migrations,
-      view: 'All Items',
+
+    // Add Migrated to view
+    engineer.web.lists.getByTitle(sharepoint.lists.migrations).views.getByTitle('All Items').viewFields.add('Migrated');
+
+    // Manifest list
+    engineer.web.lists.add({
+      Title: sharepoint.lists.manifest,
+      Description: 'Content type ID tracking list installed automatically by Engineer',
+      BaseTemplate: 100,
+      ContentTypesEnabled: true,
+      Hidden: true,
+      NoCrawl: true,
     });
+
+    // Value field
+    engineer.web.lists.getByTitle(sharepoint.lists.manifest).fields.add({
+      Type: 'MultiLineText',
+      Title: 'Value',
+      Description: 'Content type ID',
+      Group: 'Engineer',
+      NumberOfLines: 2,
+      RichText: false,
+      AllowHyperlink: false,
+      RestrictedMode: false,
+      AppendOnly: false,
+    });
+
+    // Add Value to view
+    engineer.web.lists.getByTitle(sharepoint.lists.manifest).views.getByTitle('All Items').viewFields.add('Value');
   },
 
   /**
-   * Run these tasks when rolling back this migration. See
-   * https://github.com/oldrivercreative/engineer for more information on
-   * Engineer tasks.
+   * Uninstall Engineer lists
    */
   down(engineer) {
-    engineer.list.delete(sharepoint.lists.migrations);
+    // Delete lists
+    engineer.web.lists.getByTitle(sharepoint.lists.migrations).delete();
+    engineer.web.lists.getByTitle(sharepoint.lists.manifest).delete();
   },
 };

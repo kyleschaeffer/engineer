@@ -1,42 +1,48 @@
 const _ = require('lodash');
 const bus = require('../bus');
+const ContentTypes = require('./content-types');
+const Fields = require('./fields');
+const Lists = require('./lists');
+const pnp = require('sp-pnp-js');
 const Task = require('../task');
 const utility = require('../../utility');
-const ViewFields = require('./view-fields');
+const Webs = require('./webs');
 
 /**
- * View
- * @type {View}
+ * Web
+ * @type {Web}
  */
-class View {
+class Web {
   /**
    * Constructor
    * @param {Object} params
-   * @return {View}
+   * @return {Web}
    */
   constructor(params = {}) {
     // Properties
     _.merge(this, {
-      $parent: null,
-      viewFields: new ViewFields({ $parent: this }),
-      Id: null,
-      Title: null,
+      contentTypes: new ContentTypes({ $parent: this }),
+      fields: new Fields({ $parent: this }),
+      lists: new Lists({ $parent: this }),
+      webs: new Webs({ $parent: this }),
+      Url: '/',
+      Web: null,
     }, params);
 
     return this;
   }
 
   /**
-   * Get view by ID or title
-   * @return {pnp.View}
+   * Get web
+   * @return {pnp.Web}
    */
   get() {
-    if (this.Id) return this.$parent.get().getById(this.Id);
-    return this.$parent.get().getByTitle(this.Title);
+    if (!this.Web) this.Web = new pnp.Web(this.Url);
+    return this.Web;
   }
 
   /**
-   * Update view
+   * Update web
    * @param {Object} params
    * @return {void}
    */
@@ -44,31 +50,31 @@ class View {
     // Options
     const options = _.merge({}, params);
 
-    // Update view
+    // Update web
     bus.load(new Task((resolve) => {
       utility.log.info({
         level: 2,
-        key: 'view.update',
-        tokens: { view: this.Title || this.Id },
+        key: 'web.update',
+        tokens: { web: this.Url },
       });
       this.get().update(options).then(resolve).catch(resolve);
     }));
   }
 
   /**
-   * Delete view
+   * Delete web
    * @return {void}
    */
   delete() {
     bus.load(new Task((resolve) => {
       utility.log.info({
         level: 2,
-        key: 'view.delete',
-        tokens: { view: this.Title || this.Id },
+        key: 'web.delete',
+        tokens: { web: this.Url },
       });
       this.get().delete().then(resolve).catch(resolve);
     }));
   }
 }
 
-module.exports = View;
+module.exports = Web;

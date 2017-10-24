@@ -18,7 +18,7 @@ module.exports = {
 
   /**
    * Get on the bus
-   * @param  {Task} task
+   * @param {Task} task
    * @return {Array}
    */
   load(task) {

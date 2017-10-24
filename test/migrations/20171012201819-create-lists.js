@@ -5,13 +5,10 @@ module.exports = {
    * Engineer tasks.
    */
   up(engineer) {
-    engineer.list.create({
-      list: {
-        Title: 'TestList',
-        Description: 'A test list',
-        ContentTypesEnabled: true,
-      },
-    });
+    // Add lists
+    engineer.web.lists.add('TestList1');
+    engineer.web.lists.add('TestList2');
+    engineer.web.lists.add('TestList3');
   },
 
   /**
@@ -20,6 +17,9 @@ module.exports = {
    * Engineer tasks.
    */
   down(engineer) {
-    engineer.list.delete('TestList');
+    // Delete lists
+    engineer.web.lists.getByTitle('TestList1').delete();
+    engineer.web.lists.getByTitle('TestList2').delete();
+    engineer.web.lists.getByTitle('TestList3').delete();
   },
 };

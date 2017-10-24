@@ -1,19 +1,18 @@
-const amp = require('amp-utils');
 const cp = require('copy-paste');
 const utility = require('../utility');
 
 module.exports = {
   /**
    * Generate random GUID string
-   * @return {Promise}
+   * @return {void}
    */
   run() {
-    const p = new Promise(() => {
-      const guid = amp.string.guid();
-      cp.copy(guid);
-      utility.log.info('guid.complete');
-      utility.log.table([[utility.log.translate('guid.guid').green, guid]]);
+    const guid = utility.sharepoint.guid();
+    cp.copy(guid);
+    utility.log.info({
+      level: 2,
+      key: 'guid.complete',
     });
-    return p;
+    utility.log.table([[utility.log.translate('guid.guid').green, guid]]);
   },
 };
