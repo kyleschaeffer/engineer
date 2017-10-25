@@ -4,7 +4,7 @@
 
 **Engineer** is a command-line tool to help track and consolidate SharePoint configuration changes in any number of environments. It's like version control for site columns, content types, lists, views, and more.
 
-**[Explore Engineer Documentation](https://sp-engineer.org)**
+**[Explore Engineer Documentation](http://sp-engineer.org)**
 
 Engineer is inspired by [Laravel](https://laravel.com) migrations, and is made possible by [PnP-JS-Core](https://github.com/SharePoint/PnP-JS-Core), [node-pnp-js](https://github.com/s-KaiNet/node-pnp-js), and [CSOMNode](https://github.com/vgrem/CSOMNode).
 
@@ -83,7 +83,7 @@ Once rolled back, `My List` is deleted from the SharePoint site and the migratio
 
 ## Documentation
 
-Find details on every Engineer command and migration API method in the official documentation, available at [https://sp-engineer.org](https://sp-engineer.org).
+Find details on every Engineer command and migration API method in the official documentation, available at [http://sp-engineer.org](http://sp-engineer.org).
 
 ## Authors
 
