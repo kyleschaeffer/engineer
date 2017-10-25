@@ -1,5 +1,7 @@
 # Engineer
 
+[![npm](https://img.shields.io/npm/v/sp-engineer.svg?style=flat-square)](https://www.npmjs.com/package/sp-engineer) [![GitHub issues](https://img.shields.io/github/issues/oldrivercreative/engineer.svg?style=flat-square)](https://github.com/oldrivercreative/engineer/issues) [![GitHub license](https://img.shields.io/github/license/oldrivercreative/engineer.svg?style=flat-square)](https://github.com/oldrivercreative/engineer/blob/master/LICENSE) [![Twitter](https://img.shields.io/twitter/url/https/github.com/oldrivercreative/engineer.svg?style=social&style=flat-square)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2Foldrivercreative%2Fengineer)
+
 **Engineer** is a command-line tool to help track and consolidate SharePoint configuration changes in any number of environments. It's like version control for site columns, content types, lists, views, and more.
 
 **[Explore Engineer Documentation](https://sp-engineer.org)**
