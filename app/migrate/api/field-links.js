@@ -1,6 +1,5 @@
 const _ = require('lodash');
 const bus = require('../bus');
-const config = require('../../config');
 const csom = require('csom-node');
 const Task = require('../task');
 const utility = require('../../utility');

@@ -68,22 +68,25 @@ const SharePoint = {
    */
   configureCsom(url = null) {
     return new Promise((resolve) => {
+      // Get web url
+      const webUrl = url ? SharePoint.url(url) : config.env.site;
+
       // Already authenticated
-      if (url === SharePoint.csomUrl) resolve();
+      if (webUrl === SharePoint.csomUrl) resolve();
 
       // Configure CSOM authentication
       else {
         csom.setLoaderOptions({
-          url: url ? SharePoint.url(url) : config.env.site,
+          url: webUrl,
         });
         const auth = new csom.AuthenticationContext(config.env.site);
 
         // Set auth cookie
         const authSave = () => {
-          csom.ctx = new SP.ClientContext(config.env.site); // eslint-disable-line no-undef
+          csom.ctx = new SP.ClientContext(webUrl); // eslint-disable-line no-undef
           auth.setAuthenticationCookie(csom.ctx);
           csom.web = csom.ctx.get_web();
-          SharePoint.csomUrl = url || config.env.site;
+          SharePoint.csomUrl = webUrl;
           resolve();
         };
 

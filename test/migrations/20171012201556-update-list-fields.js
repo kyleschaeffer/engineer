@@ -26,9 +26,9 @@ module.exports = {
     });
 
     // Lookup
-    // engineer.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestLookupField').update({
-    //   Description: 'Adding this test description',
-    // });
+    engineer.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestLookupField').update({
+      Description: 'Adding this test description',
+    });
 
     // MultiChoice
     engineer.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestMultiChoiceField').update({
@@ -93,9 +93,9 @@ module.exports = {
     });
 
     // Lookup
-    // engineer.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestLookupField').update({
-    //   Description: 'A test Lookup field',
-    // });
+    engineer.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestLookupField').update({
+      Description: 'A test Lookup field',
+    });
 
     // MultiChoice
     engineer.web.lists.getByTitle('TestColumnsList').fields.getByTitle('TestMultiChoiceField').update({
