@@ -10,6 +10,8 @@ Engineer is inspired by [Laravel](https://laravel.com) migrations, and is made p
 - [Getting Started](#getting-started)
 - [Migrations](#migrations)
 - [Documentation](#documentation)
+- [Authors](#authors)
+- [Copyright and License](#copyright-and-license)
 
 ## Getting Started
 
@@ -80,3 +82,11 @@ Once rolled back, `My List` is deleted from the SharePoint site and the migratio
 ## Documentation
 
 Find details on every Engineer command and migration API method in the official documentation, available at [https://sp-engineer.org](https://sp-engineer.org).
+
+## Authors
+
+Engineer was created by **[@kyleschaeffer](https://twitter.com/kyleschaeffer)** and **[Old River Creative](https://oldrivercreative.com)**.
+
+## Copyright and License
+
+Code and documentation copyright 2017, [Engineer contributors](https://github.com/oldrivercreative/engineer/graphs/contributors) and [Old River Creative, LLC](https://oldrivercreative.com). Code released under the [MIT License](https://github.com/oldrivercreative/engineer/blob/master/LICENSE). Documentation released under [Creative Commons](https://github.com/oldrivercreative/engineer/blob/docs/LICENSE).
