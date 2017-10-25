@@ -1,7 +1,7 @@
 {
-  "name": "engineer",
+  "name": "sp-engineer",
   "version": "1.0.0",
-  "description": "The missing SharePoint configuration tool",
+  "description": "A command-line tool with version control for SharePoint site columns, content types, lists, views, and more",
   "main": "app/engineer.js",
   "bin": {
     "engineer": "bin/engineer.js"
@@ -15,7 +15,8 @@
   },
   "keywords": [
     "sharepoint",
-    "config"
+    "version control",
+    "configuration"
   ],
   "author": "@kyleschaeffer",
   "license": "MIT",
