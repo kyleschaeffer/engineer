@@ -1,7 +1,11 @@
 ---
 layout: default
 title: Migrations
+permalink: /migrations/index.html
 ---
 
 <h1>Migrations</h1>
-<p class="lead">Documentation coming soon.</p>
+
+{% for endpoint in site.api %}
+  <h2><a href="{{ endpoint.url }}">{{ endpoint.title }}</a></h2>
+{% endfor %}

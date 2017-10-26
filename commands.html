@@ -1,7 +1,11 @@
 ---
 layout: default
 title: Commands
+permalink: /commands/index.html
 ---
 
 <h1>Commands</h1>
-<p class="lead">Documentation coming soon.</p>
+
+{% for command in site.commands %}
+  <h2><a href="{{ command.url }}">{{ command.title }}</a></h2>
+{% endfor %}

@@ -1,4 +1,11 @@
+collections:
+  commands:
+    output: true
+    permalink: /:collection/:name
+  api:
+    output: true
+    permalink: /migrations/:name
+permalink: pretty
 sass:
   sass_dir: css
   style: compressed
-permalink: pretty
