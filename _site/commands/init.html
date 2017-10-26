@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Engineer – List</title>
+  <title>Engineer – init</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
   <link rel="stylesheet" href="/css/app.css">
 </head>
@@ -24,10 +24,10 @@
         <li class="nav-item">
           <a class="nav-link" href="/get-started/">Get Started</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item active">
           <a class="nav-link" href="/commands/">Commands</a>
         </li>
-        <li class="nav-item active">
+        <li class="nav-item">
           <a class="nav-link" href="/migrations/">Migrations</a>
         </li>
         <li class="nav-item">
@@ -49,12 +49,20 @@
 
 
 <div class="container mt-5 mb-5">
-  <h1>List</h1>
-<p class="lead">A single SharePoint list</p>
+  <h1><code>engineer init</code></h1>
+<p class="lead">Initialize the current working directory as an Engineer project folder.</p>
 
 <hr>
 
-<p>Documentation coming soon.</p>
+<p>The <code>init</code> command creates <code>.gitignore</code> and <code>env.js</code> files if they do not already exist in the current working directory.</p>
+
+<h3 class="h5">Important Security Consideration</h3>
+<p>If you are using source control to track migration changes, we highly recommend ignoring the <code>env.js</code> from any code repositories in order to prevent sensitive authentication information from being shared. If you are using <a href="https://git-scm.com/">git</a> source control, the <code>.gitignore</code> file will take care of this for you.</p>
+
+<hr>
+
+<h4 class="h6">Examples</h4>
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">engineer init</code></pre></figure>
 
 </div>
 

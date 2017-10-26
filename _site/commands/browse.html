@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Engineer – Browse</title>
+  <title>Engineer – browse</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
   <link rel="stylesheet" href="/css/app.css">
 </head>
@@ -22,16 +22,16 @@
 
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="/get-started">Get Started</a>
+          <a class="nav-link" href="/get-started/">Get Started</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/commands/">Commands</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/commands">Commands</a>
+          <a class="nav-link" href="/migrations/">Migrations</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/migrations">Migrations</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/support">Support</a>
+          <a class="nav-link" href="/support/">Support</a>
         </li>
       </ul>
 
@@ -49,7 +49,28 @@
 
 
 <div class="container mt-5 mb-5">
-  <h1>Browse</h1>
+  <h1><code>engineer browse [list]</code></h1>
+<p class="lead">Open SharePoint home page or list in web browser.</p>
+
+<h4 class="h6">Options</h4>
+<ul>
+  <li><code>list</code> &mdash; if no list name is provided, the SharePoint home page will be shown; if a list name is provided, the browser will navigate directly to the default list view for the given list; a value of <code>migrations</code> or <code>manifest</code> will browse Engineer&rsquo;s hidden tracking lists</li>
+</ul>
+
+<hr>
+
+<h4 class="h6">Examples</h4>
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c"># Browse to SharePoint home page</span>
+engineer browse
+
+<span class="c"># Browse to default view for "My List"</span>
+engineer browse <span class="s2">"My List"</span>
+
+<span class="c"># Browse to Engineer's migrations list</span>
+engineer browse migrations
+
+<span class="c"># Browse to Engineer's manifest list</span>
+engineer browse manifest</code></pre></figure>
 
 </div>
 

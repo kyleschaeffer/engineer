@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Engineer – List</title>
+  <title>Engineer – rollback</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
   <link rel="stylesheet" href="/css/app.css">
 </head>
@@ -24,10 +24,10 @@
         <li class="nav-item">
           <a class="nav-link" href="/get-started/">Get Started</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item active">
           <a class="nav-link" href="/commands/">Commands</a>
         </li>
-        <li class="nav-item active">
+        <li class="nav-item">
           <a class="nav-link" href="/migrations/">Migrations</a>
         </li>
         <li class="nav-item">
@@ -49,12 +49,40 @@
 
 
 <div class="container mt-5 mb-5">
-  <h1>List</h1>
-<p class="lead">A single SharePoint list</p>
+  <h1><code>engineer rollback [options]</code></h1>
+<p class="lead">Roll back active migrations.</p>
+
+<h4 class="h6">Options</h4>
+<ul>
+  <li><code>-t, --to &lt;file&gt;</code> &mdash; roll back all migrations <em>after</em>, but not including the specified <code>file</code></li>
+  <li><code>-o, --only &lt;file&gt;</code> &mdash; roll back only the specified migration <code>file</code>, ignoring all other active migrations</li>
+  <li><code>-s, --step &lt;number&gt;</code> &mdash; roll back migrations in order, but stop rolling back after the maximum <code>number</code> of migrations</li>
+  <li><code>-f, --force</code> &mdash; roll back, even if migrations have already been rolled back</li>
+</ul>
 
 <hr>
 
-<p>Documentation coming soon.</p>
+<p>The <code>rollback</code> command retracts each active migration. Migrations are rolled back in reverse chronological order (newest to oldest), based on their timestamp file names.</p>
+
+<p>Migrations include both <code>up</code> (deployment) and <code>down</code> (retraction) methods. The <code>rollback</code> command executes only the <code>down</code> method of each active migration.</p>
+
+<hr>
+
+<h4 class="h6">Examples</h4>
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c"># Roll back all active migrations</span>
+engineer rollback
+
+<span class="c"># Roll back to a specific migration</span>
+engineer rollback <span class="nt">-t</span> 2017102612010101-update-fields
+
+<span class="c"># Roll back a specific migration</span>
+engineer rollback <span class="nt">-o</span> 2017102612010101-update-fields
+
+<span class="c"># Roll back the last migration</span>
+engineer rollback <span class="nt">-s</span> 1
+
+<span class="c"># Roll back a specific migration in FORCE mode (roll it back again)</span>
+engineer rollback <span class="nt">-o</span> 2017102612010101-update-fields <span class="nt">-f</span></code></pre></figure>
 
 </div>
 

@@ -1,0 +1,37 @@
+---
+layout: default
+title: make
+---
+
+<h1><code>engineer make &lt;name&gt;</code></h1>
+<p class="lead">Create a new migration file.</p>
+
+<h4 class="h6">Options</h4>
+<ul>
+  <li><code>name</code> &mdash; a descriptive name for the new migration (required)</li>
+</ul>
+
+<hr>
+
+<p>The <code>make</code> command is used to create a new migration file template. This template will be placed into a <code>migrations</code> directory under the current working directory (a new directory will be created if it does not exist). Each migration file is timestamped with the current UTC time. This ensures that migrations can always be run in order, or rolled back in reverse order.</p>
+
+<h3 class="h5">Naming Convention</h3>
+<p>The naming convention for your migrations is entirely up to you, but we highly recommend using descriptive migration names that describe exactly what that migration does. For example, a solution that deploys a commenting solution to SharePoint may have migrations such as <code>create-comments-content-type</code>, <code>add-comment-fields</code>, and <code>add-comment-fields-to-comments</code>. This will help you and other developers in the future when tracking migrations via the <code>status</code> command.
+
+<h3 class="h5">What&rsquo;s in a name?</h3>
+<p>Engineer uses each migration&rsquo;s file name to track migration status on SharePoint environments. Avoid changing the file names once they are created.</p>
+
+<hr>
+
+<h4 class="h6">Examples</h4>
+{% highlight sh %}
+# Create migration file
+engineer make create-comments-content-type
+
+# Create another migration file
+engineer make add-comment-fields
+
+# Create migration file based on string value
+# The generated file will be named: add-comment-fields-to-comments
+engineer make "Add Comment Fields to Comments"
+{% endhighlight %}

@@ -22,16 +22,16 @@
 
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="/get-started">Get Started</a>
+          <a class="nav-link" href="/get-started/">Get Started</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/commands/">Commands</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/commands">Commands</a>
+          <a class="nav-link" href="/migrations/">Migrations</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/migrations">Migrations</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/support">Support</a>
+          <a class="nav-link" href="/support/">Support</a>
         </li>
       </ul>
 
@@ -49,11 +49,91 @@
 
 
 <div class="container mt-5 mb-5">
-  <h1>Commands</h1>
+  <h1>Engineer Commands</h1>
 
+<hr>
 
-  <h2><a href="/commands/browse">Browse</a></h2>
+<h2 class="h3">All Commands</h2>
+<ul>
+  
+    <li><a href="/commands/browse">browse</a></li>
+  
+    <li><a href="/commands/guid">guid</a></li>
+  
+    <li><a href="/commands/init">init</a></li>
+  
+    <li><a href="/commands/install">install</a></li>
+  
+    <li><a href="/commands/make">make</a></li>
+  
+    <li><a href="/commands/manifest">manifest</a></li>
+  
+    <li><a href="/commands/migrate">migrate</a></li>
+  
+    <li><a href="/commands/rollback">rollback</a></li>
+  
+    <li><a href="/commands/status">status</a></li>
+  
+    <li><a href="/commands/uninstall">uninstall</a></li>
+  
+</ul>
 
+<hr>
+
+<h2 class="h3">Global Configuration</h2>
+
+<p>There are several global configuration options in Engineer that apply to all commands.</p>
+
+<h3><code>-c, --config &lt;file&gt;</code></h3>
+<p>Use <code>-c &lt;file&gt;</code> or <code>--config &lt;file&gt;</code> with any command to override the default <code>env.js</code> configuration file name. This allows you to use multiple environment files with the same set of migrations.</p>
+
+<h4 class="h6">Options</h4>
+<ul>
+  <li><code>file</code> &mdash; the path to the configuration file you would like to use, relative to the current working directory (required)</li>
+</ul>
+
+<h4 class="h6">Examples</h4>
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c"># Check the status of the environment configured in env-dev.js</span>
+engineer <span class="nt">-c</span> env-dev.js status
+
+<span class="c"># Check the status of the environment configured in env/prod.js</span>
+engineer <span class="nt">-c</span> env/prod.js status</code></pre></figure>
+
+<hr>
+
+<h3><code>-q, --quiet</code></h3>
+<p>Use <code>-q</code> or <code>--quiet</code> to silence all logging and output (including errors) from Engineer. This may be useful in a scenario where migrations are being automated and no logging is necessary.</p>
+
+<h4 class="h6">Examples</h4>
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c"># Run migrations in quiet mode</span>
+engineer <span class="nt">-q</span> migrate
+
+<span class="c"># Run rollbacks in quiet mode</span>
+engineer <span class="nt">-q</span> rollback</code></pre></figure>
+
+<hr>
+
+<h3><code>-i, --info</code></h3>
+<p>Use <code>-i</code> or <code>--info</code> to increase the logging level and see more information about every request made by Engineer, including each request URI and response summary.</p>
+
+<h4 class="h6">Examples</h4>
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c"># Run migrations in info mode</span>
+engineer <span class="nt">-i</span> migrate
+
+<span class="c"># Run rollbacks in info mode</span>
+engineer <span class="nt">-i</span> rollback</code></pre></figure>
+
+<hr>
+
+<h3><code>-v, --verbose</code></h3>
+<p>Use <code>-v</code> or <code>--verbose</code> to show maximum logging. Note that this generates <em>a lot</em> of output. You have been warned!</p>
+
+<h4 class="h6">Examples</h4>
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c"># Run migrations in verbose mode</span>
+engineer <span class="nt">-v</span> migrate
+
+<span class="c"># Run rollbacks in verbose mode</span>
+engineer <span class="nt">-v</span> rollback</code></pre></figure>
 
 </div>
 

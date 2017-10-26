@@ -4,4 +4,115 @@ title: Get Started
 ---
 
 <h1>Get Started</h1>
-<p class="lead">Documentation coming soon.</p>
+
+<hr>
+
+<h2 class="h3">What is Engineer?</h2>
+
+<p class="lead"><strong>Engineer</strong> is a powerful command-line tool to help track and consolidate SharePoint configuration changes in any number of environments. It&rsquo;s like version control for site columns, content types, lists, views, and more.</p>
+
+<p>Engineer is inspired by <a href="https://laravel.com">Laravel</a> migrations, and is made possible by <a href="https://github.com/SharePoint/PnP-JS-Core">PnP-JS-Core</a>, <a href="https://github.com/s-KaiNet/node-pnp-js">node-pnp-js</a>, and <a href="https://github.com/vgrem/CSOMNode">CSOMNode</a>.</p>
+
+<hr>
+
+<h2 class="h3">Installation</h2>
+
+<p>You&rsquo;ll need <a href="https://nodejs.org">Node.js</a> and <a href="https://www.npmjs.com">npm</a> before you begin. Once you&rsquo;re ready, you can install Engineer using the npm <code>install</code> command.</p>
+
+{% highlight sh %}
+npm i -g sp-engineer
+{% endhighlight %}
+
+<p>Once installed, you can type <code>engineer</code> into any console prompt to run Engineer commands. Use <code>engineer -h</code> to see a list of commands.</p>
+
+<h3 class="h5">Start a New Project</h3>
+
+<p>Now that Engineer is installed, let&rsquo;s initialize a new project.</p>
+
+{% highlight sh %}
+engineer init
+{% endhighlight %}
+
+<p>The <code>engineer init</code> command creates <code>.gitignore</code> and <code>env.js</code> files in the current working directory. <code>env.js</code> contains the SharePoint site URL as well as authentication information for your target SharePoint environment. Any authentication configuration supported by <a href="https://github.com/s-KaiNet/node-sp-auth">node-sp-auth</a> can be used as the <code>auth</code> settings in your <code>env.js</code> file.</p>
+
+<h3 class="h5">Install Engineer Lists</h3>
+
+<p>Once your <code>env.js</code> file is set up, you&rsquo;re ready to install Engineer lists to your target SharePoint environment.</p>
+
+{% highlight sh %}
+engineer install
+{% endhighlight %}
+
+<p>That&rsquo;s it. You&rsquo;re ready to start making configuration changes to SharePoint.</p>
+
+<hr>
+
+<h2 class="h3">Migrations</h2>
+
+<p>Engineer uses <strong>migrations</strong> to track configuration changes made to SharePoint. You can use migrations to create a queue of tasks that are executed in order on any number of target environments. Think of migrations like source control for your configuration operations.</p>
+
+<h3 class="h5">New Migration</h3>
+
+{% highlight sh %}
+engineer make my-first-migration
+{% endhighlight %}
+
+<p>This command will create a <code>migrations</code> folder in the current working directory, and a new file called <code>YYYYMMDDHHMMSS-my-first-migration.js</code> in that directory (<code>YYYYMMDDHHMMSS</code> is replaced by the current UTC timestamp). Feel free to open this file to see what&rsquo;s inside. By default, new migrations are configured to create a new list called <code>My List</code> when migrated.</p>
+
+<h3 class="h5">Migration Status</h3>
+
+<p>You can check the current migration status at any time using the <code>status</code> command.</p>
+
+{% highlight sh %}
+engineer status
+
+┌───────────────────────────────────┬─────────┐
+│ 20171025135627-my-first-migration │ Pending │
+└───────────────────────────────────┴─────────┘
+{% endhighlight %}
+
+<p>You can see that our new migration is currently in <code>Pending</code> status. Use the <code>migrate</code> command to activate our new migration.</p>
+
+<h3 class="h5">Migrate</h3>
+
+<p>Use the <code>migrate</code> command to execute all pending migrations.</p>
+
+{% highlight sh %}
+engineer migrate
+{% endhighlight %}
+
+<p>Once migrated, you&rsquo;ll see a new list called <code>My List</code> has been created on your SharePoint site. This migration is now in the <code>Migrated</code> status, and will not be activated again during future migrations.</p>
+
+<h3 class="h5">Roll Back</h3>
+
+<p>Use the <code>rollback</code> command to roll back all active migrations.</p>
+
+{% highlight sh %}
+engineer rollback
+{% endhighlight %}
+
+<p>Once rolled back, <code>My List</code> is deleted from the SharePoint site and the migration is set to <code>Pending</code> status once again.</p>
+
+<hr>
+
+<h2 class="h3">Working with Multiple Environments</h2>
+
+<p>You can create copies of <code>env.js</code>, allowing you to store authentication and configuration for multiple SharePoint environments.</p>
+
+{% highlight sh %}
+cp env.js env-dev.js
+{% endhighlight %}
+
+<p>Once copied, open up the new <code>env-dev.js</code> file and make any needed changes for that environment. Use Engineer&rsquo;s <code>config</code> option to specify which environment file you are using when executing commands.</p>
+
+{% highlight sh %}
+engineer -c env-dev.js status
+{% endhighlight %}
+
+<p>This command will check the current migration status using the authentication and connection information found in <code>env-dev.js</code>.</p>
+
+<hr>
+
+<h2 class="h3">Next Steps</h2>
+
+<p><strong>Want to learn more?</strong> Engineer commands have a variety of options that allow you to fine-tune your migration operations. Find out more in the <a href="{{ site.baseurl }}{% link commands.html %}">Commands</a> documentation. Next, learn more about the migration API in <a href="{{ site.baseurl }}{% link migrations.html %}">Migrations</a>.</p>

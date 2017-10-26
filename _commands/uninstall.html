@@ -1,0 +1,18 @@
+---
+layout: default
+title: uninstall
+---
+
+<h1><code>engineer uninstall</code></h1>
+<p class="lead">Uninstall Engineer&rsquo;s hidden tracking lists from SharePoint.</p>
+
+<hr>
+
+<p>The <code>uninstall</code> command deletes all lists deployed by the <code>install</code> command from the target SharePoint environment. Note that after uninstalling, the data from the migrations and manifest lists will be lost. Be sure to roll back all active migrations before uninstalling to avoid errors in future migrations and rollbacks.</p>
+
+<hr>
+
+<h4 class="h6">Examples</h4>
+{% highlight sh %}
+engineer uninstall
+{% endhighlight %}

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Engineer – List</title>
+  <title>Engineer – uninstall</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
   <link rel="stylesheet" href="/css/app.css">
 </head>
@@ -24,10 +24,10 @@
         <li class="nav-item">
           <a class="nav-link" href="/get-started/">Get Started</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item active">
           <a class="nav-link" href="/commands/">Commands</a>
         </li>
-        <li class="nav-item active">
+        <li class="nav-item">
           <a class="nav-link" href="/migrations/">Migrations</a>
         </li>
         <li class="nav-item">
@@ -49,12 +49,17 @@
 
 
 <div class="container mt-5 mb-5">
-  <h1>List</h1>
-<p class="lead">A single SharePoint list</p>
+  <h1><code>engineer uninstall</code></h1>
+<p class="lead">Uninstall Engineer&rsquo;s hidden tracking lists from SharePoint.</p>
 
 <hr>
 
-<p>Documentation coming soon.</p>
+<p>The <code>uninstall</code> command deletes all lists deployed by the <code>install</code> command from the target SharePoint environment. Note that after uninstalling, the data from the migrations and manifest lists will be lost. Be sure to roll back all active migrations before uninstalling to avoid errors in future migrations and rollbacks.</p>
+
+<hr>
+
+<h4 class="h6">Examples</h4>
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">engineer uninstall</code></pre></figure>
 
 </div>
 

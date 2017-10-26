@@ -1,0 +1,41 @@
+---
+layout: default
+title: migrate
+---
+
+<h1><code>engineer migrate [options]</code></h1>
+<p class="lead">Run pending migrations.</p>
+
+<h4 class="h6">Options</h4>
+<ul>
+  <li><code>-t, --to &lt;file&gt;</code> &mdash; run all migrations up to and including the specified <code>file</code></li>
+  <li><code>-o, --only &lt;file&gt;</code> &mdash; run only the specified migration <code>file</code>, ignoring all other pending migrations</li>
+  <li><code>-s, --step &lt;number&gt;</code> &mdash; run pending migrations in order, but stop migrating after the maximum <code>number</code> of migrations</li>
+  <li><code>-f, --force</code> &mdash; run migrations, even if they have already been migrated</li>
+</ul>
+
+<hr>
+
+<p>The <code>migrate</code> command will activate all pending migrations and run them in order on the target SharePoint environment. Migrations are run in chronological order (oldest to newest), based on their timestamp file names.</p>
+
+<p>Migrations include both <code>up</code> (deployment) and <code>down</code> (retraction) methods. The <code>migrate</code> command executes only the <code>up</code> method of each pending migration.</p>
+
+<hr>
+
+<h4 class="h6">Examples</h4>
+{% highlight sh %}
+# Run all pending migrations
+engineer migrate
+
+# Run pending migrations up to a specific migration
+engineer migrate -t 2017102612010101-update-fields
+
+# Run a specific migration
+engineer migrate -o 2017102612010101-update-fields
+
+# Run the next two migrations
+engineer migrate -s 2
+
+# Run a specific migration in FORCE mode (run it again)
+engineer migrate -o 2017102612010101-update-fields -f
+{% endhighlight %}

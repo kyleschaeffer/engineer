@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Engineer – List</title>
+  <title>Engineer – install</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
   <link rel="stylesheet" href="/css/app.css">
 </head>
@@ -24,10 +24,10 @@
         <li class="nav-item">
           <a class="nav-link" href="/get-started/">Get Started</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item active">
           <a class="nav-link" href="/commands/">Commands</a>
         </li>
-        <li class="nav-item active">
+        <li class="nav-item">
           <a class="nav-link" href="/migrations/">Migrations</a>
         </li>
         <li class="nav-item">
@@ -49,12 +49,20 @@
 
 
 <div class="container mt-5 mb-5">
-  <h1>List</h1>
-<p class="lead">A single SharePoint list</p>
+  <h1><code>engineer install</code></h1>
+<p class="lead">Install Engineer&rsquo;s hidden tracking lists in SharePoint.</p>
 
 <hr>
 
-<p>Documentation coming soon.</p>
+<p>The <code>install</code> command creates two lists at the root of the SharePoint site (URL configured in <code>env.js</code>) if they do not already exist. The first list is called <code>EngineerMigrations</code> , and is used to store the migration status for all Engineer migrations. The second list is called <code>EngineerManifest</code>, and is used to store content type IDs for any custom content types created by Engineer. These content types can later be referenced by name, allowing Engineer to automatically fetch the correct content type ID, even if they differ from environment to environment.</p>
+
+<h3 class="h5">List Visibility</h3>
+<p>Engineer lists are hidden and are configured to be excluded from all search indicies, ensuring end-users never see these lists or the data contained therein.</p>
+
+<hr>
+
+<h4 class="h6">Examples</h4>
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">engineer install</code></pre></figure>
 
 </div>
 

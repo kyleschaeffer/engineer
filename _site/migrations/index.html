@@ -22,16 +22,16 @@
 
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="/get-started">Get Started</a>
+          <a class="nav-link" href="/get-started/">Get Started</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/commands">Commands</a>
+          <a class="nav-link" href="/commands/">Commands</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/migrations/">Migrations</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/migrations">Migrations</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/support">Support</a>
+          <a class="nav-link" href="/support/">Support</a>
         </li>
       </ul>
 
@@ -51,9 +51,63 @@
 <div class="container mt-5 mb-5">
   <h1>Migrations</h1>
 
+<hr>
 
-  <h2><a href="/migrations/list">List</a></h2>
+<h2 class="h3">API</h2>
+<ul>
+  
+    <li><a href="/migrations/content-type">ContentType</a></li>
+  
+    <li><a href="/migrations/content-types">ContentTypes</a></li>
+  
+    <li><a href="/migrations/field-links">FieldLinks</a></li>
+  
+    <li><a href="/migrations/field">Field</a></li>
+  
+    <li><a href="/migrations/fields">Fields</a></li>
+  
+    <li><a href="/migrations/list">List</a></li>
+  
+    <li><a href="/migrations/lists">Lists</a></li>
+  
+    <li><a href="/migrations/view-fields">ViewFields</a></li>
+  
+    <li><a href="/migrations/view">View</a></li>
+  
+    <li><a href="/migrations/views">Views</a></li>
+  
+    <li><a href="/migrations/web">Web</a></li>
+  
+    <li><a href="/migrations/webs">Webs</a></li>
+  
+</ul>
 
+<hr>
+
+<h2 class="h3">About Migrations</h2>
+<p>Engineer uses <strong>migrations</strong> to track configuration changes made to SharePoint. You can use migrations to create a queue of tasks that are executed in order on any number of target environments. Think of migrations like source control for your configuration operations.</p>
+
+<p>Use the <code><a href="/commands/make">make</a></code> command to create new migration files. Once created, you can use Engineer&rsquo;s migration API to create fields, content types, lists, views, and more.</p>
+
+<hr>
+
+<h2 class="h3">Using the Migration API</h2>
+<p>Migration files consist of an <code>up</code> and <code>down</code> method. Code in the <code>up</code> method will be executed during <code><a href="/commands/migrate">migrate</a></code> operations. Code in the <code>down</code> method will be executed during <code><a href="/commands/rollback">rollback</a></code> operations. This allows you to define a queue of tasks that are executed during both deployment and retraction of each migration.</p>
+
+<p>Each of these methods passes a single parameter called <code>engineer</code> through to your migration logic. You can use this <code>engineer</code> object to access the migration API.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">up</span><span class="p">(</span><span class="nx">engineer</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// Use the Lists API to add a new list</span>
+  <span class="nx">engineer</span><span class="p">.</span><span class="nx">web</span><span class="p">.</span><span class="nx">lists</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">'My List'</span><span class="p">);</span>
+
+  <span class="c1">// Use the Fields API to add a new field</span>
+  <span class="nx">engineer</span><span class="p">.</span><span class="nx">web</span><span class="p">.</span><span class="nx">fields</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">'My New Field'</span><span class="p">);</span>
+
+  <span class="c1">// Use the List and Fields API to add a new field to a list</span>
+  <span class="nx">engineer</span><span class="p">.</span><span class="nx">web</span><span class="p">.</span><span class="nx">lists</span><span class="p">.</span><span class="nx">getByTitle</span><span class="p">(</span><span class="s1">'My List'</span><span class="p">).</span><span class="nx">fields</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">'My New Field 2'</span><span class="p">);</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>The same API is accessed in both the <code>up</code> and <code>down</code> methods. There are a variety of API endpoints, options, and configurations you can use to do just about anything within your SharePoint environments. Refer to the individual API documentation for more information on how to use each endpoint.</p>
 
 </div>
 

@@ -1,6 +1,29 @@
 ---
 layout: default
-title: Browse
+title: browse
 ---
 
-<h1>Browse</h1>
+<h1><code>engineer browse [list]</code></h1>
+<p class="lead">Open SharePoint home page or list in web browser.</p>
+
+<h4 class="h6">Options</h4>
+<ul>
+  <li><code>list</code> &mdash; if no list name is provided, the SharePoint home page will be shown; if a list name is provided, the browser will navigate directly to the default list view for the given list; a value of <code>migrations</code> or <code>manifest</code> will browse Engineer&rsquo;s hidden tracking lists</li>
+</ul>
+
+<hr>
+
+<h4 class="h6">Examples</h4>
+{% highlight sh %}
+# Browse to SharePoint home page
+engineer browse
+
+# Browse to default view for "My List"
+engineer browse "My List"
+
+# Browse to Engineer's migrations list
+engineer browse migrations
+
+# Browse to Engineer's manifest list
+engineer browse manifest
+{% endhighlight %}

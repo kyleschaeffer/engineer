@@ -1,11 +1,45 @@
 ---
 layout: default
 title: Migrations
-permalink: /migrations/index.html
+permalink: /migrations/
 ---
 
 <h1>Migrations</h1>
 
-{% for endpoint in site.api %}
-  <h2><a href="{{ endpoint.url }}">{{ endpoint.title }}</a></h2>
-{% endfor %}
+<hr>
+
+<h2 class="h3">API</h2>
+<ul>
+  {% for api in site.api %}
+    <li><a href="{{ site.baseurl }}{{ api.url }}">{{ api.title }}</a></li>
+  {% endfor %}
+</ul>
+
+<hr>
+
+<h2 class="h3">About Migrations</h2>
+<p>Engineer uses <strong>migrations</strong> to track configuration changes made to SharePoint. You can use migrations to create a queue of tasks that are executed in order on any number of target environments. Think of migrations like source control for your configuration operations.</p>
+
+<p>Use the <code><a href="{{ site.baseurl }}{% link _commands/make.html %}">make</a></code> command to create new migration files. Once created, you can use Engineer&rsquo;s migration API to create fields, content types, lists, views, and more.</p>
+
+<hr>
+
+<h2 class="h3">Using the Migration API</h2>
+<p>Migration files consist of an <code>up</code> and <code>down</code> method. Code in the <code>up</code> method will be executed during <code><a href="{{ site.baseurl }}{% link _commands/migrate.html %}">migrate</a></code> operations. Code in the <code>down</code> method will be executed during <code><a href="{{ site.baseurl }}{% link _commands/rollback.html %}">rollback</a></code> operations. This allows you to define a queue of tasks that are executed during both deployment and retraction of each migration.</p>
+
+<p>Each of these methods passes a single parameter called <code>engineer</code> through to your migration logic. You can use this <code>engineer</code> object to access the migration API.</p>
+
+{% highlight js %}
+up(engineer) {
+  // Use the Lists API to add a new list
+  engineer.web.lists.add('My List');
+
+  // Use the Fields API to add a new field
+  engineer.web.fields.add('My New Field');
+
+  // Use the List and Fields API to add a new field to a list
+  engineer.web.lists.getByTitle('My List').fields.add('My New Field 2');
+}
+{% endhighlight %}
+
+<p>The same API is accessed in both the <code>up</code> and <code>down</code> methods. There are a variety of API endpoints, options, and configurations you can use to do just about anything within your SharePoint environments. Refer to the individual API documentation for more information on how to use each endpoint.</p>

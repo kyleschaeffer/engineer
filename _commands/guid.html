@@ -1,0 +1,19 @@
+---
+layout: default
+title: guid
+---
+
+<h1><code>engineer guid</code></h1>
+<p class="lead">Generate a globally unique identifier (GUID).</p>
+
+<hr>
+
+<p>This is a convenience function for working with field and content type IDs. Upon generation, the GUID will be copied to your clipboard for easy pasting into your migrations.</p>
+
+<h3 class="h5">Important Note About Content Type IDs</h3>
+<p>As of this writing, SharePoint honors <strong>field IDs</strong> when created using the REST API. <strong>It will not, however, honor content type IDs</strong> when created using the REST API. Any content type ID that you provide when creating a new content type will be ignored by SharePoint. For this reason, Engineer uses a <strong>manifest</strong> list to store content type IDs for future reference. Always use the convenience method (<code>contentTypes.getByName('My Content Type')</code>) when referencing a custom content type created by Engineer, and avoid referencing any custom content types by their ID (which could change from environment to environment).</p>
+
+<h4 class="h6">Examples</h4>
+{% highlight sh %}
+engineer guid
+{% endhighlight %}

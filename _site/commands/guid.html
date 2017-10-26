@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Engineer – List</title>
+  <title>Engineer – guid</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
   <link rel="stylesheet" href="/css/app.css">
 </head>
@@ -24,10 +24,10 @@
         <li class="nav-item">
           <a class="nav-link" href="/get-started/">Get Started</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item active">
           <a class="nav-link" href="/commands/">Commands</a>
         </li>
-        <li class="nav-item active">
+        <li class="nav-item">
           <a class="nav-link" href="/migrations/">Migrations</a>
         </li>
         <li class="nav-item">
@@ -49,12 +49,18 @@
 
 
 <div class="container mt-5 mb-5">
-  <h1>List</h1>
-<p class="lead">A single SharePoint list</p>
+  <h1><code>engineer guid</code></h1>
+<p class="lead">Generate a globally unique identifier (GUID).</p>
 
 <hr>
 
-<p>Documentation coming soon.</p>
+<p>This is a convenience function for working with field and content type IDs. Upon generation, the GUID will be copied to your clipboard for easy pasting into your migrations.</p>
+
+<h3 class="h5">Important Note About Content Type IDs</h3>
+<p>As of this writing, SharePoint honors <strong>field IDs</strong> when created using the REST API. <strong>It will not, however, honor content type IDs</strong> when created using the REST API. Any content type ID that you provide when creating a new content type will be ignored by SharePoint. For this reason, Engineer uses a <strong>manifest</strong> list to store content type IDs for future reference. Always use the convenience method (<code>contentTypes.getByName('My Content Type')</code>) when referencing a custom content type created by Engineer, and avoid referencing any custom content types by their ID (which could change from environment to environment).</p>
+
+<h4 class="h6">Examples</h4>
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">engineer guid</code></pre></figure>
 
 </div>
 
