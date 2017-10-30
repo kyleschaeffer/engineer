@@ -8,65 +8,73 @@ permalink: /commands/
 
 <hr>
 
-<h2 class="h3">Global Configuration</h2>
+<h2>Global Configuration</h2>
 
 <p>There are several global configuration options in Engineer that apply to all commands.</p>
 
-<h3><code>-c, --config &lt;file&gt;</code></h3>
-<p>Use <code>-c &lt;file&gt;</code> or <code>--config &lt;file&gt;</code> with any command to override the default <code>env.js</code> configuration file name. This allows you to use multiple environment files with the same set of migrations.</p>
+<h3 id="help"><code>-h, --help</code></h3>
 
-<h4 class="h6">Options</h4>
-<ul>
-  <li><code>file</code> &mdash; the path to the configuration file you would like to use, relative to the current working directory (required)</li>
-</ul>
+<p>Use <code>-h</code> or <code>--help</code> to list all commands, or use with a specific command to list all options.</p>
 
-<h4 class="h6">Examples</h4>
+<h4>Examples</h4>
+
 {% highlight sh %}
-# Check the status of the environment configured in env-dev.js
-engineer -c env-dev.js status
+# Show all commands
+engineer -h
 
-# Check the status of the environment configured in env/prod.js
+# Show options for migrate command
+engineer -h migrate
+{% endhighlight %}
+
+<h3 id="config"><code>-c, --config &lt;file&gt;</code></h3>
+
+<p>Use <code>-c &lt;file&gt;</code> or <code>--config &lt;file&gt;</code> with any command to override the default configuration file path (<code>env.js</code>). This allows you to use multiple environment files with the same set of migrations.</p>
+
+<h4>Options</h4>
+<dl>
+  <dt><code>file</code></dt>
+  <dd>The path to the configuration file, relative to the current working directory <span class="muted">(required)</span></dd>
+</dl>
+
+<h4>Examples</h4>
+
+{% highlight sh %}
+# Get migration status using env-other.js
+engineer -c env-other.js status
+
+# Get migration status using env/prod.js
 engineer -c env/prod.js status
 {% endhighlight %}
 
-<hr>
-
 <h3><code>-q, --quiet</code></h3>
-<p>Use <code>-q</code> or <code>--quiet</code> to silence all logging and output (including errors) from Engineer. This may be useful in a scenario where migrations are being automated and no logging is necessary.</p>
 
-<h4 class="h6">Examples</h4>
+<p>Use <code>-q</code> or <code>--quiet</code> to silence all logging and output (including errors).</p>
+
+<h4>Examples</h4>
+
 {% highlight sh %}
 # Run migrations in quiet mode
 engineer -q migrate
-
-# Run rollbacks in quiet mode
-engineer -q rollback
 {% endhighlight %}
 
-<hr>
-
 <h3><code>-i, --info</code></h3>
-<p>Use <code>-i</code> or <code>--info</code> to increase the logging level and see more information about every request made by Engineer, including each request URI and response summary.</p>
 
-<h4 class="h6">Examples</h4>
+<p>Use <code>-i</code> or <code>--info</code> to increase the logging level with additional information about every request made by Engineer, including each request URI and response code.</p>
+
+<h4>Examples</h4>
+
 {% highlight sh %}
 # Run migrations in info mode
 engineer -i migrate
-
-# Run rollbacks in info mode
-engineer -i rollback
 {% endhighlight %}
 
-<hr>
-
 <h3><code>-v, --verbose</code></h3>
-<p>Use <code>-v</code> or <code>--verbose</code> to show maximum logging. Note that this generates <em>a lot</em> of output. You have been warned!</p>
 
-<h4 class="h6">Examples</h4>
+<p>Use <code>-v</code> or <code>--verbose</code> to show maximum logging. Note that this generates <em>a lot</em> of output.</p>
+
+<h4>Examples</h4>
+
 {% highlight sh %}
 # Run migrations in verbose mode
 engineer -v migrate
-
-# Run rollbacks in verbose mode
-engineer -v rollback
 {% endhighlight %}

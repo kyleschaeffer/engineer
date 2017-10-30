@@ -1,25 +1,35 @@
 ---
-layout: default
+layout: hero
 title: Version control for SharePoint configuration
 ---
 
-<div class="jumbotron text-center">
-  <img src="{{ site.baseurl }}{% link img/locomotive.svg %}" alt="Engineer" class="locomotive">
-  <h1 class="display-1">Engineer</h1>
-  <p class="lead">A powerful command-line tool for configuring SharePoint site columns, content types, lists, views, and more</p>
-  <a href="{{ site.baseurl }}{% link get-started.html %}" class="btn btn-primary btn-lg">Get Started</a>
-  <a href="https://github.com/oldrivercreative/engineer" target="_blank" rel="noopener" class="btn btn-secondary btn-lg">GitHub</a>
-</div>
+<main class="hero">
+  <div class="content">
+    <img src="{{ site.baseurl }}{% link img/locomotive.svg %}" alt="Engineer" class="locomotive">
+    <h1>Engineer</h1>
+    <p class="lead">A powerful command-line tool for configuring SharePoint site columns, content types, lists, views, and more</p>
+    <a class="btn btn-info btn-lg" href="{{ site.baseurl }}{% link get-started.html %}">Get Started</a>
+    <a class="btn btn-dark btn-lg" href="https://github.com/oldrivercreative/engineer"><i class="fa fa-github" aria-hidden="true"></i> GitHub</a>
+  </div>
+</main>
 
-<div class="container mt-5 mb-5 text-center">
-  <h3>Sponsors</h3>
-  <p class="sponsor">
-    <a href="https://oldrivercreative.com"><img src="{{ site.baseurl }}{% link /img/Old-River-Creative.svg %}" alt="Old River Creative"></a>
-  </p>
+<div class="content text-center">
+  <h2 id="sponsors">Sponsors</h2>
+  <ul class="sponsors">
+    {% for sponsor in site.sponsors %}
+      <li class="sponsor">
+        <a href="{{ sponsor.link }}">
+          <img src="{{ site.baseurl }}/img/sponsors/{{ sponsor.logo }}" alt="{{ sponsor.title }}">
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
   <p><a href="{{ site.baseurl }}{% link support.html %}" class="btn btn-primary">Become a Sponsor</a></p>
 </div>
 
-<div class="se-footer container-fluid p-5 text-center text-muted">
-  <p>Created by <a href="https://twitter.com/kyleschaeffer">@kyleschaeffer</a> and <a href="https://oldrivercreative.com">Old River Creative</a>. Maintained by <a href="https://github.com/oldrivercreative/engineer/graphs/contributors">Engineer contributors</a>.</p>
-  <p>Code released under <a href="https://github.com/oldrivercreative/engineer/blob/master/LICENSE">MIT License</a>. Documentation released under <a href="https://github.com/oldrivercreative/engineer/blob/gh-pages/LICENSE">Creative Commons</a>.</p>
-</div>
+<footer class="colophon">
+  <div class="content">
+    <p>Created by <a href="https://twitter.com/kyleschaeffer">@kyleschaeffer</a> and <a href="https://oldrivercreative.com">Old River Creative</a>. Maintained by <a href="https://github.com/oldrivercreative/engineer/graphs/contributors">Engineer contributors</a>.</p>
+    <p>Code released under <a href="https://github.com/oldrivercreative/engineer/blob/master/LICENSE">MIT License</a>. Documentation released under <a href="https://github.com/oldrivercreative/engineer/blob/gh-pages/LICENSE">Creative Commons License</a>.</p>
+  </div>
+</footer>

@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Engineer – {{ page.title }}</title>
+  <link rel="shortcut icon" type="image/png" href="/favicon.png">
   <link rel="stylesheet" href="{{ site.baseurl }}{% link css/app.scss %}">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ultra">
   <link rel="stylesheet" href="https://cdn.rawgit.com/tonsky/FiraCode/1.204/distr/fira_code.css">
@@ -12,7 +13,11 @@
 <body>
 
 <nav class="navbar inverse">
-  <a class="brand" href="{{ site.baseurl }}{% link index.html %}">Engineer</a>
-  {% include menu.html %}
-  {% include interact.html %}
+  <div class="navbar-content">
+    <a class="brand" href="{{ site.baseurl }}{% link index.html %}">
+      <img src="{{ site.baseurl }}{% link /img/wheel.svg %}" alt="Engineer">
+    </a>
+    {% include menu.html %}
+    {% include interact.html %}
+  </div>
 </nav>

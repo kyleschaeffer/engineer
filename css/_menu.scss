@@ -5,7 +5,9 @@
   padding: 0;
 
   .menu-item {
-    padding: 1em;
+    + .menu-item {
+      margin-left: 1.5rem;
+    }
   }
 }
 
@@ -15,7 +17,11 @@
   padding: 0;
 
   .menu-item {
-    margin-bottom: .25rem;
+    margin-bottom: .5rem;
+
+    &.current {
+      font-weight: 700;
+    }
   }
 }
 

@@ -2,23 +2,37 @@
 .navbar {
   background: $darker;
   color: $white;
+}
+
+.navbar-content {
+  align-items: center;
   display: flex;
+  height: 4rem;
   justify-content: space-between;
-  left: 0;
-  position: sticky;
-  right: 0;
-  top: 0;
-  z-index: 100;
+  margin: auto;
+  max-width: $w;
+  padding: 0 2rem;
 }
 
 // Brand
 .brand {
   display: block;
-  padding: 1rem;
+  width: 2rem;
 
   &:hover,
   &:focus,
   &:active {
     border-bottom: 0;
+  }
+
+  img {
+    display: block;
+  }
+}
+
+// Interact
+.interact {
+  i {
+    font-size: 1.5rem;
   }
 }

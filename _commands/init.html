@@ -1,21 +1,23 @@
 ---
-layout: commands
 title: init
 ---
 
 <h1><code>engineer init</code></h1>
+
 <p class="lead">Initialize the current working directory as an Engineer project folder.</p>
 
 <hr>
 
 <p>The <code>init</code> command creates <code>.gitignore</code> and <code>env.js</code> files if they do not already exist in the current working directory.</p>
 
-<h3 class="h5">Important Security Consideration</h3>
-<p>If you are using source control to track migration changes, we highly recommend ignoring the <code>env.js</code> from any code repositories in order to prevent sensitive authentication information from being shared. If you are using <a href="https://git-scm.com/">git</a> source control, the <code>.gitignore</code> file will take care of this for you.</p>
+<h4>Examples</h4>
 
-<hr>
-
-<h4 class="h6">Examples</h4>
 {% highlight sh %}
 engineer init
 {% endhighlight %}
+
+<hr>
+
+<h3>Important Security Consideration</h3>
+
+<p>If you are using source control to track migration changes, we highly recommend ignoring the <code>env.js</code> from any code repositories in order to prevent sensitive authentication information from being shared.</p>

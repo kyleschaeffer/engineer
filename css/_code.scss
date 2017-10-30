@@ -7,16 +7,16 @@ code {
 code {
   background: $lighter;
   border-radius: $r;
-  color: $primary;
+  color: $info;
   padding: 0 .25rem;
 }
 
 pre {
   background: $lighter;
   line-height: 2.25;
-  margin: 0 0 2rem;
+  margin: 0 0 1rem;
   overflow-x: auto;
-  padding: 2rem;
+  padding: .5rem 1rem;
   width: 100%;
 
   code {
@@ -38,6 +38,7 @@ pre {
   color: $primary;
 }
 
+.o,
 .nx {
   color: $info;
 }

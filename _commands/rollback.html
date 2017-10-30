@@ -1,28 +1,29 @@
 ---
-layout: commands
 title: rollback
 ---
 
 <h1><code>engineer rollback [options]</code></h1>
+
 <p class="lead">Roll back active migrations.</p>
 
-<h4 class="h6">Options</h4>
-<ul>
-  <li><code>-t, --to &lt;file&gt;</code> &mdash; roll back all migrations <em>after</em>, but not including the specified <code>file</code></li>
-  <li><code>-o, --only &lt;file&gt;</code> &mdash; roll back only the specified migration <code>file</code>, ignoring all other active migrations</li>
-  <li><code>-s, --step &lt;number&gt;</code> &mdash; roll back migrations in order, but stop rolling back after the maximum <code>number</code> of migrations</li>
-  <li><code>-f, --force</code> &mdash; roll back, even if migrations have already been rolled back</li>
-</ul>
+<h4>Options</h4>
+
+<dl>
+  <dt><code>-t, --to &lt;file&gt;</code></dt>
+  <dd>Roll back all migrations <em>after, but not including</em> the specified <code>file</code></dd>
+  <dt><code>-o, --only &lt;file&gt;</code></dt>
+  <dd>Roll back <em>only</em> the specified migration <code>file</code>, ignoring all other active migrations</dd>
+  <dt><code>-s, --step &lt;number&gt;</code></dt>
+  <dd>Roll back migrations in order, but stop rolling back after the maximum <code>number</code> of migrations</dd>
+  <dt><code>-f, --force</code></dt>
+  <dd>Roll back, even if migrations have already been rolled back</dd>
+</dl>
 
 <hr>
 
-<p>The <code>rollback</code> command retracts each active migration. Migrations are rolled back in reverse chronological order (newest to oldest), based on their timestamp file names.</p>
+<p>The <code>rollback</code> command retracts active migrations. Migrations are rolled back in reverse chronological order (newest to oldest), based on their timestamp file names.</p>
 
-<p>Migrations include both <code>up</code> (deployment) and <code>down</code> (retraction) methods. The <code>rollback</code> command executes only the <code>down</code> method of each active migration.</p>
-
-<hr>
-
-<h4 class="h6">Examples</h4>
+<h4>Examples</h4>
 {% highlight sh %}
 # Roll back all active migrations
 engineer rollback
@@ -36,6 +37,12 @@ engineer rollback -o 2017102612010101-update-fields
 # Roll back the last migration
 engineer rollback -s 1
 
-# Roll back a specific migration in FORCE mode (roll it back again)
+# Roll back a specific migration in force mode (roll it back again)
 engineer rollback -o 2017102612010101-update-fields -f
 {% endhighlight %}
+
+<hr>
+
+<h3>About Migrations</h3>
+
+<p>Migrations include both <code>up</code> (deployment) and <code>down</code> (retraction) methods. The <code>rollback</code> command executes only the <code>down</code> method of each active migration. Learn more about migrations in the <a href="{{ site.baseurl }}{% link migrations.html %}">Migrations API documentation</a>.</p>

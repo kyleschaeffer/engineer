@@ -3,10 +3,10 @@
 <main class="content with-sidebar">
 
   <aside class="sidebar">
-    <h6>Commands</h6>
+    <h6>Migrations</h6>
     <ul class="menu-vertical">
-      {% for command in site.commands %}
-        <li class="menu-item{% if page.url == command.url %} current{% endif %}"><a href="{{ site.baseurl }}{{ command.url }}">{{ command.title }}</a></li>
+      {% for api in site.api %}
+        <li class="menu-item{% if page.url == api.url %} current{% endif %}"><a href="{{ site.baseurl }}{{ api.url }}">{{ api.title }}</a></li>
       {% endfor %}
     </ul>
   </aside>

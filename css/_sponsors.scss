@@ -1,0 +1,24 @@
+// Sponsors
+.sponsors {
+  margin-bottom: 2rem;
+  padding: 0;
+}
+
+.sponsor {
+  list-style: none;
+  margin: 1rem auto;
+  width: 10rem;
+
+  a {
+    &:hover,
+    &:focus,
+    &:active {
+      border-bottom: 0;
+    }
+
+    img {
+      display: block;
+      margin: auto;
+    }
+  }
+}

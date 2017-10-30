@@ -1,29 +1,34 @@
 ---
-layout: commands
 title: browse
 ---
 
 <h1><code>engineer browse [list]</code></h1>
-<p class="lead">Open SharePoint home page or list in web browser.</p>
 
-<h4 class="h6">Options</h4>
-<ul>
-  <li><code>list</code> &mdash; if no list name is provided, the SharePoint home page will be shown; if a list name is provided, the browser will navigate directly to the default list view for the given list; a value of <code>migrations</code> or <code>manifest</code> will browse Engineer&rsquo;s hidden tracking lists</li>
-</ul>
+<p class="lead">Open SharePoint home page or list in web browser.</p>
 
 <hr>
 
-<h4 class="h6">Examples</h4>
+<h4>Options</h4>
+
+<dl>
+  <dt><code>list</code></dt>
+  <dd>The title of the SharePoint list <span class="muted">(optional)</span></dd>
+</dl>
+
+<hr>
+
+<h4>Examples</h4>
+
 {% highlight sh %}
-# Browse to SharePoint home page
+# Browse SharePoint home page
 engineer browse
 
-# Browse to default view for "My List"
+# Browse default view for "My List"
 engineer browse "My List"
 
-# Browse to Engineer's migrations list
+# Browse Engineer migrations list
 engineer browse migrations
 
-# Browse to Engineer's manifest list
+# Browse Engineer manifest list
 engineer browse manifest
 {% endhighlight %}

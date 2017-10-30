@@ -1,0 +1,50 @@
+// Buttons
+.btn {
+  background: transparent;
+  border: 2px solid $darker;
+  border-radius: 1.5rem;
+  color: $darker;
+  display: inline-block;
+  font-weight: 400;
+  padding: .75rem 1.5rem;
+
+  &:hover,
+  &:focus,
+  &:active {
+    border-bottom-width: 2px;
+  }
+
+  &.btn-dark {
+    &:hover,
+    &:focus,
+    &:active {
+      border-bottom-color: $darker;
+    }
+  }
+
+  &.btn-lg {
+    border-radius: 2rem;
+    font-size: 1.25rem;
+    padding: 1rem 2rem;
+  }
+
+  &.btn-primary {
+    border-color: $primary;
+    color: $primary;
+  }
+
+  &.btn-secondary {
+    border-color: $secondary;
+    color: $secondary;
+  }
+
+  &.btn-info {
+    border-color: $info;
+    color: $info;
+  }
+
+  &.btn-medium {
+    border-color: $medium;
+    color: $medium;
+  }
+}

@@ -5,6 +5,19 @@ collections:
   api:
     output: true
     permalink: /migrations/:name
+  sponsors:
+    output: false
+defaults:
+  - scope:
+      path: ""
+      type: commands
+    values:
+      layout: commands
+  - scope:
+      path: ""
+      type: api
+    values:
+      layout: api
 permalink: pretty
 sass:
   sass_dir: css

@@ -1,0 +1,19 @@
+// Colophon
+.colophon {
+  background: $lighter;
+  color: $medium;
+  font-size: .8rem;
+  text-align: center;
+
+  p {
+    margin-bottom: 0;
+
+    & + p {
+      margin-top: 1rem;
+    }
+  }
+
+  a {
+    color: $dark;
+  }
+}

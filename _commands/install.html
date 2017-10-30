@@ -1,21 +1,23 @@
 ---
-layout: commands
 title: install
 ---
 
 <h1><code>engineer install</code></h1>
+
 <p class="lead">Install Engineer&rsquo;s hidden tracking lists in SharePoint.</p>
 
 <hr>
 
-<p>The <code>install</code> command creates two lists at the root of the SharePoint site (URL configured in <code>env.js</code>) if they do not already exist. The first list is called <code>EngineerMigrations</code> , and is used to store the migration status for all Engineer migrations. The second list is called <code>EngineerManifest</code>, and is used to store content type IDs for any custom content types created by Engineer. These content types can later be referenced by name, allowing Engineer to automatically fetch the correct content type ID, even if they differ from environment to environment.</p>
+<p>The <code>install</code> command creates two lists at the root of the SharePoint site if they do not already exist. The first list is called <code>EngineerMigrations</code> , and is used to store the migration status for all Engineer migrations. The second list is called <code>EngineerManifest</code>, and is used to store content type IDs for any custom content types created by Engineer. These content types can later be referenced by name, allowing Engineer to automatically fetch the correct content type ID, even if it differs from environment to environment.</p>
 
-<h3 class="h5">List Visibility</h3>
-<p>Engineer lists are hidden and are configured to be excluded from all search indicies, ensuring end-users never see these lists or the data contained therein.</p>
+<h4>Examples</h4>
 
-<hr>
-
-<h4 class="h6">Examples</h4>
 {% highlight sh %}
 engineer install
 {% endhighlight %}
+
+<hr>
+
+<h3>List Visibility</h3>
+
+<p>Engineer lists are hidden and configured to be excluded from all search indicies, ensuring end-users never see these lists or the data contained therein. You are free to further alter the permissions for these lists after installation. Use the <code><a href="{{ site.baseurl }}{% link _commands/browse.html %}">browse</a></code> command to navigate to these lists after installation.</p>

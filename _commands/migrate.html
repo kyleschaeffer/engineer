@@ -1,28 +1,28 @@
 ---
-layout: commands
 title: migrate
 ---
 
 <h1><code>engineer migrate [options]</code></h1>
 <p class="lead">Run pending migrations.</p>
 
-<h4 class="h6">Options</h4>
-<ul>
-  <li><code>-t, --to &lt;file&gt;</code> &mdash; run all migrations up to and including the specified <code>file</code></li>
-  <li><code>-o, --only &lt;file&gt;</code> &mdash; run only the specified migration <code>file</code>, ignoring all other pending migrations</li>
-  <li><code>-s, --step &lt;number&gt;</code> &mdash; run pending migrations in order, but stop migrating after the maximum <code>number</code> of migrations</li>
-  <li><code>-f, --force</code> &mdash; run migrations, even if they have already been migrated</li>
-</ul>
+<h4>Options</h4>
+
+<dl>
+  <dt><code>-t, --to &lt;file&gt;</code></dt>
+  <dd>Run all migrations <em>up to and including</em> the specified <code>file</code></dd>
+  <dt><code>-o, --only &lt;file&gt;</code></dt>
+  <dd>Run <em>only</em> the specified migration <code>file</code>, ignoring all other pending migrations</dd>
+  <dt><code>-s, --step &lt;number&gt;</code></dt>
+  <dd>Run pending migrations in order, but stop migrating after the maximum <code>number</code> of migrations</dd>
+  <dt><code>-f, --force</code></dt>
+  <dd>Run migrations, even if they have already been migrated</dd>
+</dl>
 
 <hr>
 
-<p>The <code>migrate</code> command will activate all pending migrations and run them in order on the target SharePoint environment. Migrations are run in chronological order (oldest to newest), based on their timestamp file names.</p>
+<p>The <code>migrate</code> command deploys pending migrations to the target SharePoint environment. Migrations are run in chronological order (oldest to newest), based on their timestamp file names.</p>
 
-<p>Migrations include both <code>up</code> (deployment) and <code>down</code> (retraction) methods. The <code>migrate</code> command executes only the <code>up</code> method of each pending migration.</p>
-
-<hr>
-
-<h4 class="h6">Examples</h4>
+<h4>Examples</h4>
 {% highlight sh %}
 # Run all pending migrations
 engineer migrate
@@ -36,6 +36,12 @@ engineer migrate -o 2017102612010101-update-fields
 # Run the next two migrations
 engineer migrate -s 2
 
-# Run a specific migration in FORCE mode (run it again)
+# Run a specific migration in force mode (run it again)
 engineer migrate -o 2017102612010101-update-fields -f
 {% endhighlight %}
+
+<hr>
+
+<h3>About Migrations</h3>
+
+<p>Migrations include both <code>up</code> (deployment) and <code>down</code> (retraction) methods. The <code>migrate</code> command executes only the <code>up</code> method of each pending migration. Learn more about migrations in the <a href="{{ site.baseurl }}{% link migrations.html %}">Migrations API documentation</a>.</p>

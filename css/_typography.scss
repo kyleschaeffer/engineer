@@ -41,29 +41,35 @@ h5,
 h6 {
   color: $darker;
   font-weight: 300;
-  margin: 0 0 .5rem;
+  margin: 0 0 .25rem;
 
   strong {
     font-weight: 500;
   }
 
+  code {
+    background-color: transparent;
+    color: inherit;
+    font-weight: 700;
+    letter-spacing: -.05em;
+    padding: 0;
+  }
+
   p + &,
   ul + &,
   ol + &,
-  pre + & {
+  dl + &,
+  pre + &,
+  figure + & {
     margin-top: 2em;
   }
 }
 
 h1 {
   font-family: 'Ultra', sans-serif;
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: 400;
-
-  code {
-    background-color: transparent;
-    color: inherit;
-  }
+  margin-bottom: 2rem;
 }
 
 h2 {
@@ -71,30 +77,59 @@ h2 {
 }
 
 h3 {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
+  font-weight: 500;
 }
 
 h4 {
-  font-size: 1.25rem;
+  font-size: 1rem;
+  font-weight: 500;
+
+  p + &,
+  ul + &,
+  ol + &,
+  dl + &,
+  pre + &,
+  figure + & {
+    margin-top: 1em;
+  }
 }
 
 h5 {
-  font-size: 1.125rem;
+  color: $medium;
+  font-size: 1rem;
 }
 
 h6 {
+  border-bottom: 1px solid $light;
   font-size: 1rem;
+  margin-bottom: .5rem;
 }
 
 // Paragraphs
 p {
-  margin: 0 0 2rem;
+  margin: 0 0 1rem;
+}
+
+.lead {
+  color: $primary;
+  font-size: 1.25rem;
+  font-weight: 300;
+
+  strong {
+    color: $primary;
+    font-weight: 500;
+  }
+
+  h1 + & {
+    margin-top: -2rem;
+  }
 }
 
 // Lists
 ul {
-  margin: 0 0 2rem;
-  padding: 0 0 0 2rem;
+  margin: 0 0 1rem;
+  padding: 0 0 0 1rem;
 
   li {
     list-style-type: square;
@@ -111,10 +146,30 @@ ol {
   }
 }
 
+dl {
+  display: grid;
+  grid-gap: 1rem 1.5rem;
+  grid-template-columns: auto auto;
+  margin: 0 0 1rem;
+}
+
+dd {
+  margin: 0;
+}
+
+// Muted
+.muted {
+  color: $medium;
+}
+
 // Rules
 hr {
   border: 0;
   border-top: 1px solid $light;
   height: 0;
   margin: 2rem 0;
+
+  h1 + & {
+    margin-top: -2rem;
+  }
 }
