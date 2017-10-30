@@ -10,7 +10,7 @@ permalink: /migrations/
 
 <h2>About Migrations</h2>
 
-<p>Engineer uses <strong>migrations</strong> to track configuration changes made to SharePoint. You can use migrations to create a queue of tasks that are executed in order on any number of target environments. Think of migrations like source control for your configuration operations.</p>
+<p>Engineer uses <strong>migrations</strong> to track configuration changes made to SharePoint. You can use migrations to create a queue of tasks that are executed in order on any number of target environments. Think of migrations as source control for your configuration operations.</p>
 
 <h3>Creating Migrations</h3>
 
@@ -18,24 +18,23 @@ permalink: /migrations/
 
 <h3>Using the Migration API</h3>
 
-<p>Migration files are JavaScript files that consist of an <code>up</code> and <code>down</code> method. Code in the <code>up</code> method will be executed during <code><a href="{{ site.baseurl }}{% link _commands/migrate.html %}">migrate</a></code> operations. Code in the <code>down</code> method will be executed during <code><a href="{{ site.baseurl }}{% link _commands/rollback.html %}">rollback</a></code> operations. This allows you to define a queue of tasks that are executed during both deployment and retraction of each migration.</p>
+<p>Migration files are JavaScript files that consist of an <code>up</code> and <code>down</code> method. Tasks defined in the <code>up</code> method will be executed during <code><a href="{{ site.baseurl }}{% link _commands/migrate.html %}">migrate</a></code> operations. Tasks defined in the <code>down</code> method will be executed during <code><a href="{{ site.baseurl }}{% link _commands/rollback.html %}">rollback</a></code> operations. This allows you to define a queue of tasks that are executed during both deployment and retraction of each migration.</p>
 
 <p>Each of these methods passes a single parameter called <code>engineer</code> through to your migration logic. You can use this <code>engineer</code> object to access the migration API.</p>
 
 {% highlight js %}
 up(engineer) {
-  // Use the Lists API to add a new list
+  // Add a new list
   engineer.web.lists.add('My List');
 
-  // Use the Fields API to add a new field
-  engineer.web.fields.add('My New Field');
-
-  // Use the List and Fields API to add a new field to a list
-  engineer.web.lists.getByTitle('My List').fields.add('My New Field 2');
+  // Add a new field to the list
+  engineer.web.lists.getByTitle('My List').fields.add('My New Field');
 }
 {% endhighlight %}
 
 <p>The same API is accessed in both the <code>up</code> and <code>down</code> methods. There are a variety of API endpoints, options, and configurations you can use to do just about anything within your SharePoint environments. Refer to the individual API documentation for more information on how to use each endpoint.</p>
+
+<p>To learn more, we recommend starting with the <code><a href="{{ site.baseurl }}{% link _api/web.html %}">Web</a></code> documentation, as all Engineer tasks must begin with a <code>Web</code>.</p>
 
 <h3>The Migration Queue</h3>
 
