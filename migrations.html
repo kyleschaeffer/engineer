@@ -36,3 +36,7 @@ up(engineer) {
 {% endhighlight %}
 
 <p>The same API is accessed in both the <code>up</code> and <code>down</code> methods. There are a variety of API endpoints, options, and configurations you can use to do just about anything within your SharePoint environments. Refer to the individual API documentation for more information on how to use each endpoint.</p>
+
+<h3>The Migration Queue</h3>
+
+<p>Migration operations are executed in queue, with tasks being performed one at a time in the order they appear within the file. Traditional worries concerning ansynchronous JavaScript state management do not apply, as this is all sorted out in the internal Engineer API queue logic.</p>
