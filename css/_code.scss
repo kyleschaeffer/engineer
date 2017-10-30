@@ -1,0 +1,43 @@
+// Typography
+pre,
+code {
+  font-family: 'Fira Code', monospace;
+}
+
+code {
+  background: $lighter;
+  border-radius: $r;
+  color: $primary;
+  padding: 0 .25rem;
+}
+
+pre {
+  background: $lighter;
+  line-height: 2.25;
+  margin: 0 0 2rem;
+  overflow-x: auto;
+  padding: 2rem;
+  width: 100%;
+
+  code {
+    background: transparent;
+    border-radius: 0;
+    color: inherit;
+    padding: 0;
+  }
+}
+
+// Syntax
+.c,
+.c1 {
+  color: $medium;
+}
+
+.nt,
+.s1 {
+  color: $primary;
+}
+
+.nx {
+  color: $info;
+}

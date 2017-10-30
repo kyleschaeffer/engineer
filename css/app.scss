@@ -1,36 +1,14 @@
 ---
 ---
 
-.gh-link svg {
-  display: inline-block;
-  height: 1.25rem;
-  vertical-align: text-top;
-  width: 1.25rem;
-}
+// Configuration
+@import 'config';
 
-.locomotive {
-  max-width: 50vw;
-}
-
-.se-footer {
-  background: #fafafa;
-  font-size: .85rem;
-
-  a {
-    color: #444;
-  }
-}
-
-.sponsor {
-  margin: 2rem 0;
-
-  a {
-    display: block;
-    margin: auto;
-    max-width: 150px;
-  }
-
-  img {
-    display: block;
-  }
-}
+// Stylesheets
+@import 'typography';
+@import 'code';
+@import 'media';
+@import 'navbar';
+@import 'content';
+@import 'menu';
+@import 'utility';

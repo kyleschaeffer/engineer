@@ -1,0 +1,19 @@
+// Content
+.content {
+  padding: 2rem;
+}
+
+// Sidebar
+.with-sidebar {
+  display: grid;
+  grid-gap: 2rem;
+  grid-template-columns: 12rem auto;
+}
+
+.sidebar {
+  position: sticky;
+
+  h6 {
+    font-weight: 500;
+  }
+}

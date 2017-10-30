@@ -1,0 +1,20 @@
+{% include header.html %}
+
+<main class="content with-sidebar">
+
+  <aside class="sidebar">
+    <h6>Commands</h6>
+    <ul class="menu-vertical">
+      {% for command in site.commands %}
+        <li class="menu-item"><a href="{{ site.baseurl }}{{ command.url }}">{{ command.title }}</a></li>
+      {% endfor %}
+    </ul>
+  </aside>
+
+  <article class="main">
+    {{ content }}
+  </article>
+
+</main>
+
+{% include footer.html %}

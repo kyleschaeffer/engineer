@@ -1,0 +1,32 @@
+// Menu
+.menu {
+  display: flex;
+  margin: 0;
+  padding: 0;
+
+  .menu-item {
+    padding: 1em;
+  }
+}
+
+// Vertical menu
+.menu-vertical {
+  margin: 0;
+  padding: 0;
+
+  .menu-item {
+    margin-bottom: .25rem;
+  }
+}
+
+// Menu items
+.menu-item {
+  list-style: none;
+  margin: 0;
+
+  &.current {
+    a {
+      border-bottom: 1px solid $secondary;
+    }
+  }
+}

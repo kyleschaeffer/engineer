@@ -1,0 +1,120 @@
+// Box sizing
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+// Document
+body {
+  background: $white;
+  color: $dark;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  font-size: $s;
+  line-height: 1.4;
+  margin: 0;
+}
+
+// Hyperlinks
+a {
+  color: $primary;
+  text-decoration: none;
+
+  &:hover,
+  &:focus,
+  &:active {
+    border-bottom: 1px solid $secondary;
+  }
+}
+
+// Emphasis
+strong {
+  color: $darker;
+}
+
+// Headings
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: $darker;
+  font-weight: 300;
+  margin: 0 0 .5rem;
+
+  strong {
+    font-weight: 500;
+  }
+
+  p + &,
+  ul + &,
+  ol + &,
+  pre + & {
+    margin-top: 2em;
+  }
+}
+
+h1 {
+  font-family: 'Ultra', sans-serif;
+  font-size: 3rem;
+  font-weight: 400;
+
+  code {
+    background-color: transparent;
+    color: inherit;
+  }
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+}
+
+h5 {
+  font-size: 1.125rem;
+}
+
+h6 {
+  font-size: 1rem;
+}
+
+// Paragraphs
+p {
+  margin: 0 0 2rem;
+}
+
+// Lists
+ul {
+  margin: 0 0 2rem;
+  padding: 0 0 0 2rem;
+
+  li {
+    list-style-type: square;
+    margin-bottom: .25rem;
+  }
+}
+
+ol {
+  margin: 0 0 2rem;
+  padding: 0 0 0 2rem;
+
+  li {
+    margin-bottom: .25rem;
+  }
+}
+
+// Rules
+hr {
+  border: 0;
+  border-top: 1px solid $light;
+  height: 0;
+  margin: 2rem 0;
+}

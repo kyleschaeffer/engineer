@@ -1,0 +1,14 @@
+<ul class="menu">{% assign current = page.url | split: '/' %}
+  <li class="menu-item{% if current[1] == 'get-started' %} current{% endif %}">
+    <a href="{{ site.baseurl }}{% link get-started.html %}">Get Started</a>
+  </li>
+  <li class="menu-item{% if current[1] == 'commands' %} current{% endif %}">
+    <a href="{{ site.baseurl }}{% link commands.html %}">Commands</a>
+  </li>
+  <li class="menu-item{% if current[1] == 'migrations' %} current{% endif %}">
+    <a href="{{ site.baseurl }}{% link migrations.html %}">Migrations</a>
+  </li>
+  <li class="menu-item{% if current[1] == 'support' %} current{% endif %}">
+    <a href="{{ site.baseurl }}{% link support.html %}">Support</a>
+  </li>
+</ul>
