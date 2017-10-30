@@ -9,14 +9,16 @@ permalink: /migrations/
 <hr>
 
 <h2>About Migrations</h2>
+
 <p>Engineer uses <strong>migrations</strong> to track configuration changes made to SharePoint. You can use migrations to create a queue of tasks that are executed in order on any number of target environments. Think of migrations like source control for your configuration operations.</p>
+
+<h3>Creating Migrations</h3>
 
 <p>Use the <code><a href="{{ site.baseurl }}{% link _commands/make.html %}">make</a></code> command to create new migration files. Once created, you can use Engineer&rsquo;s migration API to create fields, content types, lists, views, and more.</p>
 
-<hr>
+<h3>Using the Migration API</h3>
 
-<h2>Using the Migration API</h2>
-<p>Migration files consist of an <code>up</code> and <code>down</code> method. Code in the <code>up</code> method will be executed during <code><a href="{{ site.baseurl }}{% link _commands/migrate.html %}">migrate</a></code> operations. Code in the <code>down</code> method will be executed during <code><a href="{{ site.baseurl }}{% link _commands/rollback.html %}">rollback</a></code> operations. This allows you to define a queue of tasks that are executed during both deployment and retraction of each migration.</p>
+<p>Migration files are JavaScript files that consist of an <code>up</code> and <code>down</code> method. Code in the <code>up</code> method will be executed during <code><a href="{{ site.baseurl }}{% link _commands/migrate.html %}">migrate</a></code> operations. Code in the <code>down</code> method will be executed during <code><a href="{{ site.baseurl }}{% link _commands/rollback.html %}">rollback</a></code> operations. This allows you to define a queue of tasks that are executed during both deployment and retraction of each migration.</p>
 
 <p>Each of these methods passes a single parameter called <code>engineer</code> through to your migration logic. You can use this <code>engineer</code> object to access the migration API.</p>
 
