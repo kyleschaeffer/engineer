@@ -18,7 +18,7 @@ engineer init
 
 <hr>
 
-<h3 id="env"><code>env.js</code> Configuration Options</h3>
+<h3 id="env">Environment Configuration Options</h3>
 
 <p>The <code>env.js</code> (environment) file contains configuration options for a target SharePoint environment. You may have one or more environment files per project. Most importantly, this file contains a destination URL and authentication information for each SharePoint environment. Other configuration options are also available.</p>
 
@@ -28,17 +28,17 @@ engineer init
   <dt><code>auth</code></dt>
   <dd>Authentication configuration object for <a href="https://github.com/s-KaiNet/node-sp-auth">node-sp-auth</a>; note that some migration API methods support only <a href="https://github.com/s-KaiNet/node-sp-auth/wiki/SharePoint%20Online%20user%20credentials%20authentication">SAML user/password</a> or <a href="https://github.com/s-KaiNet/node-sp-auth/wiki/SharePoint%20Online%20addin%20only%20authentication">add-in client/secret</a> configuration <span class="muted">(<code class="muted">Object</code>, required)</span></dd>
   <dt><code>lang</code></dt>
-  <dd>Language setting for localization of all Engineer messages; default language is <code>"en"</code> <span class="muted">(<code class="muted">String</code>, optional)</span></dd>
+  <dd>Language setting for localization of all Engineer messages (default: <code>"en"</code>) <span class="muted">(<code class="muted">String</code>, optional)</span></dd>
   <dt><code>logLevel</code></dt>
   <dd>Logging level for all Engineer messages; <code>0</code> is verbose, <code>1</code> is info, <code>2</code> (default) is warning, <code>3</code> is errors only, and <code>99</code> is quiet (no logging) <span class="muted">(<code class="muted">Number</code>, optional)</span></dd>
   <dt><code>stopOnError</code></dt>
-  <dd>Specifies whether Engineer should stop upon encountering an error during migrations and rollbacks; default is <code>false</code> <span class="muted">(<code class="muted">Boolean</code>, optional)</span></dd>
+  <dd>Specifies whether Engineer should stop upon encountering an error during migrations and rollbacks (default: <code>false</code>) <span class="muted">(<code class="muted">Boolean</code>, optional)</span></dd>
 </dl>
-
-<h3>Engineer Translations</h3>
-
-<p>Want to translate Engineer into your own language? Check out the <code><a href="https://github.com/oldrivercreative/engineer/blob/master/app/lang/en.js">lang/en.js</a></code> file on GitHub. Once you have translated all messages into your own language, feel free to submit a pull request with your new translation file.</p>
 
 <h3>Important Security Consideration</h3>
 
 <p>If you are using source control to track migration changes, we highly recommend ignoring the <code>env.js</code> from any code repositories in order to prevent sensitive authentication information from being shared.</p>
+
+<h3>Engineer Translations</h3>
+
+<p>Want to translate Engineer into your own language? Check out the <code><a href="https://github.com/oldrivercreative/engineer/blob/master/app/lang/en.js">lang/en.js</a></code> file on GitHub. Once you have translated all messages into your own language, feel free to submit a pull request with your new translation file.</p>

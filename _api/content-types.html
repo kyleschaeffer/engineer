@@ -3,8 +3,224 @@ title: ContentTypes
 ---
 
 <h1>ContentTypes</h1>
-<p class="lead">A collection of SharePoint content types</p>
+
+<p class="lead">Configure SharePoint content types in a web or list.</p>
 
 <hr>
 
-<p>Documentation coming soon.</p>
+<h2>Access</h2>
+
+<p>Access the <code>ContentTypes</code> API using the <code>contentTypes</code> property of <code><a href="{{ site.baseurl }}{% link _api/web.html %}">Web</a></code> or <code><a href="{{ site.baseurl }}{% link _api/list.html %}">List</a></code>.</p>
+
+<h4>Examples</h4>
+
+{% highlight js %}
+up(engineer) {
+  // Add content type to web
+  engineer.web.contentTypes.add('Web CT');
+
+  // Add content type to list
+  engineer.web.lists.getByTitle('My List').contentTypes.add('List CT');
+}
+{% endhighlight %}
+
+<hr>
+
+<h2>Methods</h2>
+
+<h3 id="getById" data-jump="getById()"><code>getById(<span class="na">id</span>)</code></h3>
+
+<p>Get a content type by its ID or GUID. We highly recommend using the <code><a href="#getByName">getByName</a></code> method for any custom content types created by Engineer, as the content type ID may change from environment to environment.</p>
+
+<h4>Parameters</h4>
+
+<dl>
+  <dt><code>id</code></dt>
+  <dd>The ID or GUID of the content type to be retrieved <span class="muted">(<code class="muted">String</code>, required)</span></dd>
+</dl>
+
+<h4>Returns</h4>
+
+<dl>
+  <dt><code><a href="{{ site.baseurl }}{% link _api/content-type.html %}">ContentType</a></code></dt>
+</dl>
+
+<h4>Examples</h4>
+
+{% highlight js %}
+up(engineer) {
+  // Update the Item content type
+  engineer.web.contentTypes.getById('0x01').update({
+    Description: 'Item content type',
+  });
+}
+{% endhighlight %}
+
+<h3 id="getByName" data-jump="getByName()"><code>getByName(<span class="na">name</span>)</code></h3>
+
+<p>Get a content type by its name. This method can only be used with content types that were previously created by Engineer. Getting a content type by name is not natively supported by SharePoint, so Engineer uses a content type ID manifest. This manifest is updated automatically any time a content type is created or deleted within a migration, and keeps track of all content type IDs for each environment, even if they differ between any two environments.</p>
+
+<h4>Parameters</h4>
+
+<dl>
+  <dt><code>name</code></dt>
+  <dd>The name or title of the content type to be retrieved <span class="muted">(<code class="muted">String</code>, required)</span></dd>
+</dl>
+
+<h4>Returns</h4>
+
+<dl>
+  <dt><code><a href="{{ site.baseurl }}{% link _api/content-type.html %}">ContentType</a></code></dt>
+</dl>
+
+<h4>Examples</h4>
+
+{% highlight js %}
+up(engineer) {
+  // Create content type
+  engineer.web.contentTypes.add('New CT');
+
+  // Update content type
+  engineer.web.contentTypes.getByName('New CT').update({
+    Description: 'Updating this content type description',
+  });
+}
+{% endhighlight %}
+
+<h3 id="getByTitle" data-jump="getByTitle()"><code>getByTitle(<span class="na">title</span>)</code></h3>
+
+<p>Get a content type by its title. This is a synonym of the <code><a href="#getByName">getByName</a></code> method.</p>
+
+<h3 id="add" data-jump="add()"><code>add(<span class="na">options|name</span>)</code></h3>
+
+<p>Add a new content type to the target <code><a href="{{ site.baseurl }}{% link _api/web.html %}">Web</a></code> or <code><a href="{{ site.baseurl }}{% link _api/list.html %}">List</a></code>.</p>
+
+<h4>Parameters</h4>
+
+<dl>
+  <dt><code>options</code></dt>
+  <dd>New content type configuration <span class="muted">(<code class="muted">Object</code>, required)</span></dd>
+  <dt><code>name</code></dt>
+  <dd>If a <code>String</code> is provided instead of <code>options</code>, a new content type of this name will be created with default configuration <span class="muted">(<code class="muted">String</code>, override)</span></dd>
+</dl>
+
+<h4>Properties of <code>options</code></h4>
+
+<dl>
+  <dt><code>ParentContentTypeId</code></dt>
+  <dd>The ID or GUID of the parent content type (default: <code>"0x01"</code>) <span class="muted">(<code class="muted">String</code>, optional)</span></dd>
+  <dt><code>Id</code></dt>
+  <dd>The ID or GUID of the new content type, which will be automatically appended to the <code>ParentContentTypeId</code> during creation; note that there is no need to explicitly set this when creating a content type because SharePoint ignores the ID when creating content types <span class="muted">(<code class="muted">String</code>, optional)</span></dd>
+  <dt><code>Name</code></dt>
+  <dd>The name or title of the new content type <span class="muted">(<code class="muted">String</code>, required)</span></dd>
+  <dt><code>Description</code></dt>
+  <dd>A description of the new content type <span class="muted">(<code class="muted">String</code>, optional)</span></dd>
+  <dt><code>Group</code></dt>
+  <dd>The group name under which this content type will appear in content type galleries <span class="muted">(<code class="muted">String</code>, optional)</span></dd>
+</dl>
+
+<h4>Examples</h4>
+
+{% highlight js %}
+up(engineer) {
+  // Create content type of parent "Item"
+  engineer.web.contentTypes.add('Custom Item');
+
+  // Create content type of parent "Document"
+  engineer.web.contentTypes.add({
+    ParentContentTypeId: '0x0101',
+    Name: 'Custom Document',
+    Description: 'My custom document type',
+    Group: 'My Group',
+  });
+}
+{% endhighlight %}
+
+<h3 id="addAvailable" data-jump="addAvailable()"><code>addAvailable(<span class="na">options|name</span>)</code></h3>
+
+<p>Add an existing content type to the target <code><a href="{{ site.baseurl }}{% link _api/list.html %}">List</a></code>. This method is <em>not</em> available in the context of a <code><a href="{{ site.baseurl }}{% link _api/web.html %}">Web</a></code>.</p>
+
+<h4>Parameters</h4>
+
+<dl>
+  <dt><code>options</code></dt>
+  <dd>Existing content type configuration <span class="muted">(<code class="muted">Object</code>, required)</span></dd>
+  <dt><code>name</code></dt>
+  <dd>If a <code>String</code> is provided instead of <code>options</code>, a content type of this name will be added to the <code>List</code> <span class="muted">(<code class="muted">String</code>, override)</span></dd>
+</dl>
+
+<h4>Properties of <code>options</code></h4>
+
+<dl>
+  <dt><code>Id</code></dt>
+  <dd>The ID or GUID of the existing content type; required if <code>Name</code> is not specified <span class="muted">(<code class="muted">String</code>, optional)</span></dd>
+  <dt><code>Name</code></dt>
+  <dd>The name or title of the existing content type; note that content types can only be referenced by their name if they have been created in a previous migration and exist in the content type ID manifest; required if <code>Id</code> is not specified <span class="muted">(<code class="muted">String</code>, required)</span></dd>
+</dl>
+
+<h4>Examples</h4>
+
+{% highlight js %}
+up(engineer) {
+  // Create new content type
+  engineer.web.contentTypes.add('Custom Item');
+
+  // Add new content type to list
+  engineer.web.lists.getByTitle('My List').contentTypes.addAvailable('Custom Item');
+
+  // Add "Event" content type by ID
+  engineer.web.lists.getByTitle('My List').contentTypes.addAvailable({
+    Id: '0x0102',
+  });
+}
+{% endhighlight %}
+
+<h3 id="order" data-jump="order()"><code>order(<span class="na">contentTypes</span>)</code></h3>
+
+<p>Alter the default content type and ordering of content types in the target <code><a href="{{ site.baseurl }}{% link _api/list.html %}">List</a></code>. This method is <em>not</em> available in the context of a <code><a href="{{ site.baseurl }}{% link _api/web.html %}">Web</a></code>. This method uses the SharePoint client-side object model (CSOM).</p>
+
+<h4>Parameters</h4>
+
+<dl>
+  <dt><code>contentTypes</code></dt>
+  <dd>An array of content type <code>String</code> names representing the new order of content types available on the list; note that the first content type in the array will become the default content type for the list <span class="muted">(<code class="muted">Array</code>, required)</span></dd>
+</dl>
+
+<h4>Examples</h4>
+
+{% highlight js %}
+up(engineer) {
+  // Add content types to list
+  engineer.web.lists.getByTitle('Animals').contentTypes.add('Cat');
+  engineer.web.lists.getByTitle('Animals').contentTypes.add('Dog');
+
+  // Set new content type order
+  engineer.web.lists.getByTitle('Animals').contentTypes.order([
+    'Dog',
+    'Cat',
+  ]);
+}
+{% endhighlight %}
+
+<h3 id="default" data-jump="default()"><code>default(<span class="na">contentType</span>)</code></h3>
+
+<p>Set a single default content type on the target <code><a href="{{ site.baseurl }}{% link _api/list.html %}">List</a></code>. This is similar to the <code><a href="#order">order</a></code> method, but accepts only a single content type name. This method is <em>not</em> available in the context of a <code><a href="{{ site.baseurl }}{% link _api/web.html %}">Web</a></code>. This method uses the SharePoint client-side object model (CSOM).</p>
+
+<h4>Parameters</h4>
+
+<dl>
+  <dt><code>contentType</code></dt>
+  <dd>The content type name that will be the new default content type for this list <span class="muted">(<code class="muted">String</code>, required)</span></dd>
+</dl>
+
+<h4>Examples</h4>
+
+{% highlight js %}
+up(engineer) {
+  // Add content type to list
+  engineer.web.lists.getByTitle('Animals').contentTypes.add('Dog');
+
+  // Set default content type
+  engineer.web.lists.getByTitle('Animals').contentTypes.default('Dog');
+}
+{% endhighlight %}

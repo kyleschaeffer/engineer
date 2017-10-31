@@ -19,7 +19,7 @@
   .menu-item {
     margin-bottom: .5rem;
 
-    &.current {
+    &.current > a {
       font-weight: 700;
     }
   }
@@ -30,9 +30,21 @@
   list-style: none;
   margin: 0;
 
-  &.current {
-    a {
-      border-bottom: 1px solid $secondary;
+  &.current > a {
+    border-bottom: 1px solid $secondary;
+  }
+}
+
+// Jump nav
+.jump-nav {
+  padding: 0 0 0 .5rem;
+
+  > li {
+    font-size: .9rem;
+    list-style: none;
+
+    > a {
+      color: $darker;
     }
   }
 }
