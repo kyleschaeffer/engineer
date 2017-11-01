@@ -159,12 +159,29 @@ dl {
   margin: 0 0 1rem;
 
   @include mq-up($screen-md) {
-    display: grid;
-    grid-gap: 1rem 1.5rem;
-    grid-template-columns: 8rem auto;
+    dt {
+      float: left;
+      width: 8rem;
+    }
+
+    dd {
+      margin-bottom: 1rem;
+      margin-left: 9.5rem;
+
+      &::after {
+        clear: both;
+        content: '';
+      }
+    }
 
     &.wide-params {
-      grid-template-columns: 12rem auto;
+      dt {
+        width: 12rem;
+      }
+
+      dd {
+        margin-left: 13.5rem;
+      }
     }
   }
 }
@@ -194,6 +211,6 @@ hr {
   margin: 2rem 0;
 
   h1 + & {
-    margin-top: -2rem;
+    margin-top: -1.5rem;
   }
 }

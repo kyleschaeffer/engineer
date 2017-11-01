@@ -1,8 +1,14 @@
 // Content
 .content {
+  display: block;
   margin: auto;
   max-width: $w;
   padding: 1rem;
+
+  &::after {
+    clear: both;
+    content: '';
+  }
 
   @include mq-up($screen-sm) {
     padding: 2rem;
