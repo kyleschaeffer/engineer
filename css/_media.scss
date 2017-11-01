@@ -7,3 +7,77 @@ img {
 figure {
   margin: 0;
 }
+
+// Stage
+.stage {
+  background: $darker;
+  padding: 2rem 0;
+}
+
+// Video
+video {
+  display: block;
+  transition: opacity $t ease;
+  width: 100%;
+
+  .lobby &,
+  .curtains & {
+    cursor: pointer;
+    opacity: .5;
+  }
+}
+
+// Video controls
+.player {
+  background: $black;
+  margin: auto;
+  max-width: 50rem;
+  position: relative;
+
+  &:hover .play,
+  &:hover .play-again {
+    opacity: .5;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.play,
+.play-again {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  bottom: 0;
+  color: $white;
+  cursor: pointer;
+  display: block;
+  font-size: 1.25rem;
+  line-height: 2.5rem;
+  opacity: .25;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  transition: opacity $t ease, bottom $t ease, transform $t ease, right $t ease;
+  width: 2.5rem;
+  z-index: 1;
+
+  .lobby & {
+    bottom: 45%;
+    right: 50%;
+    transform: scale(3);
+  }
+}
+
+.play {
+  margin-left: -1.25rem;
+}
+
+.play-again {
+  right: 2.5rem;
+
+  .lobby & {
+    display: none;
+  }
+}
