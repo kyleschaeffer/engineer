@@ -3,15 +3,16 @@
 
 // Configuration
 @import 'config';
+@import 'mixins';
 
 // Stylesheets
 @import 'typography';
 @import 'code';
 @import 'media';
-@import 'navbar';
-@import 'content';
 @import 'menu';
 @import 'buttons';
+@import 'navbar';
+@import 'content';
 @import 'heroes';
 @import 'sponsors';
 @import 'colophon';

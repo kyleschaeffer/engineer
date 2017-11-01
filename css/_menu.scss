@@ -1,23 +1,30 @@
 // Menu
 .menu {
-  display: flex;
   margin: 0;
   padding: 0;
 
-  .menu-item {
-    + .menu-item {
+  .menu-item + .menu-item {
+    margin-top: .5rem;
+  }
+
+  @include mq-up($screen-sm) {
+    display: flex;
+
+    .menu-item + .menu-item {
       margin-left: 1.5rem;
+      margin-top: 0;
     }
   }
 }
 
 // Vertical menu
 .menu-vertical {
+  line-height: 1.1;
   margin: 0;
   padding: 0;
 
   .menu-item {
-    margin-bottom: .5rem;
+    margin-bottom: .75rem;
 
     &.current > a {
       font-weight: 700;
@@ -42,6 +49,10 @@
   > li {
     font-size: .9rem;
     list-style: none;
+
+    + li {
+      margin-top: .5rem;
+    }
 
     > a {
       color: $darker;

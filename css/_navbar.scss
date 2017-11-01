@@ -5,18 +5,25 @@
 }
 
 .navbar-content {
-  align-items: center;
-  display: flex;
-  height: 4rem;
-  justify-content: space-between;
   margin: auto;
   max-width: $w;
-  padding: 0 2rem;
+  padding: 1rem;
+  text-align: center;
+
+  @include mq-up($screen-sm) {
+    align-items: center;
+    display: flex;
+    height: 4rem;
+    justify-content: space-between;
+    padding: 0 2rem;
+    text-align: left;
+  }
 }
 
 // Brand
 .brand {
   display: block;
+  margin: 0 auto 1rem;
   width: 2rem;
 
   &:hover,
@@ -28,11 +35,21 @@
   img {
     display: block;
   }
+
+  @include mq-up($screen-sm) {
+    margin: 0;
+  }
 }
 
 // Interact
 .interact {
+  margin-top: 1rem;
+
   i {
     font-size: 1.5rem;
+  }
+
+  @include mq-up($screen-sm) {
+    margin-top: 0;
   }
 }

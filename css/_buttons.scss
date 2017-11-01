@@ -48,3 +48,26 @@
     color: $medium;
   }
 }
+
+// Button action rows
+.action {
+  text-align: center;
+
+  .btn {
+    display: block;
+  }
+
+  .btn + .btn {
+    margin-top: 1rem;
+  }
+
+  @include mq-up($screen-sm) {
+    .btn {
+      display: inline-block;
+    }
+
+    .btn + .btn {
+      margin-top: 0;
+    }
+  }
+}

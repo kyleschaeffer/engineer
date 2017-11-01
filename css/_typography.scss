@@ -41,6 +41,7 @@ h5,
 h6 {
   color: $darker;
   font-weight: 300;
+  line-height: 1.1;
   margin: 0 0 .25rem;
 
   strong {
@@ -67,13 +68,21 @@ h6 {
 
 h1 {
   font-family: 'Ultra', sans-serif;
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   font-weight: 400;
   margin-bottom: 2rem;
+
+  @include mq-up($screen-sm) {
+    font-size: 2.5rem;
+  }
 }
 
 h2 {
-  font-size: 2rem;
+  font-size: 1.5rem;
+
+  @include mq-up($screen-sm) {
+    font-size: 2rem;
+  }
 }
 
 h3 {
@@ -129,7 +138,7 @@ p {
 // Lists
 ul {
   margin: 0 0 1rem;
-  padding: 0 0 0 1rem;
+  padding: 0 0 0 1.5rem;
 
   li {
     list-style-type: square;
@@ -147,14 +156,29 @@ ol {
 }
 
 dl {
-  display: grid;
-  grid-gap: 1rem 1.5rem;
-  grid-template-columns: auto auto;
   margin: 0 0 1rem;
+
+  @include mq-up($screen-md) {
+    display: grid;
+    grid-gap: 1rem 1.5rem;
+    grid-template-columns: 8rem auto;
+
+    &.wide-params {
+      grid-template-columns: 12rem auto;
+    }
+  }
+}
+
+dt {
+  word-wrap: break-word;
 }
 
 dd {
-  margin: 0;
+  margin: 0 0 1rem;
+
+  @include mq-up($screen-md) {
+    margin-bottom: 0;
+  }
 }
 
 // Muted

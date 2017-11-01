@@ -1,0 +1,3 @@
+linters:
+  mixins-before-declarations:
+    exclude: ['mq-up', 'mq-down', 'mq-between']
