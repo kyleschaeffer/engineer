@@ -3,8 +3,95 @@ title: Web
 ---
 
 <h1>Web</h1>
-<p class="lead">A single SharePoint web (site/subsite)</p>
+
+<p class="lead">Configure a SharePoint web.</p>
 
 <hr>
 
-<p>Documentation coming soon.</p>
+<h2>Access</h2>
+
+<p>Access the <code>Web</code> API directly from the <code>engineer</code> migration API object. The root web (site collection) can be accessed using <code>engineer.web</code>, and any sub-webs can be accessed using <code><a href="#getWeb">engineer.getWeb()</a></code>.</p>
+
+<h4>Examples</h4>
+
+{% highlight js %}
+up(engineer) {
+  // Update root web
+  engineer.web.update({
+    Description: 'New web description',
+  });
+
+  // Update child web/subsite
+  engineer.getWeb('/my-sub-web').update({
+    Description: 'New subsite description',
+  });
+}
+{% endhighlight %}
+
+<hr>
+
+<h2>Properties</h2>
+
+<h3 id="contentTypes" data-jump="contentTypes"><code>contentTypes</code></h3>
+
+<p>Provides access to the <code><a href="{{ site.baseurl }}{% link _api/content-types.html %}">ContentTypes</a></code> API.</p>
+
+<h3 id="fields" data-jump="fields"><code>fields</code></h3>
+
+<p>Provides access to the <code><a href="{{ site.baseurl }}{% link _api/fields.html %}">Fields</a></code> API.</p>
+
+<h3 id="lists" data-jump="views"><code>lists</code></h3>
+
+<p>Provides access to the <code><a href="{{ site.baseurl }}{% link _api/lists.html %}">Lists</a></code> API.</p>
+
+<h3 id="webs" data-jump="webs"><code>webs</code></h3>
+
+<p>Provides access to the <code><a href="{{ site.baseurl }}{% link _api/webs.html %}">Webs</a></code> API.</p>
+
+<hr>
+
+<h2>Methods</h2>
+
+<h3 id="update" data-jump="update()"><code>update(<span class="na">options</span>)</code></h3>
+
+<p>Update the web.</p>
+
+<h4>Parameters</h4>
+
+<dl>
+  <dt><code>options</code></dt>
+  <dd>Updated web configuration <span class="muted">(<code class="muted">Object</code>, required)</span></dd>
+</dl>
+
+<h4>Properties of <code>options</code></h4>
+
+<p>See <a href="https://msdn.microsoft.com/en-us/library/dn499819.aspx#bk_WebProperties">Microsoft&rsquo;s <code>Web</code> resource documentation</a> for a listing of all possible properties that can be passed to the REST API.</p>
+
+<h4>Examples</h4>
+
+{% highlight js %}
+up(engineer) {
+  // Update root web
+  engineer.web.update({
+    Description: 'New web description',
+  });
+
+  // Update child web/subsite
+  engineer.getWeb('/my-sub-web').update({
+    Description: 'New subsite description',
+  });
+}
+{% endhighlight %}
+
+<h3 id="delete" data-jump="delete()"><code>delete()</code></h3>
+
+<p>Delete the web.</p>
+
+<h4>Examples</h4>
+
+{% highlight js %}
+down(engineer) {
+  // Delete web
+  engineer.getWeb('/my-web').delete();
+}
+{% endhighlight %}

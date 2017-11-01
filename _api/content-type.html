@@ -4,7 +4,7 @@ title: ContentType
 
 <h1>ContentType</h1>
 
-<p class="lead">Configure a single SharePoint content type.</p>
+<p class="lead">Configure a SharePoint content type.</p>
 
 <hr>
 
@@ -16,12 +16,12 @@ title: ContentType
 
 {% highlight js %}
 up(engineer) {
-  // Update existing content type on web
+  // Update content type on web
   engineer.web.contentTypes.getByName('My Content Type').update({
     Description: 'This is a new description',
   });
 
-  // Update existing content type on list
+  // Update content type on list
   engineer.web.lists.getByTitle('My List').contentTypes.getByName('My Content Type').update({
     Description: 'This is a new description',
   });
@@ -34,7 +34,7 @@ up(engineer) {
 
 <h3 id="fieldLinks" data-jump="fieldLinks"><code>fieldLinks</code></h3>
 
-<p>Access to the <code><a href="{{ site.baseurl }}{% link _api/field-links.html %}">FieldLinks</a></code> API is provided via the <code>fieldLinks</code> property of this content type.</p>
+<p>Provides access to the <code><a href="{{ site.baseurl }}{% link _api/field-links.html %}">FieldLinks</a></code> API.</p>
 
 <hr>
 
@@ -90,15 +90,10 @@ up(engineer) {
 
 {% highlight js %}
 up(engineer) {
-  // Update existing content type on web
+  // Update content type on web
   engineer.web.contentTypes.getByName('My Content Type').update({
     Description: 'This is a new description',
     Group: 'My Group',
-  });
-
-  // Update existing content type on list
-  engineer.web.lists.getByTitle('My List').contentTypes.getByName('My Content Type').update({
-    Description: 'This is a new description',
   });
 }
 {% endhighlight %}
@@ -113,8 +108,5 @@ up(engineer) {
 down(engineer) {
   // Delete content type from web
   engineer.web.contentTypes.getByName('My Content Type').delete();
-
-  // Delete content type from list
-  engineer.web.lists.getByTitle('My List').contentTypes.getByName('My Content Type').delete();
 }
 {% endhighlight %}

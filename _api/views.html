@@ -3,8 +3,119 @@ title: Views
 ---
 
 <h1>Views</h1>
-<p class="lead">A collection of views on a SharePoint list</p>
+
+<p class="lead">Configure SharePoint views in a list.</p>
 
 <hr>
 
-<p>Documentation coming soon.</p>
+<h2>Access</h2>
+
+<p>Access the <code>Views</code> API using the <code><a href="{{ site.baseurl }}{% link _api/list.html %}#views">views</a></code> property of <code><a href="{{ site.baseurl }}{% link _api/list.html %}">List</a></code>.</p>
+
+<h4>Examples</h4>
+
+{% highlight js %}
+up(engineer) {
+  // Add a view
+  engineer.web.lists.getByTitle('My List').views.add('My View');
+}
+{% endhighlight %}
+
+<hr>
+
+<h2>Methods</h2>
+
+<h3 id="getById" data-jump="getById()"><code>getById(<span class="na">id</span>)</code></h3>
+
+<p>Get a view by its ID or GUID. We highly recommend using the <code><a href="#getByTitle">getByTitle</a></code> method for any custom views created by Engineer, as the view ID may change from environment to environment.</p>
+
+<h4>Parameters</h4>
+
+<dl>
+  <dt><code>id</code></dt>
+  <dd>The ID or GUID of the view to be retrieved <span class="muted">(<code class="muted">String</code>, required)</span></dd>
+</dl>
+
+<h4>Returns</h4>
+
+<dl>
+  <dt><code><a href="{{ site.baseurl }}{% link _api/view.html %}">View</a></code></dt>
+</dl>
+
+<h4>Examples</h4>
+
+{% highlight js %}
+up(engineer) {
+  // Update view by ID
+  engineer.web.lists.getByTitle('My List').views.getById('5beb5527-6646-4f12-be01-ed7a5dca3488').update({
+    RowLimit: 100,
+  });
+}
+{% endhighlight %}
+
+<h3 id="getByTitle" data-jump="getByTitle()"><code>getByTitle(<span class="na">title</span>)</code></h3>
+
+<p>Get a view by its title.</p>
+
+<h4>Parameters</h4>
+
+<dl>
+  <dt><code>title</code></dt>
+  <dd>The title of the view <span class="muted">(<code class="muted">String</code>, required)</span></dd>
+</dl>
+
+<h4>Returns</h4>
+
+<dl>
+  <dt><code><a href="{{ site.baseurl }}{% link _api/view.html %}">View</a></code></dt>
+</dl>
+
+<h4>Examples</h4>
+
+{% highlight js %}
+up(engineer) {
+  // Update view by title
+  engineer.web.lists.getByTitle('My List').views.getByTitle('My View').update({
+    RowLimit: 100,
+  });
+}
+{% endhighlight %}
+
+<h3 id="add" data-jump="add()"><code>add(<span class="na">options|title</span>)</code></h3>
+
+<p>Add a new view to the target <code><a href="{{ site.baseurl }}{% link _api/list.html %}">List</a></code>.</p>
+
+<h4>Parameters</h4>
+
+<dl>
+  <dt><code>options</code></dt>
+  <dd>New view configuration <span class="muted">(<code class="muted">Object</code>, required)</span></dd>
+  <dt><code>title</code></dt>
+  <dd>If a <code>String</code> is provided instead of <code>options</code>, a new view with this title will be created with default configuration <span class="muted">(<code class="muted">String</code>, override)</span></dd>
+</dl>
+
+<h4>Properties of <code>options</code></h4>
+
+<dl>
+  <dt><code>Title</code></dt>
+  <dd>A title for the new view <span class="muted">(<code class="muted">String</code>, required)</span></dd>
+  <dt><code>PersonalView</code></dt>
+  <dd>Specifies whether this is a personal view (default: <code>false</code>) <span class="muted">(<code class="muted">Boolean</code>, optional)</span></dd>
+  <dt><code>*</code></dt>
+  <dd>See <a href="https://msdn.microsoft.com/en-us/library/dn531433.aspx#bk_ViewProperties">Microsoft&rsquo;s <code>View</code> resource documentation</a> for a listing of all possible properties that can be passed to the REST API</dd>
+</dl>
+
+<h4>Examples</h4>
+
+{% highlight js %}
+up(engineer) {
+  // Add simple view to list
+  engineer.web.lists.getByTitle('My List').views.add('My Simple View');
+
+  // Add view with options to list
+  engineer.web.lists.getByTitle('My List').views.add({
+    Title: 'My View',
+    RowLimit: 100,
+  });
+}
+{% endhighlight %}

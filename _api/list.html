@@ -3,8 +3,81 @@ title: List
 ---
 
 <h1>List</h1>
-<p class="lead">A single SharePoint list</p>
+
+<p class="lead">Configure a SharePoint list.</p>
 
 <hr>
 
-<p>Documentation coming soon.</p>
+<h2>Access</h2>
+
+<p>Access the <code>List</code> API using the <code><a href="{{ site.baseurl }}{% link _api/lists.html %}#getByTitle">getByTitle()</a></code> or <code><a href="{{ site.baseurl }}{% link _api/lists.html %}#getById">getById()</a></code> method of the <code><a href="{{ site.baseurl }}{% link _api/lists.html %}">Lists</a></code> API.</p>
+
+<h4>Examples</h4>
+
+{% highlight js %}
+up(engineer) {
+  // Update list
+  engineer.web.lists.getByTitle('My List').update({
+    Description: 'New list description',
+  });
+}
+{% endhighlight %}
+
+<hr>
+
+<h2>Properties</h2>
+
+<h3 id="contentTypes" data-jump="contentTypes"><code>contentTypes</code></h3>
+
+<p>Provides access to the <code><a href="{{ site.baseurl }}{% link _api/content-types.html %}">ContentTypes</a></code> API.</p>
+
+<h3 id="fields" data-jump="fields"><code>fields</code></h3>
+
+<p>Provides access to the <code><a href="{{ site.baseurl }}{% link _api/fields.html %}">Fields</a></code> API.</p>
+
+<h3 id="views" data-jump="views"><code>views</code></h3>
+
+<p>Provides access to the <code><a href="{{ site.baseurl }}{% link _api/views.html %}">Views</a></code> API.</p>
+
+<hr>
+
+<h2>Methods</h2>
+
+<h3 id="update" data-jump="update()"><code>update(<span class="na">options</span>)</code></h3>
+
+<p>Update the list.</p>
+
+<h4>Parameters</h4>
+
+<dl>
+  <dt><code>options</code></dt>
+  <dd>Updated list configuration <span class="muted">(<code class="muted">Object</code>, required)</span></dd>
+</dl>
+
+<h4>Properties of <code>options</code></h4>
+
+<p>See <a href="https://msdn.microsoft.com/en-us/library/dn531433.aspx#bk_ListProperties">Microsoft&rsquo;s <code>List</code> resource documentation</a> for a listing of all possible properties that can be passed to the REST API.</p>
+
+<h4>Examples</h4>
+
+{% highlight js %}
+up(engineer) {
+  // Update list
+  engineer.web.lists.getByTitle('My List').update({
+    Description: 'My new list description',
+  });
+}
+{% endhighlight %}
+
+<h3 id="delete" data-jump="delete()"><code>delete()</code></h3>
+
+<p>Delete the list.</p>
+
+<h4>Examples</h4>
+
+{% highlight js %}
+down(engineer) {
+  // Delete list
+  engineer.web.lists.getByTitle('My List').delete();
+}
+{% endhighlight %}

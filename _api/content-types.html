@@ -10,17 +10,17 @@ title: ContentTypes
 
 <h2>Access</h2>
 
-<p>Access the <code>ContentTypes</code> API using the <code>contentTypes</code> property of <code><a href="{{ site.baseurl }}{% link _api/web.html %}">Web</a></code> or <code><a href="{{ site.baseurl }}{% link _api/list.html %}">List</a></code>.</p>
+<p>Access the <code>ContentTypes</code> API using the <code>contentTypes</code> property of <code><a href="{{ site.baseurl }}{% link _api/web.html %}#fields">Web</a></code> or <code><a href="{{ site.baseurl }}{% link _api/list.html %}#fields">List</a></code>.</p>
 
 <h4>Examples</h4>
 
 {% highlight js %}
 up(engineer) {
   // Add content type to web
-  engineer.web.contentTypes.add('Web CT');
+  engineer.web.contentTypes.add('My Content Type');
 
   // Add content type to list
-  engineer.web.lists.getByTitle('My List').contentTypes.add('List CT');
+  engineer.web.lists.getByTitle('My List').contentTypes.add('My Content Type');
 }
 {% endhighlight %}
 
@@ -77,19 +77,12 @@ up(engineer) {
 
 {% highlight js %}
 up(engineer) {
-  // Create content type
-  engineer.web.contentTypes.add('New CT');
-
   // Update content type
-  engineer.web.contentTypes.getByName('New CT').update({
+  engineer.web.contentTypes.getByName('My Content Type').update({
     Description: 'Updating this content type description',
   });
 }
 {% endhighlight %}
-
-<h3 id="getByTitle" data-jump="getByTitle()"><code>getByTitle(<span class="na">title</span>)</code></h3>
-
-<p>Get a content type by its title. This is a synonym of the <code><a href="#getByName">getByName</a></code> method.</p>
 
 <h3 id="add" data-jump="add()"><code>add(<span class="na">options|name</span>)</code></h3>
 

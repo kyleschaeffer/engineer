@@ -3,8 +3,124 @@ title: Lists
 ---
 
 <h1>Lists</h1>
-<p class="lead">A collection of SharePoint lists</p>
+
+<p class="lead">Configure SharePoint lists in a web.</p>
 
 <hr>
 
-<p>Documentation coming soon.</p>
+<h2>Access</h2>
+
+<p>Access the <code>Lists</code> API using the <code>lists</code> property of <code><a href="{{ site.baseurl }}{% link _api/web.html %}#lists">Web</a></code>.</p>
+
+<h4>Examples</h4>
+
+{% highlight js %}
+up(engineer) {
+  // Add a list
+  engineer.web.lists.add('My List');
+}
+{% endhighlight %}
+
+<hr>
+
+<h2>Methods</h2>
+
+<h3 id="getById" data-jump="getById()"><code>getById(<span class="na">id</span>)</code></h3>
+
+<p>Get a list by its ID or GUID. We highly recommend using the <code><a href="#getByTitle">getByTitle</a></code> method for any custom lists created by Engineer, as the list ID may change from environment to environment.</p>
+
+<h4>Parameters</h4>
+
+<dl>
+  <dt><code>id</code></dt>
+  <dd>The ID or GUID of the list to be retrieved <span class="muted">(<code class="muted">String</code>, required)</span></dd>
+</dl>
+
+<h4>Returns</h4>
+
+<dl>
+  <dt><code><a href="{{ site.baseurl }}{% link _api/list.html %}">List</a></code></dt>
+</dl>
+
+<h4>Examples</h4>
+
+{% highlight js %}
+up(engineer) {
+  // Update list by ID
+  engineer.web.lists.getById('e34fb272-965d-417b-af6b-ef5b5d330205').update({
+    Description: 'New list description',
+  });
+}
+{% endhighlight %}
+
+<h3 id="getByTitle" data-jump="getByTitle()"><code>getByTitle(<span class="na">title</span>)</code></h3>
+
+<p>Get a list by its title.</p>
+
+<h4>Parameters</h4>
+
+<dl>
+  <dt><code>title</code></dt>
+  <dd>The title of the list <span class="muted">(<code class="muted">String</code>, required)</span></dd>
+</dl>
+
+<h4>Returns</h4>
+
+<dl>
+  <dt><code><a href="{{ site.baseurl }}{% link _api/list.html %}">List</a></code></dt>
+</dl>
+
+<h4>Examples</h4>
+
+{% highlight js %}
+up(engineer) {
+  // Update list by title
+  engineer.web.lists.getByTitle('My List').update({
+    Description: 'New list description',
+  });
+}
+{% endhighlight %}
+
+<h3 id="add" data-jump="add()"><code>add(<span class="na">options|title</span>)</code></h3>
+
+<p>Add a new list to the target <code><a href="{{ site.baseurl }}{% link _api/web.html %}">Web</a></code>.</p>
+
+<h4>Parameters</h4>
+
+<dl>
+  <dt><code>options</code></dt>
+  <dd>New list configuration <span class="muted">(<code class="muted">Object</code>, required)</span></dd>
+  <dt><code>title</code></dt>
+  <dd>If a <code>String</code> is provided instead of <code>options</code>, a new list with this title will be created with default configuration <span class="muted">(<code class="muted">String</code>, override)</span></dd>
+</dl>
+
+<h4>Properties of <code>options</code></h4>
+
+<dl>
+  <dt><code>BaseTemplate</code></dt>
+  <dd>The base template for this list; see <a href="https://msdn.microsoft.com/en-us/library/microsoft.sharepoint.client.listtemplatetype.aspx#Remarks">Microsoft&rsquo;s list template documentation</a> for a listing of all possible values (default: <code>100</code>) <span class="muted">(<code class="muted">Number</code>, optional)</span></dd>
+  <dt><code>Title</code></dt>
+  <dd>A title for the new list <span class="muted">(<code class="muted">String</code>, required)</span></dd>
+  <dt><code>Description</code></dt>
+  <dd>A description of the new list <span class="muted">(<code class="muted">String</code>, optional)</span></dd>
+  <dt><code>ContentTypesEnabled</code></dt>
+  <dd>Specifies whether content types should be enabled for this list (default: <code>false</code>) <span class="muted">(<code class="muted">Boolean</code>, optional)</span></dd>
+  <dt><code>*</code></dt>
+  <dd>See <a href="https://msdn.microsoft.com/en-us/library/dn531433.aspx#bk_ListProperties">Microsoft&rsquo;s <code>List</code> resource documentation</a> for a listing of all possible properties that can be passed to the REST API</dd>
+</dl>
+
+<h4>Examples</h4>
+
+{% highlight js %}
+up(engineer) {
+  // Add a simple custom list
+  engineer.web.lists.add('My Simple List');
+
+  // Add a document library
+  engineer.web.lists.add({
+    BaseTemplate: 101,
+    Title: 'My Documents',
+    Description: 'A library for my documents',
+  });
+}
+{% endhighlight %}

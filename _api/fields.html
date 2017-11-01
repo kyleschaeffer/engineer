@@ -3,8 +3,315 @@ title: Fields
 ---
 
 <h1>Fields</h1>
-<p class="lead">A collection of SharePoint fields (columns)</p>
+
+<p class="lead">Configure SharePoint fields (columns) in a web or list.</p>
 
 <hr>
 
-<p>Documentation coming soon.</p>
+<h2>Access</h2>
+
+<p>Access the <code>Fields</code> API using the <code>fields</code> property of <code><a href="{{ site.baseurl }}{% link _api/web.html %}#fields">Web</a></code> or <code><a href="{{ site.baseurl }}{% link _api/list.html %}#fields">List</a></code>.</p>
+
+<h4>Examples</h4>
+
+{% highlight js %}
+up(engineer) {
+  // Add field to web
+  engineer.web.fields.add('MyField');
+
+  // Add field to list
+  engineer.web.lists.getByTitle('My List').fields.add('MyField');
+}
+{% endhighlight %}
+
+<hr>
+
+<h2>Methods</h2>
+
+<h3 id="getById" data-jump="getById()"><code>getById(<span class="na">id</span>)</code></h3>
+
+<p>Get a field by its ID or GUID. We highly recommend using the <code><a href="#getByTitle">getByTitle</a></code> method for any custom fields created by Engineer, as the field ID may change from environment to environment.</p>
+
+<h4>Parameters</h4>
+
+<dl>
+  <dt><code>id</code></dt>
+  <dd>The ID or GUID of the field to be retrieved <span class="muted">(<code class="muted">String</code>, required)</span></dd>
+</dl>
+
+<h4>Returns</h4>
+
+<dl>
+  <dt><code><a href="{{ site.baseurl }}{% link _api/field.html %}">Field</a></code></dt>
+</dl>
+
+<h4>Examples</h4>
+
+{% highlight js %}
+up(engineer) {
+  // Update the "Title" field
+  engineer.web.fields.getById('fa564e0f-0c70-4ab9-b863-0177e6ddd247').update({
+    Description: 'This is a title',
+  });
+}
+{% endhighlight %}
+
+<h3 id="getByTitle" data-jump="getByTitle()"><code>getByTitle(<span class="na">title</span>)</code></h3>
+
+<p>Get a field by its internal name or title.</p>
+
+<h4>Parameters</h4>
+
+<dl>
+  <dt><code>title</code></dt>
+  <dd>The internal name of the field, or the title (display name) of the field <span class="muted">(<code class="muted">String</code>, required)</span></dd>
+</dl>
+
+<h4>Returns</h4>
+
+<dl>
+  <dt><code><a href="{{ site.baseurl }}{% link _api/field.html %}">Field</a></code></dt>
+</dl>
+
+<h4>Examples</h4>
+
+{% highlight js %}
+up(engineer) {
+  // Update field
+  engineer.web.fields.getByTitle('MyField').update({
+    Description: 'This is a description',
+  });
+}
+{% endhighlight %}
+
+<h3 id="add" data-jump="add()"><code>add(<span class="na">options|title</span>)</code></h3>
+
+<p>Add a new field to the target <code><a href="{{ site.baseurl }}{% link _api/web.html %}">Web</a></code> or <code><a href="{{ site.baseurl }}{% link _api/list.html %}">List</a></code>.</p>
+
+<h4>Parameters</h4>
+
+<dl>
+  <dt><code>options</code></dt>
+  <dd>New field configuration <span class="muted">(<code class="muted">Object</code>, required)</span></dd>
+  <dt><code>title</code></dt>
+  <dd>If a <code>String</code> is provided instead of <code>options</code>, a new field with this title will be created with default configuration <span class="muted">(<code class="muted">String</code>, override)</span></dd>
+</dl>
+
+<h4>Properties of <code>options</code></h4>
+
+<dl>
+  <dt><code>Type</code></dt>
+  <dd>The field type; possible values are <code>"Boolean"</code>, <code>"Calculated"</code>, <code>"Choice"</code>, <code>"Currency"</code>, <code>"DateTime"</code>, <code>"Geolocation"</code>, <code>"Lookup"</code>, <code>"MultiChoice"</code>, <code>"MultiLineText"</code>, <code>"Number"</code>, <code>"Text"</code> (default), <code>"Url"</code>, or <code>"User"</code> <span class="muted">(<code class="muted">String</code>, optional)</span></dd>
+  <dt><code>Title</code></dt>
+  <dd>A title for the new field <span class="muted">(<code class="muted">String</code>, required)</span></dd>
+  <dt><code>Description</code></dt>
+  <dd>A description for the new field <span class="muted">(<code class="muted">String</code>, optional)</span></dd>
+  <dt><code>Group</code></dt>
+  <dd>A group name for the new field <span class="muted">(<code class="muted">String</code>, optional)</span></dd>
+  <dt><code>*</code></dt>
+  <dd>See <a href="https://msdn.microsoft.com/en-us/library/dn600182.aspx#bk_FieldProperties">Microsoft&rsquo;s <code>Field</code> resource documentation</a> for a listing of all possible properties that can be passed to the REST API</dd>
+</dl>
+
+<h4>Examples</h4>
+
+{% highlight js %}
+up(engineer) {
+  // Add simple Text field
+  engineer.web.fields.add('NewSimpleTextField');
+
+  // Add Boolean Field
+  engineer.web.fields.add({
+    Type: 'Boolean',
+    Title: 'NewBooleanField',
+    DefaultValue: '0',
+  });
+
+  // Add Choice field
+  engineer.web.fields.add({
+    Type: 'Choice',
+    Title: 'NewChoiceField',
+    Choices: [
+      'One',
+      'Two',
+      'Three',
+    ],
+  });
+
+  // Add Currency field
+  engineer.web.fields.add({
+    Type: 'Currency',
+    Title: 'NewCurrencyField',
+    CurrencyLocaleId: 1033,
+  });
+
+  // Add DateTime field
+  engineer.web.fields.add({
+    Type: 'DateTime',
+    Title: 'NewDateTimeField',
+    DisplayFormat: 1,
+    DateTimeCalendarType: 1,
+    FriendlyDisplayFormat: 0,
+  });
+
+  // Add MultiChoice field
+  engineer.web.fields.add({
+    Type: 'MultiChoice',
+    Title: 'NewMultiChoiceField',
+    Choices: [
+      'One',
+      'Two',
+      'Three',
+    ],
+  });
+
+  // Add MultiLineText field
+  engineer.web.fields.add({
+    Type: 'MultiLineText',
+    Title: 'NewMultiLineTextField',
+    NumberOfLines: 8,
+    RichText: true,
+    AllowHyperlink: true,
+    RestrictedMode: false,
+    AppendOnly: false,
+  });
+
+  // Add Number field
+  engineer.web.fields.add({
+    Type: 'Number',
+    Title: 'NewNumberField',
+    MinimumValue: 0,
+    MaximumValue: 100,
+  });
+
+  // Add Text field
+  engineer.web.fields.add({
+    Type: 'Text',
+    Title: 'NewTextField',
+    MaxLength: 255,
+  });
+
+  // Add Url field
+  engineer.web.fields.add({
+    Type: 'Url',
+    Title: 'NewUrlField',
+    DisplayFormat: 1,
+  });
+
+  // Add User field
+  engineer.web.fields.add({
+    Type: 'User',
+    Title: 'NewUserField',
+    SelectionGroup: 8,
+    SelectionMode: 0,
+  });
+
+  // Add Calculated field
+  engineer.web.fields.add({
+    Type: 'Calculated',
+    Title: 'NewCalculatedField',
+    Formula: '=[NewNumberField]+10',
+    OutputType: 'Number',
+  });
+}
+{% endhighlight %}
+
+<h3 id="addXml" data-jump="addXml()"><code>addXml(<span class="na">xml</span>)</code></h3>
+
+<p>Add a new field from XML schema to the target <code><a href="{{ site.baseurl }}{% link _api/web.html %}">Web</a></code> or <code><a href="{{ site.baseurl }}{% link _api/list.html %}">List</a></code>.</p>
+
+<h4>Parameters</h4>
+
+<dl>
+  <dt><code>xml</code></dt>
+  <dd>The XML field definition schema for the new field; see <a href="https://msdn.microsoft.com/en-us/library/aa979575.aspx">Microsoft&rsquo;s field definition documentation</a> for more information on building fields from an XML schema <span class="muted">(<code class="muted">String</code>, required)</span></dd>
+</dl>
+
+<h4>Examples</h4>
+
+{% highlight js %}
+up(engineer) {
+  // Add Lookup field
+  engineer.web.fields.addXml(`
+    <Field
+      Type="Lookup"
+      Name="NewLookupField"
+      StaticName="NewLookupField"
+      DisplayName="New Lookup Field"
+      Description="A new Lookup field"
+      Group="My Group"
+      List="Lists/Pages"
+      ShowField="Title"
+      Required="FALSE"
+      SourceID="http://schemas.microsoft.com/sharepoint/v3">
+    </Field>
+  `);
+
+  // Add HTML field
+  engineer.web.fields.addXml(`
+    <Field
+      Type="HTML"
+      Name="NewHTMLField"
+      StaticName="NewHTMLField"
+      DisplayName="New HTML Field"
+      Description="A new HTML field"
+      Group="My Group"
+      RichText="TRUE"
+      RichTextMode="FullHtml"
+      Required="FALSE"
+      SourceID="http://schemas.microsoft.com/sharepoint/v3">
+    </Field>
+  `);
+
+  // Add Image field
+  engineer.web.fields.addXml(`
+    <Field
+      Type="Image"
+      Name="NewImageField"
+      StaticName="NewImageField"
+      DisplayName="New Image Field"
+      Description="A new Image field"
+      Group="My Group"
+      RichText="TRUE"
+      RichTextMode="FullHtml"
+      Required="FALSE"
+      SourceID="http://schemas.microsoft.com/sharepoint/v3">
+    </Field>
+  `);
+
+  // Add Link field
+  engineer.web.fields.addXml(`
+    <Field
+      Type="Link"
+      Name="NewLinkField"
+      StaticName="NewLinkField"
+      DisplayName="New Link Field"
+      Description="A new Link field"
+      Group="My Group"
+      RichText="TRUE"
+      RichTextMode="ThemeHtml"
+      Required="FALSE"
+      SourceID="http://schemas.microsoft.com/sharepoint/v3">
+    </Field>
+  `);
+
+  // Add SummaryLinks field
+  engineer.web.fields.addXml(`
+    <Field
+      Type="SummaryLinks"
+      Name="NewSummaryLinksField"
+      StaticName="NewSummaryLinksField"
+      DisplayName="New SummaryLinks Field"
+      Description="A new SummaryLinks field"
+      Group="My Group"
+      RichText="TRUE"
+      RichTextMode="FullHtml"
+      Required="FALSE"
+      SourceID="http://schemas.microsoft.com/sharepoint/v3">
+    </Field>
+  `);
+}
+{% endhighlight %}
+
+<h4>Managed Metadata/Taxonomy Fields</h4>
+
+<p>Want to add a managed metadata/taxonomy field? Check out our <a href="https://github.com/oldrivercreative/engineer/blob/master/test/migrations/20171013131109-create-taxonomy-fields.js">test migration on GitHub</a>.</p>

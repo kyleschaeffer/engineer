@@ -3,8 +3,102 @@ title: ViewFields
 ---
 
 <h1>ViewFields</h1>
-<p class="lead">A collection of fields on a SharePoint view</p>
+
+<p class="lead">Configure SharePoint view fields in a list view.</p>
 
 <hr>
 
-<p>Documentation coming soon.</p>
+<h2>Access</h2>
+
+<p>Access the <code>ViewFields</code> API using the <code><a href="{{ site.baseurl }}{% link _api/view.html %}#viewFields">viewFields</a></code> property of <code><a href="{{ site.baseurl }}{% link _api/view.html %}">View</a></code>.</p>
+
+<h4>Examples</h4>
+
+{% highlight js %}
+up(engineer) {
+  // Add field to view
+  engineer.web.lists.getByTitle('My List').views.getByTitle('All Items').viewFields.add('My New Field');
+}
+{% endhighlight %}
+
+<hr>
+
+<h2>Methods</h2>
+
+<h3 id="add" data-jump="add()"><code>add(<span class="na">field</span>)</code></h3>
+
+<p>Add field to the target <code><a href="{{ site.baseurl }}{% link _api/view.html %}">View</a></code>.</p>
+
+<h4>Parameters</h4>
+
+<dl>
+  <dt><code>field</code></dt>
+  <dd>The name of the field to add to the view; this field must already be available in the list <span class="muted">(<code class="muted">String</code>, required)</span></dd>
+</dl>
+
+<h4>Examples</h4>
+
+{% highlight js %}
+up(engineer) {
+  // Add field to view
+  engineer.web.lists.getByTitle('My List').views.getByTitle('All Items').viewFields.add('My New Field');
+}
+{% endhighlight %}
+
+<h3 id="remove" data-jump="remove()"><code>remove(<span class="na">field</span>)</code></h3>
+
+<p>Remove field from the target <code><a href="{{ site.baseurl }}{% link _api/view.html %}">View</a></code>.</p>
+
+<h4>Parameters</h4>
+
+<dl>
+  <dt><code>field</code></dt>
+  <dd>The name of the field to be removed from the view <span class="muted">(<code class="muted">String</code>, required)</span></dd>
+</dl>
+
+<h4>Examples</h4>
+
+{% highlight js %}
+down(engineer) {
+  // Remove field from view
+  engineer.web.lists.getByTitle('My List').views.getByTitle('All Items').viewFields.remove('My New Field');
+}
+{% endhighlight %}
+
+<h3 id="removeAll" data-jump="removeAll()"><code>removeAll()</code></h3>
+
+<p>Remove all fields from the target <code><a href="{{ site.baseurl }}{% link _api/view.html %}">View</a></code>.</p>
+
+<h4>Examples</h4>
+
+{% highlight js %}
+down(engineer) {
+  // Remove all fields from view
+  engineer.web.lists.getByTitle('My List').views.getByTitle('All Items').viewFields.removeAll();
+}
+{% endhighlight %}
+
+<h3 id="move" data-jump="move()"><code>move(<span class="na">field</span>, <span class="na">index</span>)</code></h3>
+
+<p>Move a view field to a new index in the target <code><a href="{{ site.baseurl }}{% link _api/view.html %}">View</a></code>.</p>
+
+<h4>Parameters</h4>
+
+<dl>
+  <dt><code>field</code></dt>
+  <dd>The name of the field to be moved in the view <span class="muted">(<code class="muted">String</code>, required)</span></dd>
+  <dt><code>index</code></dt>
+  <dd>The new zero-based index for the view field <span class="muted">(<code class="muted">Number</code>, required)</span></dd>
+</dl>
+
+<h4>Examples</h4>
+
+{% highlight js %}
+up(engineer) {
+  // Add field to view
+  engineer.web.lists.getByTitle('My List').views.getByTitle('All Items').viewFields.add('My New Field');
+
+  // Move new field to first column in view
+  engineer.web.lists.getByTitle('My List').views.getByTitle('All Items').viewFields.move('My New Field', 0);
+}
+{% endhighlight %}

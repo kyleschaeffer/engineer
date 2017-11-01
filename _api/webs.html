@@ -3,8 +3,75 @@ title: Webs
 ---
 
 <h1>Webs</h1>
-<p class="lead">A collection of SharePoint webs (sites/subsites)</p>
+
+<p class="lead">Configure SharePoint webs in a parent web.</p>
 
 <hr>
 
-<p>Documentation coming soon.</p>
+<h2>Access</h2>
+
+<p>Access the <code>Webs</code> API using the <code><a href="{{ site.baseurl }}{% link _api/web.html %}#webs">webs</a></code> property of a parent <code><a href="{{ site.baseurl }}{% link _api/web.html %}">Web</a></code>.</p>
+
+<h4>Examples</h4>
+
+{% highlight js %}
+up(engineer) {
+  // Add a new web/subsite
+  engineer.web.webs.add('My Web');
+
+  // Add another web to the new web (above)
+  engineer.getWeb('/my-web').webs.add('Another Web');
+}
+{% endhighlight %}
+
+<hr>
+
+<h2>Methods</h2>
+
+<h3 id="add" data-jump="add()"><code>add(<span class="na">options|title</span>)</code></h3>
+
+<p>Add a new web to the target parent <code><a href="{{ site.baseurl }}{% link _api/web.html %}">Web</a></code>.</p>
+
+<h4>Parameters</h4>
+
+<dl>
+  <dt><code>options</code></dt>
+  <dd>New web configuration <span class="muted">(<code class="muted">Object</code>, required)</span></dd>
+  <dt><code>title</code></dt>
+  <dd>If a <code>String</code> is provided instead of <code>options</code>, a new web with this title will be created with default configuration <span class="muted">(<code class="muted">String</code>, override)</span></dd>
+</dl>
+
+<h4>Properties of <code>options</code></h4>
+
+<dl>
+  <dt><code>Title</code></dt>
+  <dd>A title for the new web <span class="muted">(<code class="muted">String</code>, required)</span></dd>
+  <dt><code>Url</code></dt>
+  <dd>The URL or web address of the new web (relative to the parent web URL); if this is not provided, a new URL will be automatically generated based on the contents of the <code>Title</code> property <span class="muted">(<code class="muted">String</code>, optional)</span></dd>
+  <dt><code>WebTemplate</code></dt>
+  <dd>The SharePoint web template to be used when creating the new web; see <a href="https://absolute-sharepoint.com/2013/06/sharepoint-2013-site-template-id-list-for-powershell.html">this blog post</a> for a listing of all templates (default: <code>"STS"</code>) <span class="muted">(<code class="muted">String</code>, optional)</span></dd>
+  <dt><code>Description</code></dt>
+  <dd>A description of the new web <span class="muted">(<code class="muted">String</code>, optional)</span></dd>
+  <dt><code>Language</code></dt>
+  <dd>The locale ID for localization of SharePoint content; see <a href="https://msdn.microsoft.com/en-us/library/microsoft.sharepoint.splocale.lcid.aspx">Microsoft&rsquo;s locale ID documentation</a> for a listing of all possible values (default: <code>1033</code>) <span class="muted">(<code class="muted">Number</code>, optional)</span></dd>
+  <dt><code>UseSamePermissionsAsParentSite</code></dt>
+  <dd>Specifies whether the new web inherits permissions from the parent web (default: <code>true</code>) <span class="muted">(<code class="muted">Boolean</code>, optional)</span></dd>
+  <dt><code>*</code></dt>
+  <dd>See <a href="https://msdn.microsoft.com/en-us/library/dn499819.aspx#bk_WebProperties">Microsoft&rsquo;s <code>Web</code> resource documentation</a> for a listing of all possible properties that can be passed to the REST API</dd>
+</dl>
+
+<h4>Examples</h4>
+
+{% highlight js %}
+up(engineer) {
+  // Add a new web/subsite
+  engineer.web.webs.add('My Web');
+
+  // Add publishing site to new web
+  engineer.getWeb('/my-web').webs.add({
+    Title: 'A New Web',
+    Url: 'a-new-web',
+    WebTemplate: 'CMSPUBLISHING',
+  });
+}
+{% endhighlight %}

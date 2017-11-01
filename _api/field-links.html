@@ -4,7 +4,7 @@ title: FieldLinks
 
 <h1>FieldLinks</h1>
 
-<p class="lead">Configure fields within a content type.</p>
+<p class="lead">Configure SharePoint fields (columns) in a content type.</p>
 
 <hr>
 
@@ -28,14 +28,14 @@ up(engineer) {
 
 <h2>Methods</h2>
 
-<h3 id="add" data-jump="add()"><code>add(<span class="na">fieldName</span>)</code></h3>
+<h3 id="add" data-jump="add()"><code>add(<span class="na">name</span>)</code></h3>
 
 <p>Add an existing field to the content type. This method uses the SharePoint client-side object model (CSOM).</p>
 
 <h4>Parameters</h4>
 
 <dl>
-  <dt><code>fieldName</code></dt>
+  <dt><code>name</code></dt>
   <dd>The name of the existing field or column to be added to the content type; this field must already be available on the parent <code><a href="{{ site.baseurl }}{% link _api/web.html %}">Web</a></code> or <code><a href="{{ site.baseurl }}{% link _api/list.html %}">List</a></code> <span class="muted">(<code class="muted">String</code>, required)</span></dd>
 </dl>
 
@@ -56,14 +56,14 @@ up(engineer) {
 }
 {% endhighlight %}
 
-<h3 id="remove" data-jump="remove()"><code>remove(<span class="na">fieldName</span>)</code></h3>
+<h3 id="remove" data-jump="remove()"><code>remove(<span class="na">name</span>)</code></h3>
 
 <p>Remove a field from the content type. This method uses the SharePoint client-side object model (CSOM).</p>
 
 <h4>Parameters</h4>
 
 <dl>
-  <dt><code>fieldName</code></dt>
+  <dt><code>name</code></dt>
   <dd>The name of the field or column to be removed from the content type <span class="muted">(<code class="muted">String</code>, required)</span></dd>
 </dl>
 
