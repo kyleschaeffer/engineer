@@ -2,7 +2,7 @@
 
 [![npm](https://img.shields.io/npm/v/sp-engineer.svg?style=flat-square)](https://www.npmjs.com/package/sp-engineer) [![GitHub issues](https://img.shields.io/github/issues/oldrivercreative/engineer.svg?style=flat-square)](https://github.com/oldrivercreative/engineer/issues) [![GitHub license](https://img.shields.io/github/license/oldrivercreative/engineer.svg?style=flat-square)](https://github.com/oldrivercreative/engineer/blob/master/LICENSE) [![Twitter](https://img.shields.io/twitter/url/https/github.com/oldrivercreative/engineer.svg?style=social&style=flat-square)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2Foldrivercreative%2Fengineer)
 
-**Engineer** is a command-line tool to help track and consolidate SharePoint configuration changes in any number of environments. It's like version control for site columns, content types, lists, views, and more.
+**Engineer** is a powerful command-line tool to help track and consolidate SharePoint configuration changes in any number of environments. It's like version control for site columns, content types, lists, views, and more.
 
 **[Explore Engineer Documentation](http://sp-engineer.org)**
 
@@ -17,29 +17,27 @@ Engineer is inspired by [Laravel](https://laravel.com) migrations, and is made p
 
 ## Getting Started
 
-You'll need [Node.js](https://nodejs.org) and [npm](https://www.npmjs.com) before you begin.
-
 ```sh
-npm -g install sp-engineer
+npm i -g sp-engineer
 ```
 
-Once installed, you can type `engineer` into any console prompt to run Engineer commands. Use `engineer -h` to see a list of commands.
+Once installed, you can type `engineer` into any console prompt to run Engineer commands. Use `engineer -h` to see a list of [commands](http://sp-engineer.org/commands/).
 
-### Initialize Engineer
+### Start a New Project
 
 ```sh
 engineer init
 ```
 
-The `engineer init` command creates a `.gitignore` and `env.js` file in the current working directory. `env.js` contains the SharePoint site URL as well as authentication information for your target SharePoint environment. Any authentication configuration supported by [node-sp-auth](https://github.com/s-KaiNet/node-sp-auth) can be used as the `auth` settings in your `env.js` file.
+The [`init`](http://sp-engineer.org/commands/init) command creates `env.js` in the current working directory. This file contains important configuration information such as the SharePoint site URL and authentication settings. Any authentication configuration supported by [node-sp-auth](https://github.com/s-KaiNet/node-sp-auth) can be used as the `auth` settings in your `env.js` file.
 
-### Install Engineer
+### Install Engineer Lists
+
+Once your `env.js` file is set up, you're ready to install Engineer lists to your target SharePoint environment.
 
 ```sh
 engineer install
 ```
-
-That's it. You're ready to start making configuration changes to SharePoint.
 
 ## Migrations
 
@@ -51,19 +49,7 @@ Engineer uses **migrations** to track configuration changes made to SharePoint. 
 engineer make my-first-migration
 ```
 
-This command will create a `migrations` folder in the current working directory, and a new file called `YYYYMMDDHHMMSS-my-first-migration.js` in that directory (`YYYYMMDDHHMMSS` is replaced by the current UTC timestamp). Feel free to open this file to see what's inside. By default, new migrations are configured to create a new list called `My List` when migrated.
-
-### Migration Status
-
-```sh
-engineer status
-
-┌───────────────────────────────────┬─────────┐
-│ 20171025135627-my-first-migration │ Pending │
-└───────────────────────────────────┴─────────┘
-```
-
-You can see that our new migration is currently in `Pending` status. Now use the `migrate` command to activate the migration.
+The [`make`](http://sp-engineer.org/commands/make) command creates a file called `migrations/YYYYMMDDHHMMSS-my-first-migration.js` (`YYYYMMDDHHMMSS` is replaced by the current UTC timestamp). Feel free to open this file to see what's inside. By default, new migrations are configured to create a new list called `My List` when migrated.
 
 ### Migrate
 
@@ -71,7 +57,7 @@ You can see that our new migration is currently in `Pending` status. Now use the
 engineer migrate
 ```
 
-Once migrated, you'll see a new list called `My List` has been created on your SharePoint site. This migration is now in the `Migrated` status, and will not be activated again during future migrations.
+The [`migrate`](http://sp-engineer.org/commands/migrate) command activates pending migrations. A new list called `My List` will be created on the target SharePoint site when this migration is activated.
 
 ### Roll Back
 
@@ -79,7 +65,16 @@ Once migrated, you'll see a new list called `My List` has been created on your S
 engineer rollback
 ```
 
-Once rolled back, `My List` is deleted from the SharePoint site and the migration is set to `Pending` status once again.
+The [`rollback`](http://sp-engineer.org/commands/rollback) command retracts active migrations. Once rolled back, `My List` is deleted from the target SharePoint site.
+
+### Multiple Environments
+
+You can create copies of `env.js`, allowing you to store authentication and configuration for multiple SharePoint environments. Use Engineer's [`--config`](http://sp-engineer.org/commands/#config) option to switch environments when running any command.
+
+```sh
+engineer -c env/dev.js migrate
+engineer -c env/prod.js migrate
+```
 
 ## Documentation
 

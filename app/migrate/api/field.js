@@ -61,7 +61,7 @@ class Field {
     // Options
     const options = _.merge({}, params);
 
-    // Update view
+    // Update field
     bus.load(new Task((resolve) => {
       utility.log.info({
         level: 2,
