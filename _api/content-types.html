@@ -49,16 +49,14 @@ up(engineer) {
 
 {% highlight js %}
 up(engineer) {
-  // Update the Item content type
-  engineer.web.contentTypes.getById('0x01').update({
-    Description: 'Item content type',
-  });
+  // Add field to content type
+  engineer.web.contentTypes.getById('0x0100CF4BED4219E64B26A321633450759400').fieldLinks.add('My Field');
 }
 {% endhighlight %}
 
 <h3 id="getByName" data-jump="getByName()"><code>getByName(<span class="na">name</span>)</code></h3>
 
-<p>Get a content type by its name. This method can only be used with content types that were previously created by Engineer. Getting a content type by name is not natively supported by SharePoint, so Engineer uses a content type ID manifest. This manifest is updated automatically any time a content type is created or deleted within a migration, and keeps track of all content type IDs for each environment, even if they differ between any two environments.</p>
+<p>Get a content type by its name. This method can only be used with content types that were previously created in an active migration. Engineer uses a content type ID manifest list, which is updated automatically any time a content type is created or deleted within a migration. The manifest is used to keep track of all content type IDs for each environment, even if they differ between any two environments.</p>
 
 <h4>Parameters</h4>
 
@@ -76,11 +74,9 @@ up(engineer) {
 <h4>Examples</h4>
 
 {% highlight js %}
-up(engineer) {
-  // Update content type
-  engineer.web.contentTypes.getByName('My Content Type').update({
-    Description: 'Updating this content type description',
-  });
+down(engineer) {
+  // Delete content type
+  engineer.web.contentTypes.getByName('My Content Type').delete();
 }
 {% endhighlight %}
 
@@ -100,10 +96,12 @@ up(engineer) {
 <h4>Properties of <code>options</code></h4>
 
 <dl class="wide-params">
+  <dt><code>ParentContentType</code></dt>
+  <dd>The <code>Name</code> of the parent content type; note that this can only be used with content types previously created in an active migration <span class="muted">(<code class="muted">String</code>, optional)</span></dd>
   <dt><code>ParentContentTypeId</code></dt>
   <dd>The ID or GUID of the parent content type (default: <code>"0x01"</code>) <span class="muted">(<code class="muted">String</code>, optional)</span></dd>
   <dt><code>Id</code></dt>
-  <dd>The ID or GUID of the new content type, which will be automatically appended to the <code>ParentContentTypeId</code> during creation; note that there is no need to explicitly set this when creating a content type because SharePoint ignores the ID when creating content types <span class="muted">(<code class="muted">String</code>, optional)</span></dd>
+  <dd>The ID or GUID of the new content type, which will be automatically appended to the <code>ParentContentTypeId</code> during creation; if no ID is provided, a new GUID will be automatically generated; use the <code><a href="{{ site.baseurl }}{% link _commands/guid.html %}">guid</a></code> command to easily generate new IDs <span class="muted">(<code class="muted">String</code>, optional)</span></dd>
   <dt><code>Name</code></dt>
   <dd>The name or title of the new content type <span class="muted">(<code class="muted">String</code>, required)</span></dd>
   <dt><code>Description</code></dt>
@@ -119,11 +117,27 @@ up(engineer) {
   // Create content type of parent "Item"
   engineer.web.contentTypes.add('Custom Item');
 
-  // Create content type of parent "Document"
+  // Create content type of parent "Custom Item"
   engineer.web.contentTypes.add({
-    ParentContentTypeId: '0x0101',
+    ParentContentType: 'Custom Item',
+    Id: '01',
+    Name: 'Child Custom Item',
+  });
+
+  // Create content type of parent "Link"
+  engineer.web.contentTypes.add({
+    ParentContentTypeId: '0x0105',
     Name: 'Custom Document',
     Description: 'My custom document type',
+    Group: 'My Group',
+  });
+
+  // Create content type with persistent GUID
+  engineer.web.contentTypes.add({
+    ParentContentTypeId: '0x01',
+    Id: '42927AD563074FA48B0124083ED4616E',
+    Name: 'My Content Type with GUID',
+    Description: 'The ID of this content type will persist across environments',
     Group: 'My Group',
   });
 }
@@ -161,9 +175,9 @@ up(engineer) {
   // Add new content type to list
   engineer.web.lists.getByTitle('My List').contentTypes.addAvailable('Custom Item');
 
-  // Add "Event" content type by ID
+  // Add "Link" content type by ID
   engineer.web.lists.getByTitle('My List').contentTypes.addAvailable({
-    Id: '0x0102',
+    Id: '0x0105',
   });
 }
 {% endhighlight %}

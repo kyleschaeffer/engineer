@@ -18,6 +18,6 @@ engineer manifest
 
 <hr>
 
-<h3>Why use a content type ID manifest?</h3>
+<h3>Why use a manifest?</h3>
 
-<p>As of this writing, SharePoint honors <strong>field IDs</strong> when created using the REST API. <strong>It will not, however, honor content type IDs</strong> when created using the REST API. Any content type ID that you provide when creating a new content type will be ignored by SharePoint. For this reason, Engineer uses a <strong>manifest</strong> list to store content type IDs for future reference. Always use the convenience method (<code>contentTypes.getByName('My Content Type')</code>) when referencing a custom content type created by Engineer, and avoid referencing any custom content types by their ID (which could change from environment to environment).</p>
+<p>Content type IDs can be a bit unruly because of their length and structure. To make these easier to work with, Engineer uses a content type ID <strong>manifest</strong> list, which is used to store content type IDs for any custom content types created by migrations. These content types can later be referenced by name, allowing Engineer to automatically fetch the correct content type ID even if it differs from environment to environment.</p>

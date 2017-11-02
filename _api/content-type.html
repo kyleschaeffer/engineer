@@ -15,16 +15,12 @@ title: ContentType
 <h4>Examples</h4>
 
 {% highlight js %}
-up(engineer) {
-  // Update content type on web
-  engineer.web.contentTypes.getByName('My Content Type').update({
-    Description: 'This is a new description',
-  });
+down(engineer) {
+  // Delete content type from web
+  engineer.web.contentTypes.getByName('My Content Type').delete();
 
-  // Update content type on list
-  engineer.web.lists.getByTitle('My List').contentTypes.getByName('My Content Type').update({
-    Description: 'This is a new description',
-  });
+  // Delete content type from list
+  engineer.web.lists.getByTitle('My List').contentTypes.getByName('My Content Type').delete();
 }
 {% endhighlight %}
 
@@ -39,64 +35,6 @@ up(engineer) {
 <hr>
 
 <h2>Methods</h2>
-
-<h3 id="id" data-jump="id()"><code>id()</code></h3>
-
-<p>Get the content type ID or GUID from Engineer&rsquo;s content type ID manifest.</p>
-
-<h4>Returns</h4>
-
-<dl>
-  <dt><code>String</code></dt>
-  <dd>The ID or GUID of the content type, or <code>null</code> if no ID was found</dd>
-</dl>
-
-<h4>Examples</h4>
-
-{% highlight js %}
-up(engineer) {
-  // Create parent content type
-  engineer.web.contentTypes.add('New Parent');
-
-  // Create child content type, getting parent's ID from the manifest
-  engineer.web.contentTypes.add({
-    ParentContentTypeId: engineer.web.contentTypes.getByName('New Parent').id(),
-    Name: 'New Child Content Type',
-  });
-}
-{% endhighlight %}
-
-<h3 id="update" data-jump="update()"><code>update(<span class="na">options</span>)</code></h3>
-
-<p>Update the content type.</p>
-
-<h4>Parameters</h4>
-
-<dl>
-  <dt><code>options</code></dt>
-  <dd>Updated content type configuration <span class="muted">(<code class="muted">Object</code>, required)</span></dd>
-</dl>
-
-<h4>Properties of <code>options</code></h4>
-
-<dl>
-  <dt><code>Description</code></dt>
-  <dd>A description of the content type <span class="muted">(<code class="muted">String</code>, optional)</span></dd>
-  <dt><code>Group</code></dt>
-  <dd>The group name under which this content type will appear in content type galleries <span class="muted">(<code class="muted">String</code>, optional)</span></dd>
-</dl>
-
-<h4>Examples</h4>
-
-{% highlight js %}
-up(engineer) {
-  // Update content type on web
-  engineer.web.contentTypes.getByName('My Content Type').update({
-    Description: 'This is a new description',
-    Group: 'My Group',
-  });
-}
-{% endhighlight %}
 
 <h3 id="delete" data-jump="delete()"><code>delete()</code></h3>
 

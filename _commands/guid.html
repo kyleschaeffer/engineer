@@ -8,16 +8,29 @@ title: guid
 
 <hr>
 
+<h4>Options</h4>
+
+<dl>
+  <dt><code>-s, --simple</code></dt>
+  <dd>Generate a simple GUID (no dashes, uppercase), which is generally better when working with content types <span class="muted">(optional)</span></dd>
+</dl>
+
+<hr>
+
 <p>The <code>guid</code> command is provided as a convenience for working with field and content type IDs. Upon generation, the GUID will be copied to your clipboard for easy pasting into migrations.</p>
 
 <h4>Examples</h4>
 
 {% highlight sh %}
 engineer guid
+# 7c72d3aa-2434-417a-9310-471c5f0fd52f
+
+engineer guid -s
+# 1058130A60A346FE87232228DB260811
 {% endhighlight %}
 
 <hr>
 
-<h3>Important Note About Content Type IDs</h3>
+<h3>About Content Type IDs</h3>
 
-<p>As of this writing, SharePoint honors <strong>field IDs</strong> when created using the REST API. <strong>It will not, however, honor content type IDs</strong> when created using the REST API. Any content type ID that you provide when creating a new content type will be ignored by SharePoint. For this reason, Engineer uses a <strong>manifest</strong> list to store content type IDs for future reference. Always use the convenience method (<code>contentTypes.getByName('My Content Type')</code>) when referencing a custom content type created by Engineer, and avoid referencing any custom content types by their ID (which could change from environment to environment).</p>
+<p>The <code>guid</code> command is useful for creating persistent content type IDs that remain the same even when migrating to other environments. You aren&rsquo;t required, however, to explicitly set an ID if you so choose. Engineer uses a content type ID <strong>manifest</strong> list, which is used to store content type IDs for any custom content types created by migrations. These content types can later be referenced by name, allowing Engineer to automatically fetch the correct content type ID even if it differs from environment to environment.</p>
