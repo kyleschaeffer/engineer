@@ -2,6 +2,7 @@ const _ = require('lodash');
 const bus = require('./bus');
 const fs = require('fs');
 const Web = require('./api/web');
+const Field = require('./api/field');
 
 class Builder {
   /**
@@ -48,6 +49,15 @@ class Builder {
    */
   getWeb(Url = '/') {
     return new Web({ Url });
+  }
+
+  /**
+   * Get field type kind
+   * @param {string} type
+   * @return {number}
+   */
+  fieldKind(type) {
+    return Field.kind(type);
   }
 }
 

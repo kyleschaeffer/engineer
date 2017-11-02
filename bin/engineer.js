@@ -13,7 +13,7 @@ const config = () => new Promise((resolve) => {
 });
 
 // Program
-program.version('1.0.2')
+program.version('1.0.3')
   .option('-c, --config <file>', utility.log.translate('config.description'))
   .option('-q, --quiet', utility.log.translate('config.quiet'))
   .option('-i, --info', utility.log.translate('config.info'))
