@@ -61,6 +61,7 @@ module.exports = {
     complete: 'This GUID has been copied to your clipboard.',
     description: 'Generate a random GUID string',
     guid: 'GUID:',
+    simple: 'Show GUID in simple format (good for content types)',
   },
 
   init: {

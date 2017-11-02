@@ -15,10 +15,13 @@ const SharePoint = {
 
   /**
    * Generate globally unique identifier (GUID)
+   * @param {boolean} simple
    * @return {string}
    */
-  guid() {
-    return uuid();
+  guid(simple = false) {
+    let id = uuid();
+    if (simple) id = id.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+    return id;
   },
 
   /**

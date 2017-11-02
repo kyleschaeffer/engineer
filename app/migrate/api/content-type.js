@@ -44,29 +44,6 @@ class ContentType {
   }
 
   /**
-   * Update content type
-   * @param {Object} params
-   * @return {void}
-   */
-  update(params = {}) {
-    // Options
-    const options = _.merge({}, params);
-
-    // Update content type
-    bus.load(new Task((resolve) => {
-      utility.log.info({
-        level: 2,
-        key: 'contentType.update',
-        tokens: {
-          contentType: this.Name || this.Id,
-          target: this.$parent.$parent.Title || this.$parent.$parent.Id || utility.sharepoint.url(this.$parent.$parent.Url),
-        },
-      });
-      this.get().update(options).then(resolve).catch(resolve);
-    }));
-  }
-
-  /**
    * Delete content type
    * @return {void}
    */

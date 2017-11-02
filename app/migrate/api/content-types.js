@@ -67,8 +67,9 @@ class ContentTypes {
   add(params = {}) {
     // Options
     const options = _.merge({
+      ParentContentType: null,
       ParentContentTypeId: '0x01',
-      Id: _.upperCase(utility.sharepoint.guid().replace('-', '')),
+      Id: utility.sharepoint.guid(true),
       Name: null,
       Description: '',
       Group: undefined,
@@ -76,15 +77,55 @@ class ContentTypes {
 
     // Add content type
     bus.load(new Task((resolve) => {
-      utility.log.info({
-        level: 2,
-        key: 'contentType.add',
-        tokens: {
-          contentType: options.Name,
-          target: this.$parent.Title || this.$parent.Id || utility.sharepoint.url(this.$parent.Url),
-        },
+      // Prepare content type id
+      if (options.ParentContentType) options.ParentContentTypeId = this.getByName(options.ParentContentType).id();
+      if (options.ParentContentType && options.Id.length === 2) options.Id = `${options.ParentContentTypeId}${options.Id}`;
+      else options.Id = `${options.ParentContentTypeId}00${options.Id}`;
+
+      // Get parents
+      const parents = utility.sharepoint.getParents(this);
+
+      // Connect, then add content type
+      utility.sharepoint.configureCsom(parents.web.Url).then(() => {
+        try {
+          // Target web or list
+          let target = csom.web;
+
+          // Target object
+          if (parents.list) target = parents.list.Title ? target.get_lists().getByTitle(parents.list.Title) : target.get_lists().getById(parents.list.Id);
+
+          // Get content types
+          const contentTypes = target.get_contentTypes();
+
+          // Configure content type
+          const contentType = new SP.ContentTypeCreationInformation(); // eslint-disable-line no-undef
+          contentType.set_name(options.Name);
+          contentType.set_description(options.Description || '');
+          contentType.set_group(options.Group || 'Custom Content Types');
+          contentType.set_id(options.Id);
+          csom.ctx.load(contentTypes.add(contentType));
+
+          // Commit
+          utility.log.info({
+            level: 2,
+            key: 'contentType.add',
+            tokens: {
+              contentType: options.Name,
+              target: this.$parent.Title || this.$parent.Id || utility.sharepoint.url(this.$parent.Url),
+            },
+          });
+          csom.ctx.executeQueryAsync(() => {
+            manifest.save(options.Name, options.Id).then(resolve).catch(resolve);
+          }, (sender, args) => {
+            utility.log.error({ content: args.get_message() });
+            resolve();
+          });
+        }
+        catch (e) {
+          utility.log.error({ content: e.message });
+          resolve();
+        }
       });
-      this.get().add(`${options.ParentContentTypeId}00${options.Id}`, options.Name, options.Description, options.Group).then(manifest.process).then(resolve).catch(resolve);
     }));
   }
 

@@ -13,7 +13,7 @@ const config = () => new Promise((resolve) => {
 });
 
 // Program
-program.version('1.0.0')
+program.version('1.0.2')
   .option('-c, --config <file>', utility.log.translate('config.description'))
   .option('-q, --quiet', utility.log.translate('config.quiet'))
   .option('-i, --info', utility.log.translate('config.info'))
@@ -29,8 +29,9 @@ program.command('browse [list]')
 // Create GUID
 program.command('guid')
   .description(utility.log.translate('guid.description'))
-  .action(() => {
-    engineer.commands.guid.run();
+  .option('-s, --simple', utility.log.translate('guid.simple'))
+  .action((options) => {
+    engineer.commands.guid.run(options);
   });
 
 // Init
