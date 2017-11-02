@@ -34,7 +34,7 @@ up(engineer) {
 
 <h3 id="kind" data-jump="kind()"><code>kind(<span class="na">type</span>)</code></h3>
 
-<p>Get the SharePoint <code>FieldTypeKind</code> value for the given field type. SharePoint internally refers to each field type by number. For the sake of brevity, the migration API can translate a type <code>String</code> into the correct <code>FieldTypeKind</code> value using this method. This is a <code>static</code> method that can be accessed using <code>engineer.field.kind()</code>.</p>
+<p>Get the SharePoint <code>FieldTypeKind</code> value for the given field type. SharePoint internally refers to each field type by number. For the sake of brevity, the migration API can translate a type <code>String</code> into the correct <code>FieldTypeKind</code> value using this method. This is a <code>static</code> method that can be accessed using <code>engineer.fieldKind(<span class="s1">type</span>)</code>.</p>
 
 <h4>Parameters</h4>
 
@@ -59,7 +59,7 @@ up(engineer) {
 
   // Change to MultiLineText field
   engineer.web.fields.getByTitle('NewTextColumn').update({
-    FieldTypeKind: engineer.field.kind('MultiLineText'),
+    FieldTypeKind: engineer.fieldKind('MultiLineText'),
   });
 }
 {% endhighlight %}

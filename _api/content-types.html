@@ -97,7 +97,7 @@ down(engineer) {
 
 <dl class="wide-params">
   <dt><code>ParentContentType</code></dt>
-  <dd>The <code>Name</code> of the parent content type; note that this can only be used with content types previously created in an active migration <span class="muted">(<code class="muted">String</code>, optional)</span></dd>
+  <dd>The <code>Name</code> of the parent content type; note that this can only be used with content types previously created in an active migration; <code>ParentContentTypeId</code> will be automatically set when supplying this property <span class="muted">(<code class="muted">String</code>, optional)</span></dd>
   <dt><code>ParentContentTypeId</code></dt>
   <dd>The ID or GUID of the parent content type (default: <code>"0x01"</code>) <span class="muted">(<code class="muted">String</code>, optional)</span></dd>
   <dt><code>Id</code></dt>
@@ -127,8 +127,8 @@ up(engineer) {
   // Create content type of parent "Link"
   engineer.web.contentTypes.add({
     ParentContentTypeId: '0x0105',
-    Name: 'Custom Document',
-    Description: 'My custom document type',
+    Name: 'Custom Link',
+    Description: 'My custom link type',
     Group: 'My Group',
   });
 
@@ -198,8 +198,8 @@ up(engineer) {
 {% highlight js %}
 up(engineer) {
   // Add content types to list
-  engineer.web.lists.getByTitle('Animals').contentTypes.add('Cat');
-  engineer.web.lists.getByTitle('Animals').contentTypes.add('Dog');
+  engineer.web.lists.getByTitle('Animals').contentTypes.addAvailable('Cat');
+  engineer.web.lists.getByTitle('Animals').contentTypes.addAvailable('Dog');
 
   // Set new content type order
   engineer.web.lists.getByTitle('Animals').contentTypes.order([
@@ -225,7 +225,7 @@ up(engineer) {
 {% highlight js %}
 up(engineer) {
   // Add content type to list
-  engineer.web.lists.getByTitle('Animals').contentTypes.add('Dog');
+  engineer.web.lists.getByTitle('Animals').contentTypes.addAvailable('Dog');
 
   // Set default content type
   engineer.web.lists.getByTitle('Animals').contentTypes.default('Dog');
