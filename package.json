@@ -1,6 +1,6 @@
 {
   "name": "sp-engineer",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A command-line tool with version control for SharePoint site columns, content types, lists, views, and more",
   "main": "app/engineer.js",
   "bin": {
