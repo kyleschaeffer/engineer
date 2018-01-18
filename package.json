@@ -1,6 +1,6 @@
 {
   "name": "sp-engineer",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A command-line tool with version control for SharePoint site columns, content types, lists, views, and more",
   "main": "app/engineer.js",
   "bin": {
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/oldrivercreative/engineer.git"
+    "url": "git+https://github.com/sprtus/engineer.git"
   },
   "keywords": [
     "sharepoint",
@@ -21,9 +21,9 @@
   "author": "@kyleschaeffer",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/oldrivercreative/engineer/issues"
+    "url": "https://github.com/sprtus/engineer/issues"
   },
-  "homepage": "https://github.com/oldrivercreative/engineer#readme",
+  "homepage": "http://sp-engineer.org/",
   "dependencies": {
     "cli-table": "^0.3.1",
     "colors": "^1.1.2",

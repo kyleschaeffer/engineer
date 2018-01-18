@@ -1,6 +1,6 @@
 # Engineer
 
-[![npm](https://img.shields.io/npm/v/sp-engineer.svg?style=flat-square)](https://www.npmjs.com/package/sp-engineer) [![GitHub issues](https://img.shields.io/github/issues/oldrivercreative/engineer.svg?style=flat-square)](https://github.com/oldrivercreative/engineer/issues) [![GitHub license](https://img.shields.io/github/license/oldrivercreative/engineer.svg?style=flat-square)](https://github.com/oldrivercreative/engineer/blob/master/LICENSE) [![Twitter](https://img.shields.io/twitter/url/https/github.com/oldrivercreative/engineer.svg?style=social&style=flat-square)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2Foldrivercreative%2Fengineer)
+[![npm](https://img.shields.io/npm/v/sp-engineer.svg?style=flat-square)](https://www.npmjs.com/package/sp-engineer) [![GitHub issues](https://img.shields.io/github/issues/sprtus/engineer.svg?style=flat-square)](https://github.com/sprtus/engineer/issues) [![GitHub license](https://img.shields.io/github/license/sprtus/engineer.svg?style=flat-square)](https://github.com/sprtus/engineer/blob/master/LICENSE) [![Twitter](https://img.shields.io/twitter/url/https/github.com/sprtus/engineer.svg?style=social&style=flat-square)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2Foldrivercreative%2Fengineer)
 
 **Engineer** is a powerful command-line tool to help track and consolidate SharePoint configuration changes in any number of environments. It's like version control for site columns, content types, lists, views, and more.
 
@@ -82,8 +82,8 @@ Find details on every Engineer command and migration API method in the official 
 
 ## Authors
 
-Engineer was created by **[@kyleschaeffer](https://twitter.com/kyleschaeffer)** and **[Old River Creative](https://oldrivercreative.com)**.
+Engineer was created by **[@kyleschaeffer](https://twitter.com/kyleschaeffer)** and **[Spiritous](https://spirito.us)**.
 
 ## Copyright and License
 
-Code and documentation copyright 2017, [Engineer contributors](https://github.com/oldrivercreative/engineer/graphs/contributors) and [Old River Creative, LLC](https://oldrivercreative.com). Code released under the [MIT License](https://github.com/oldrivercreative/engineer/blob/master/LICENSE). Documentation released under [Creative Commons](https://github.com/oldrivercreative/engineer/blob/docs/LICENSE).
+Code and documentation copyright 2017, [Engineer contributors](https://github.com/sprtus/engineer/graphs/contributors) and [Spiritous, LLC](https://spirito.us). Code released under the [MIT License](https://github.com/sprtus/engineer/blob/master/LICENSE). Documentation released under [Creative Commons](https://github.com/sprtus/engineer/blob/docs/LICENSE).
