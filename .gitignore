@@ -3,3 +3,4 @@
 /test/env.js
 /migrations
 /node_modules
+/yarn-error.log
