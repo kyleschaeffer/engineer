@@ -1,5 +1,5 @@
 const config = require('../config');
-const open = require('open');
+const opn = require('opn');
 const utility = require('../utility');
 
 module.exports = {
@@ -18,6 +18,6 @@ module.exports = {
       key: 'browse.begin',
       tokens: { path },
     });
-    open(path);
+    opn(path);
   },
 };

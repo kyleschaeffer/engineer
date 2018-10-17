@@ -126,6 +126,7 @@ module.exports = {
 
   status: {
     description: 'Show migration status',
+    failed: 'Failed updating migration status.',
     get: 'Getting migration status...',
     migrated: '[c=green]Migrated[/c]',
     pending: '[c=yellow]Pending[/c]',

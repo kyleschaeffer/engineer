@@ -51,7 +51,21 @@ const Log = {
       // Error
       if (entry.level === 3) {
         if (entry.data && entry.data.responseBody) {
-          Log.error({ content: entry.data.responseBody['odata.error'].message.value });
+          if (
+            entry.data.responseBody['odata.error'] &&
+            entry.data.responseBody['odata.error'].message &&
+            entry.data.responseBody['odata.error'].message.value) {
+            Log.error({ content: entry.data.responseBody['odata.error'].message.value });
+          }
+
+          else if (
+            entry.data.responseBody.error &&
+            entry.data.responseBody.error.message &&
+            entry.data.responseBody.error.message.value
+          ) {
+            Log.error({ content: entry.data.responseBody.error.message.value });
+          }
+
           if (config.env.logLevel === 0) Log.dump(entry.data.responseBody['odata.error']);
         }
         else if (entry.message) Log.error({ content: entry.message });

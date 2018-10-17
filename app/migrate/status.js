@@ -81,6 +81,10 @@ const Status = {
         }).then(() => {
           utility.log.info({ key: 'success.done' });
           resolve();
+        }).catch((error) => {
+          utility.log.warning({ key: 'status.failed' });
+          utility.log.error(error);
+          resolve();
         });
       }
 
@@ -90,6 +94,10 @@ const Status = {
           Migrated: migrated,
         }).then(() => {
           utility.log.info({ key: 'success.done' });
+          resolve();
+        }).catch((error) => {
+          utility.log.warning({ key: 'status.failed' });
+          utility.log.error(error);
           resolve();
         });
       }
