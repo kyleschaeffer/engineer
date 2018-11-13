@@ -1,9 +1,12 @@
-import uuid from 'uuid';
+import { bootstrap } from 'pnp-auth';
+import { Env } from '../config/Env';
+import { sp, SPRest } from '@pnp/sp';
+const uuid = require('uuid');
 
 /**
  * Engineer string utilities
  */
-export class String {
+export class SharePoint {
   /**
    * Generate a globally unique identifier (GUID)
    *
@@ -13,5 +16,13 @@ export class String {
     let guid: string = uuid();
     if (simple) guid = guid.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
     return guid;
+  }
+
+  /**
+   * Get an instance of PnP-JS-Core configured with authentication
+   */
+  public static pnp(): SPRest {
+    bootstrap(sp, Env.auth, Env.site);
+    return sp;
   }
 }

@@ -34,6 +34,7 @@ export interface ILang {
   },
 
   error: {
+    connect: string;
     exists: string;
     message: string;
     migrationFile: string;

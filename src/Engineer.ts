@@ -2,10 +2,11 @@ import _ from 'lodash';
 import program from 'commander';
 import { Env } from './config/Env';
 import { File } from './utility/File';
-import { IEnvironmentConfiguration } from './config/IEnvironmentConfiguration';
+import { Install } from './commands/Install';
 import { Log } from './utility/Log';
-import { LogLevel } from './utility/LogLevel';
+import { LogLevel } from '@pnp/logging';
 import { Status } from './commands/Status';
+import { Uninstall } from './commands/Uninstall';
 
 /**
  * Load configuration from file
@@ -17,7 +18,7 @@ const config = function(): void {
     key: 'config.using',
     tokens: { path: File.path(path) },
   });
-  const options = File.load(path) as IEnvironmentConfiguration;
+  const options = File.load(path);
 
   // No config file found
   if (!options) {
@@ -34,6 +35,9 @@ const config = function(): void {
   if (program.quiet) Env.logLevel = LogLevel.Off;
   if (program.info) Env.logLevel = LogLevel.Info;
   if (program.verbose) Env.logLevel = LogLevel.Verbose;
+
+  // Subscribe to @pnp/logging
+  Log.subscribe();
 };
 
 // Program
@@ -65,12 +69,13 @@ program.version('2.0.0')
 //     Engineer.commands.init.run();
 //   });
 
-// // Install
-// program.command('install')
-//   .description(Log.translate('install.description'))
-//   .action(() => {
-//     config().then(Engineer.commands.install.run());
-//   });
+// Install
+program.command('install')
+  .description(Log.translate('install.description'))
+  .action(() => {
+    config();
+    Install.run();
+  });
 
 // // Make migration
 // program.command('make <name>')
@@ -113,19 +118,16 @@ program.command('status')
   .description(Log.translate('status.description'))
   .action(() => {
     config();
-    Status.run().then(() => {
-      Log.info('Status complete.');
-    }).catch(error => {
-      // console.log('Command failed:', error);
-    });
+    Status.run();
   });
 
-// // Uninstall
-// program.command('uninstall')
-//   .description(Log.translate('uninstall.description'))
-//   .action(() => {
-//     config().then(Engineer.commands.uninstall.run());
-//   });
+// Uninstall
+program.command('uninstall')
+  .description(Log.translate('uninstall.description'))
+  .action(() => {
+    config();
+    Uninstall.run();
+  });
 
 // Parse command
 program.parse(process.argv);

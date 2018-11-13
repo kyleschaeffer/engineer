@@ -36,6 +36,7 @@ export const en_us: ILang = {
   },
 
   error: {
+    connect: 'An error occurred connecting to SharePoint',
     exists: '[c=yellow]already exists[/c]',
     message: '<%= code %> Error: <%= message %>',
     migrationFile: 'Error reading migration file **<%= file %>**: <%= message %>',

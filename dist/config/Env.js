@@ -1,13 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const LogLevel_1 = require("../utility/LogLevel");
+const InstallMigration_1 = require("./InstallMigration");
 /**
  * Engineer environment configuration
  */
 exports.Env = {
     auth: null,
+    install: InstallMigration_1.InstallMigration,
     lang: 'en_us',
-    logLevel: LogLevel_1.LogLevel.Warning,
+    lists: { migrations: 'EngineerMigrations' },
+    logLevel: 2 /* Warning */,
     site: '',
     stopOnError: false,
 };

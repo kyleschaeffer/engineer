@@ -1,8 +1,17 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const Env_1 = require("../config/Env");
 const File_1 = require("../utility/File");
-const Lists_1 = require("../services/SharePoint/Lists");
 const Log_1 = require("../utility/Log");
+const SharePoint_1 = require("../utility/SharePoint");
 /**
  * Get Engineer status
  */
@@ -11,7 +20,27 @@ class Status {
      * Run the command
      */
     static run() {
-        return new Promise((resolve, reject) => {
+        return __awaiter(this, void 0, void 0, function* () {
+            // Get status
+            const status = yield this.get();
+            // Not installed
+            if (!status.installed) {
+                Log_1.Log.warning({ key: 'status.uninstalled' });
+                return Log_1.Log.fail();
+            }
+            // Show migrations
+            const rows = status.migrations.map(migration => [
+                File_1.File.fileName(migration.file, false),
+                migration.migrated ? Log_1.Log.translate('status.migrated') : Log_1.Log.translate('status.pending'),
+            ]);
+            Log_1.Log.table(rows);
+        });
+    }
+    /**
+     * Get Engineer migration status
+     */
+    static get() {
+        return __awaiter(this, void 0, void 0, function* () {
             // Get migration files
             Log_1.Log.info({
                 key: 'migrate.using',
@@ -21,15 +50,33 @@ class Status {
             // No migrations
             if (!files || !files.length) {
                 Log_1.Log.warning({ key: 'migrate.empty' });
-                return reject();
+                return { installed: false };
             }
             // Getting status
-            Log_1.Log.info({ key: 'status.get', nl: false });
-            // Get status
-            Lists_1.Lists.getAll('/').then(response => {
-                Log_1.Log.dump(JSON.stringify(response, null, 2));
-                resolve();
-            }).catch(response => reject(response));
+            Log_1.Log.info({ key: 'status.get' });
+            // Get migration status
+            try {
+                const migrations = yield SharePoint_1.SharePoint.pnp().web.lists.getByTitle(Env_1.Env.lists.migrations).items.get();
+                // Find intersection between migration files and list items
+                const migratedStatuses = [];
+                files.forEach(file => {
+                    const migratedStatus = { file, migrated: false };
+                    migrations.forEach(migration => {
+                        if (migration.Title === migratedStatus.file)
+                            migratedStatus.migrated = migration.Migrated;
+                    });
+                    migratedStatuses.push(migratedStatus);
+                });
+                // Received migration status
+                return {
+                    installed: true,
+                    migrations: migratedStatuses,
+                };
+                // Problem getting migrations
+            }
+            catch (e) {
+                return { installed: false };
+            }
         });
     }
 }

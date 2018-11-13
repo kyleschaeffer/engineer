@@ -2,6 +2,35 @@
 # yarn lockfile v1
 
 
+"@pnp/common@^1.2.5":
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/@pnp/common/-/common-1.2.5.tgz#5671a970c5b3f6ab93ef60d5c1ba0ed314b08dfc"
+  integrity sha512-z6l9z8RWNyBZoHP2bY8+zVieCssBLMh5vRXTmDsVgg9elGdIOvfQzlZvA4KMg5iMvzDuYWgYuGS9YCOhpqhlyw==
+  dependencies:
+    adal-angular "1.0.17"
+    tslib "1.9.3"
+
+"@pnp/logging@^1.2.5":
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/@pnp/logging/-/logging-1.2.5.tgz#a40d6ac6e4ec1e816409d69636156d0551f01159"
+  integrity sha512-E1BIVxpJ/3UJQ5qj56hsnQsz7ZXW/qIAsh9nUpXEOSB7Q7tqdFr2QzAUkeWzHJDleg2ttUIvzHX/WtA4cDGJnw==
+  dependencies:
+    tslib "1.9.3"
+
+"@pnp/odata@^1.2.5":
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/@pnp/odata/-/odata-1.2.5.tgz#5b2b6b2f44ca50549ffa204ae6cff63c9b0c4ac1"
+  integrity sha512-1cFV3lxWbzFv7kXmolh90mkYCizeVeiN7h6T4Jd482q5f1tXxt/Uqh2AGxIqH8qQoKV0BotKNEDEn2EX012RAg==
+  dependencies:
+    tslib "1.9.3"
+
+"@pnp/sp@^1.2.5":
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/@pnp/sp/-/sp-1.2.5.tgz#b86ba4883b65b876241ed2218a5363353dd9afda"
+  integrity sha512-+SY8nzUTgTtYtRRQXjS4TCiZWUII4tL4TuQv6vbleRz6XBJgwRRsNpiVhlyH5ERmOG5wOlJZDDoxZ0FUj8ClVA==
+  dependencies:
+    tslib "1.9.3"
+
 "@types/bluebird@*", "@types/bluebird@^3.5.8":
   version "3.5.20"
   resolved "https://registry.yarnpkg.com/@types/bluebird/-/bluebird-3.5.20.tgz#f6363172add6f4eabb8cada53ca9af2781e8d6a1"
@@ -61,6 +90,11 @@
 "@types/tough-cookie@*":
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/@types/tough-cookie/-/tough-cookie-2.3.2.tgz#e0d481d8bb282ad8a8c9e100ceb72c995fb5e709"
+
+adal-angular@1.0.17:
+  version "1.0.17"
+  resolved "https://registry.yarnpkg.com/adal-angular/-/adal-angular-1.0.17.tgz#6e936e0e41f91d3b2a88e7ffca9c2f6f6f562cc4"
+  integrity sha1-bpNuDkH5HTsqiOf/ypwvb29WLMQ=
 
 ajv@^5.1.0:
   version "5.5.2"
@@ -585,6 +619,11 @@ mute-stream@0.0.7:
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.7.tgz#3075ce93bc21b8fab43e1bc4da7e8115ed1e7bab"
 
+node-fetch@^2.2.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.3.0.tgz#1a1d940bbfb916a1d3e0219f037e89e71f8c5fa5"
+  integrity sha512-MOd8pV3fxENbryESLgVIeaGKrdl+uaYhCSSVkjeOb/31/njTpcis5aWfdqgNlHIrKOLRbMnfPINPOML2CIFeXA==
+
 node-ntlm-client@0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/node-ntlm-client/-/node-ntlm-client-0.1.2.tgz#6c05e234b0d9194bb0879929498c6f13962c8472"
@@ -592,7 +631,7 @@ node-ntlm-client@0.1.2:
     extend "^3.0.0"
     request "^2.66.0"
 
-node-sp-auth-config@^2.4.5:
+node-sp-auth-config@^2.4.5, node-sp-auth-config@^2.5.6:
   version "2.5.6"
   resolved "https://registry.yarnpkg.com/node-sp-auth-config/-/node-sp-auth-config-2.5.6.tgz#44f094ea7248575740a22ed848046a3d3df75d92"
   dependencies:
@@ -665,6 +704,15 @@ performance-now@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
 
+pnp-auth@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/pnp-auth/-/pnp-auth-0.0.4.tgz#c2ea6c0e8d32d723e8a5bbd260def34dc04905c5"
+  integrity sha512-BXrSKBIsJHhMVCdjRYe/+ofJ3Fh4beGVyit2hTFx3OFxajx/bC2VNHbQ7kxtYF+caWxhVRbSDe7oYPt/xk31rw==
+  dependencies:
+    node-fetch "^2.2.0"
+    node-sp-auth "^2.5.5"
+    node-sp-auth-config "^2.5.6"
+
 process@^0.11.1:
   version "0.11.10"
   resolved "https://registry.yarnpkg.com/process/-/process-0.11.10.tgz#7332300e840161bda3e69a1d1d91a7d4bc16f182"
@@ -695,7 +743,7 @@ request-promise-core@1.1.1:
   dependencies:
     lodash "^4.13.1"
 
-request-promise@^4.1.1, request-promise@^4.2.2:
+request-promise@^4.1.1:
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/request-promise/-/request-promise-4.2.2.tgz#d1ea46d654a6ee4f8ee6a4fea1018c22911904b4"
   dependencies:
@@ -889,7 +937,7 @@ tough-cookie@~2.4.3:
     psl "^1.1.24"
     punycode "^1.4.1"
 
-tslib@^1.9.0:
+tslib@1.9.3, tslib@^1.9.0:
   version "1.9.3"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.9.3.tgz#d7e4dd79245d85428c4d7e4822a79917954ca286"
 

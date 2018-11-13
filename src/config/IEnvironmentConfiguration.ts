@@ -1,5 +1,6 @@
 import { IAuthOptions } from 'node-sp-auth';
-import { LogLevel } from '../utility/LogLevel';
+import { LogLevel } from '@pnp/logging';
+import { IMigration } from '../migrate/IMigration';
 
 export interface IEnvironmentConfiguration {
   /**
@@ -10,9 +11,24 @@ export interface IEnvironmentConfiguration {
   auth?: IAuthOptions;
 
   /**
+   * Engineer install migration
+   */
+  install?: IMigration;
+
+  /**
    * Language setting for string localization
    */
   lang?: string;
+
+  /**
+   * Engineer list names
+   */
+  lists: {
+    /**
+     * Engineer migrations tracking list
+     */
+    migrations: string;
+  };
 
   /**
    * Engineer message logging level

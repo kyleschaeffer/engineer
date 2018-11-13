@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { ILogMessage } from './ILogMessage';
-import { LogLevel } from './LogLevel';
+import { LogLevel } from '@pnp/logging';
 
 /**
  * Log message

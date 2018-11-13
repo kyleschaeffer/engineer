@@ -1,9 +1,13 @@
 import _ from 'lodash';
 import colors from 'colors/safe';
+import {
+  ConsoleListener,
+  Logger,
+  LogLevel,
+} from '@pnp/logging';
 import { Env } from '../config/Env';
 import { ILogMessage } from './ILogMessage';
 import { Lang } from '../lang/Lang';
-import { LogLevel } from './LogLevel';
 import { LogMessage } from './LogMessage';
 const Table = require('cli-table');
 
@@ -100,7 +104,7 @@ export class Log {
       let message = response.message.match(/<psf:text>(.*)<\/psf:text>/);
       if (message && message.length) message = message[1];
       if (code || title || message) this.error({ content: `${title}: ${message}` });
-      else this.error({ key: 'auth.error' });
+      else this.error(response.message);
       if (code === 'wst:FailedAuthentication') this.fail();
     }
 
@@ -179,6 +183,7 @@ export class Log {
     // Disable logging
     Env.logLevel = LogLevel.Off;
     Env.stopOnError = false;
+    Logger.activeLogLevel = LogLevel.Off;
   }
 
   /**
@@ -187,6 +192,7 @@ export class Log {
   public static restore(): void {
     Env.logLevel = this.oldLogLevel;
     Env.stopOnError = this.oldStopOnError;
+    Logger.activeLogLevel = this.oldLogLevel;
   }
 
   /**
@@ -197,5 +203,13 @@ export class Log {
   public static fail(message?: ILogMessage | string): void {
     if (message) this.error(message);
     process.exit();
+  }
+
+  /**
+   * Subscribe to @pnp/logging events
+   */
+  public static subscribe(): void {
+    Logger.subscribe(new ConsoleListener());
+    Logger.activeLogLevel = Env.logLevel;
   }
 }

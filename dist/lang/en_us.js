@@ -31,6 +31,7 @@ exports.en_us = {
         update: 'Update content type **<%= contentType %>** on **<%= target %>**',
     },
     error: {
+        connect: 'An error occurred connecting to SharePoint',
         exists: '[c=yellow]already exists[/c]',
         message: '<%= code %> Error: <%= message %>',
         migrationFile: 'Error reading migration file **<%= file %>**: <%= message %>',

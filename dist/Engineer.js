@@ -7,9 +7,10 @@ const lodash_1 = __importDefault(require("lodash"));
 const commander_1 = __importDefault(require("commander"));
 const Env_1 = require("./config/Env");
 const File_1 = require("./utility/File");
+const Install_1 = require("./commands/Install");
 const Log_1 = require("./utility/Log");
-const LogLevel_1 = require("./utility/LogLevel");
 const Status_1 = require("./commands/Status");
+const Uninstall_1 = require("./commands/Uninstall");
 /**
  * Load configuration from file
  */
@@ -32,11 +33,13 @@ const config = function () {
     lodash_1.default.merge(Env_1.Env, options);
     // Logging mode
     if (commander_1.default.quiet)
-        Env_1.Env.logLevel = LogLevel_1.LogLevel.Off;
+        Env_1.Env.logLevel = 99 /* Off */;
     if (commander_1.default.info)
-        Env_1.Env.logLevel = LogLevel_1.LogLevel.Info;
+        Env_1.Env.logLevel = 1 /* Info */;
     if (commander_1.default.verbose)
-        Env_1.Env.logLevel = LogLevel_1.LogLevel.Verbose;
+        Env_1.Env.logLevel = 0 /* Verbose */;
+    // Subscribe to @pnp/logging
+    Log_1.Log.subscribe();
 };
 // Program
 commander_1.default.version('2.0.0')
@@ -63,12 +66,13 @@ commander_1.default.version('2.0.0')
 //   .action(() => {
 //     Engineer.commands.init.run();
 //   });
-// // Install
-// program.command('install')
-//   .description(Log.translate('install.description'))
-//   .action(() => {
-//     config().then(Engineer.commands.install.run());
-//   });
+// Install
+commander_1.default.command('install')
+    .description(Log_1.Log.translate('install.description'))
+    .action(() => {
+    config();
+    Install_1.Install.run();
+});
 // // Make migration
 // program.command('make <name>')
 //   .description(Log.translate('make.description'))
@@ -106,18 +110,15 @@ commander_1.default.command('status')
     .description(Log_1.Log.translate('status.description'))
     .action(() => {
     config();
-    Status_1.Status.run().then(() => {
-        Log_1.Log.info('Status complete.');
-    }).catch(error => {
-        // console.log('Command failed:', error);
-    });
+    Status_1.Status.run();
 });
-// // Uninstall
-// program.command('uninstall')
-//   .description(Log.translate('uninstall.description'))
-//   .action(() => {
-//     config().then(Engineer.commands.uninstall.run());
-//   });
+// Uninstall
+commander_1.default.command('uninstall')
+    .description(Log_1.Log.translate('uninstall.description'))
+    .action(() => {
+    config();
+    Uninstall_1.Uninstall.run();
+});
 // Parse command
 commander_1.default.parse(process.argv);
 // Help

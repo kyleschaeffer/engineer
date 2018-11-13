@@ -5,9 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const lodash_1 = __importDefault(require("lodash"));
 const safe_1 = __importDefault(require("colors/safe"));
+const logging_1 = require("@pnp/logging");
 const Env_1 = require("../config/Env");
 const Lang_1 = require("../lang/Lang");
-const LogLevel_1 = require("./LogLevel");
 const LogMessage_1 = require("./LogMessage");
 const Table = require('cli-table');
 /**
@@ -50,7 +50,7 @@ class Log {
      * @param options Message configuration
      */
     static info(options) {
-        const message = new LogMessage_1.LogMessage(options, LogLevel_1.LogLevel.Info);
+        const message = new LogMessage_1.LogMessage(options, 1 /* Info */);
         if (message.level < Env_1.Env.logLevel)
             return;
         if (message.content && typeof (message.content) !== 'string')
@@ -63,7 +63,7 @@ class Log {
      * @param options Message configuration
      */
     static warning(options) {
-        const message = new LogMessage_1.LogMessage(options, LogLevel_1.LogLevel.Warning);
+        const message = new LogMessage_1.LogMessage(options, 2 /* Warning */);
         if (message.level < Env_1.Env.logLevel)
             return;
         if (message.content && typeof (message.content) !== 'string')
@@ -76,7 +76,7 @@ class Log {
      * @param options Message configuration
      */
     static error(options) {
-        const message = new LogMessage_1.LogMessage(options, LogLevel_1.LogLevel.Error);
+        const message = new LogMessage_1.LogMessage(options, 3 /* Error */);
         if (message.level < Env_1.Env.logLevel)
             return;
         if (message.content && typeof (message.content) !== 'string')
@@ -109,7 +109,7 @@ class Log {
             if (code || title || message)
                 this.error({ content: `${title}: ${message}` });
             else
-                this.error({ key: 'auth.error' });
+                this.error(response.message);
             if (code === 'wst:FailedAuthentication')
                 this.fail();
         }
@@ -171,8 +171,9 @@ class Log {
         this.oldLogLevel = Env_1.Env.logLevel;
         this.oldStopOnError = Env_1.Env.stopOnError;
         // Disable logging
-        Env_1.Env.logLevel = LogLevel_1.LogLevel.Off;
+        Env_1.Env.logLevel = 99 /* Off */;
         Env_1.Env.stopOnError = false;
+        logging_1.Logger.activeLogLevel = 99 /* Off */;
     }
     /**
      * Restore previously suppressed logging
@@ -180,6 +181,7 @@ class Log {
     static restore() {
         Env_1.Env.logLevel = this.oldLogLevel;
         Env_1.Env.stopOnError = this.oldStopOnError;
+        logging_1.Logger.activeLogLevel = this.oldLogLevel;
     }
     /**
      * End the process
@@ -190,6 +192,13 @@ class Log {
         if (message)
             this.error(message);
         process.exit();
+    }
+    /**
+     * Subscribe to @pnp/logging events
+     */
+    static subscribe() {
+        logging_1.Logger.subscribe(new logging_1.ConsoleListener());
+        logging_1.Logger.activeLogLevel = Env_1.Env.logLevel;
     }
 }
 // Indentation
