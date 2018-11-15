@@ -1,3 +1,4 @@
+#! /usr/bin/env node
 "use strict";
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -5,8 +6,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const lodash_1 = __importDefault(require("lodash"));
 const commander_1 = __importDefault(require("commander"));
+const Browse_1 = require("./commands/Browse");
 const Env_1 = require("./config/Env");
 const File_1 = require("./utility/File");
+const Guid_1 = require("./commands/Guid");
+const Init_1 = require("./commands/Init");
 const Install_1 = require("./commands/Install");
 const Log_1 = require("./utility/Log");
 const Status_1 = require("./commands/Status");
@@ -17,10 +21,6 @@ const Uninstall_1 = require("./commands/Uninstall");
 const config = function () {
     // Load config file
     const path = commander_1.default.config || 'env.js';
-    Log_1.Log.info({
-        key: 'config.using',
-        tokens: { path: File_1.File.path(path) },
-    });
     const options = File_1.File.load(path);
     // No config file found
     if (!options) {
@@ -38,6 +38,12 @@ const config = function () {
         Env_1.Env.logLevel = 1 /* Info */;
     if (commander_1.default.verbose)
         Env_1.Env.logLevel = 0 /* Verbose */;
+    // Using
+    Log_1.Log.info({
+        level: 1 /* Info */,
+        key: 'config.using',
+        tokens: { path: File_1.File.path(path) },
+    });
     // Subscribe to @pnp/logging
     Log_1.Log.subscribe();
 };
@@ -47,25 +53,27 @@ commander_1.default.version('2.0.0')
     .option('-q, --quiet', Log_1.Log.translate('config.quiet'))
     .option('-i, --info', Log_1.Log.translate('config.info'))
     .option('-v, --verbose', Log_1.Log.translate('config.verbose'));
-// // Browse SharePoint
-// program.command('browse [list]')
-//   .description(Log.translate('browse.description'))
-//   .action(list => {
-//     config().then(Engineer.commands.browse.run(list));
-//   });
-// // Create GUID
-// program.command('guid')
-//   .description(Log.translate('guid.description'))
-//   .option('-s, --simple', Log.translate('guid.simple'))
-//   .action(options => {
-//     Engineer.commands.guid.run(options);
-//   });
-// // Init
-// program.command('init')
-//   .description(Log.translate('init.description'))
-//   .action(() => {
-//     Engineer.commands.init.run();
-//   });
+// Browse SharePoint
+commander_1.default.command('browse [url]')
+    .description(Log_1.Log.translate('browse.description'))
+    .action(url => {
+    config();
+    Browse_1.Browse.run(url);
+});
+// Create GUID
+commander_1.default.command('guid')
+    .description(Log_1.Log.translate('guid.description'))
+    .option('-s, --simple', Log_1.Log.translate('guid.simple'))
+    .action(options => {
+    config();
+    Guid_1.Guid.run(options.simple);
+});
+// Init
+commander_1.default.command('init')
+    .description(Log_1.Log.translate('init.description'))
+    .action(() => {
+    Init_1.Init.run();
+});
 // Install
 commander_1.default.command('install')
     .description(Log_1.Log.translate('install.description'))
@@ -78,12 +86,6 @@ commander_1.default.command('install')
 //   .description(Log.translate('make.description'))
 //   .action(name => {
 //     config().then(Engineer.commands.make.run(name));
-//   });
-// // Manifest
-// program.command('manifest')
-//   .description(Log.translate('manifest.description'))
-//   .action(() => {
-//     config().then(Engineer.commands.manifest.run());
 //   });
 // // Migrate
 // program.command('migrate')

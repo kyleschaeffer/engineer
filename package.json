@@ -4,7 +4,7 @@
   "description": "A command-line tool with version control for SharePoint site columns, content types, lists, views, and more",
   "main": "src/Engineer.js",
   "bin": {
-    "engineer": "dist/bin/app.js"
+    "engineer": "dist/Engineer.js"
   },
   "scripts": {
     "build": "tsc",
@@ -30,8 +30,8 @@
     "@pnp/logging": "^1.2.5",
     "@pnp/odata": "^1.2.5",
     "@pnp/sp": "^1.2.5",
+    "chalk": "^2.4.1",
     "cli-table": "^0.3.1",
-    "colors": "^1.3.2",
     "commander": "^2.19.0",
     "copy-paste": "^1.3.0",
     "fs": "0.0.1-security",

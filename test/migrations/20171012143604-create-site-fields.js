@@ -4,9 +4,9 @@ module.exports = {
    * https://github.com/sprtus/engineer for more information on
    * Engineer tasks.
    */
-  up(engineer) {
+  async up(engineer) {
     // Boolean
-    engineer.web.fields.add({
+    await engineer.web.fields.add({
       Type: 'Boolean',
       Title: 'TestBooleanField',
       Description: 'A test Boolean field',
@@ -15,7 +15,7 @@ module.exports = {
     });
 
     // Choice
-    engineer.web.fields.add({
+    await engineer.web.fields.add({
       Type: 'Choice',
       Title: 'TestChoiceField',
       Description: 'A test Choice field',
@@ -28,7 +28,7 @@ module.exports = {
     });
 
     // Currency
-    engineer.web.fields.add({
+    await engineer.web.fields.add({
       Type: 'Currency',
       Title: 'TestCurrencyField',
       Description: 'A test Currency field',
@@ -39,7 +39,7 @@ module.exports = {
     });
 
     // DateTime
-    engineer.web.fields.add({
+    await engineer.web.fields.add({
       Type: 'DateTime',
       Title: 'TestDateTimeField',
       Description: 'A test DateTime field',
@@ -50,7 +50,7 @@ module.exports = {
     });
 
     // Lookup
-    engineer.web.fields.addXml(`
+    await engineer.web.fields.addXml(`
       <Field
         Type="Lookup"
         Name="TestLookupField"
@@ -66,7 +66,7 @@ module.exports = {
     `);
 
     // MultiChoice
-    engineer.web.fields.add({
+    await engineer.web.fields.add({
       Type: 'MultiChoice',
       Title: 'TestMultiChoiceField',
       Description: 'A test MultiChoice field',
@@ -83,7 +83,7 @@ module.exports = {
     });
 
     // MultiLineText
-    engineer.web.fields.add({
+    await engineer.web.fields.add({
       Type: 'MultiLineText',
       Title: 'TestMultiLineTextField',
       Description: 'A test MultiLineText field',
@@ -96,7 +96,7 @@ module.exports = {
     });
 
     // Number
-    engineer.web.fields.add({
+    await engineer.web.fields.add({
       Type: 'Number',
       Title: 'TestNumberField',
       Description: 'A test Number field',
@@ -106,7 +106,7 @@ module.exports = {
     });
 
     // Text
-    engineer.web.fields.add({
+    await engineer.web.fields.add({
       Type: 'Text',
       Title: 'TestTextField',
       Description: 'A test Text field',
@@ -115,7 +115,7 @@ module.exports = {
     });
 
     // Url
-    engineer.web.fields.add({
+    await engineer.web.fields.add({
       Type: 'Url',
       Title: 'TestUrlField',
       Description: 'A test Url field',
@@ -124,7 +124,7 @@ module.exports = {
     });
 
     // User
-    engineer.web.fields.add({
+    await engineer.web.fields.add({
       Type: 'User',
       Title: 'TestUserField',
       Description: 'A test User field',
@@ -134,7 +134,7 @@ module.exports = {
     });
 
     // Calculated field
-    engineer.web.fields.add({
+    await engineer.web.fields.add({
       Type: 'Calculated',
       Title: 'TestCalculatedField',
       Description: 'A test Calculated field',
@@ -149,19 +149,19 @@ module.exports = {
    * https://github.com/sprtus/engineer for more information on
    * Engineer tasks.
    */
-  down(engineer) {
+  async down(engineer) {
     // Delete site fields
-    engineer.web.fields.getByTitle('TestCalculatedField').delete();
-    engineer.web.fields.getByTitle('TestBooleanField').delete();
-    engineer.web.fields.getByTitle('TestChoiceField').delete();
-    engineer.web.fields.getByTitle('TestCurrencyField').delete();
-    engineer.web.fields.getByTitle('TestDateTimeField').delete();
-    engineer.web.fields.getByTitle('TestLookupField').delete();
-    engineer.web.fields.getByTitle('TestMultiChoiceField').delete();
-    engineer.web.fields.getByTitle('TestMultiLineTextField').delete();
-    engineer.web.fields.getByTitle('TestNumberField').delete();
-    engineer.web.fields.getByTitle('TestTextField').delete();
-    engineer.web.fields.getByTitle('TestUrlField').delete();
-    engineer.web.fields.getByTitle('TestUserField').delete();
+    await engineer.web.fields.getByTitle('TestCalculatedField').delete();
+    await engineer.web.fields.getByTitle('TestBooleanField').delete();
+    await engineer.web.fields.getByTitle('TestChoiceField').delete();
+    await engineer.web.fields.getByTitle('TestCurrencyField').delete();
+    await engineer.web.fields.getByTitle('TestDateTimeField').delete();
+    await engineer.web.fields.getByTitle('TestLookupField').delete();
+    await engineer.web.fields.getByTitle('TestMultiChoiceField').delete();
+    await engineer.web.fields.getByTitle('TestMultiLineTextField').delete();
+    await engineer.web.fields.getByTitle('TestNumberField').delete();
+    await engineer.web.fields.getByTitle('TestTextField').delete();
+    await engineer.web.fields.getByTitle('TestUrlField').delete();
+    await engineer.web.fields.getByTitle('TestUserField').delete();
   },
 };

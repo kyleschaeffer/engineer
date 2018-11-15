@@ -25,7 +25,10 @@ class Status {
             const status = yield this.get();
             // Not installed
             if (!status.installed) {
-                Log_1.Log.warning({ key: 'status.uninstalled' });
+                Log_1.Log.warning({
+                    level: 2 /* Warning */,
+                    key: 'status.uninstalled',
+                });
                 return Log_1.Log.fail();
             }
             // Show migrations
@@ -43,17 +46,24 @@ class Status {
         return __awaiter(this, void 0, void 0, function* () {
             // Get migration files
             Log_1.Log.info({
+                level: 1 /* Info */,
                 key: 'migrate.using',
                 tokens: { path: File_1.File.path('migrations') },
             });
             const files = File_1.File.readDir('migrations');
             // No migrations
             if (!files || !files.length) {
-                Log_1.Log.warning({ key: 'migrate.empty' });
+                Log_1.Log.warning({
+                    level: 2 /* Warning */,
+                    key: 'migrate.empty',
+                });
                 return { installed: false };
             }
             // Getting status
-            Log_1.Log.info({ key: 'status.get' });
+            Log_1.Log.info({
+                level: 1 /* Info */,
+                key: 'status.get',
+            });
             // Get migration status
             try {
                 const migrations = yield SharePoint_1.SharePoint.pnp().web.lists.getByTitle(Env_1.Env.lists.migrations).items.get();

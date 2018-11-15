@@ -70,8 +70,8 @@ export interface ILang {
   install: {
     already: string;
     begin: string;
-    complete: string;
     description: string;
+    end: string;
   },
 
   list: {
@@ -137,8 +137,8 @@ export interface ILang {
   uninstall: {
     already: string;
     begin: string;
-    complete: string;
     description: string;
+    end: string;
   },
 
   view: {

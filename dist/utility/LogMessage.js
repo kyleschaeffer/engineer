@@ -8,15 +8,13 @@ const lodash_1 = __importDefault(require("lodash"));
  * Log message
  */
 class LogMessage {
-    constructor(options = {}, newLogLevel) {
-        this.level = 1 /* Info */;
+    constructor(options = {}) {
+        this.level = 0 /* Verbose */;
         this.content = null;
         this.key = null;
         this.tokens = {};
         this.nl = true;
         lodash_1.default.merge(this, typeof (options) === 'string' ? { content: options } : options);
-        if (newLogLevel)
-            this.level = newLogLevel;
     }
 }
 exports.LogMessage = LogMessage;

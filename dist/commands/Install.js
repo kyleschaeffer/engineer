@@ -33,15 +33,24 @@ class Install {
             const status = yield Status_1.Status.get();
             // Engineer already installed
             if (status.installed) {
-                Log_1.Log.warning({ key: 'install.already' });
+                Log_1.Log.warning({
+                    level: 2 /* Warning */,
+                    key: 'install.already',
+                });
                 return true;
             }
             // Installing
-            Log_1.Log.info({ key: 'install.begin' });
-            Log_1.Log.indent();
+            Log_1.Log.info({
+                level: 2 /* Warning */,
+                key: 'install.begin',
+            });
             // Run install migration
             const installMigration = new Migration_1.Migration(Env_1.Env.install);
             yield installMigration.migrate().catch(error => Log_1.Log.responseError(error));
+            Log_1.Log.info({
+                level: 2 /* Warning */,
+                key: 'install.end',
+            });
             return true;
         });
     }

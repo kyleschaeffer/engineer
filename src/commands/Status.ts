@@ -1,6 +1,7 @@
 import { Env } from '../config/Env';
 import { File } from '../utility/File';
 import { Log } from '../utility/Log';
+import { LogLevel } from '@pnp/logging';
 import { SharePoint } from '../utility/SharePoint';
 
 /**
@@ -16,7 +17,10 @@ export class Status {
 
     // Not installed
     if (!status.installed) {
-      Log.warning({ key: 'status.uninstalled' });
+      Log.warning({
+        level: LogLevel.Warning,
+        key: 'status.uninstalled',
+      });
       return Log.fail();
     }
 
@@ -34,6 +38,7 @@ export class Status {
   public static async get(): Promise<MigrationStatus> {
     // Get migration files
     Log.info({
+      level: LogLevel.Info,
       key: 'migrate.using',
       tokens: { path: File.path('migrations') },
     });
@@ -41,12 +46,18 @@ export class Status {
 
     // No migrations
     if (!files || !files.length) {
-      Log.warning({ key: 'migrate.empty' });
+      Log.warning({
+        level: LogLevel.Warning,
+        key: 'migrate.empty',
+      });
       return { installed: false };
     }
 
     // Getting status
-    Log.info({ key: 'status.get' });
+    Log.info({
+      level: LogLevel.Info,
+      key: 'status.get',
+    });
 
     // Get migration status
     try {

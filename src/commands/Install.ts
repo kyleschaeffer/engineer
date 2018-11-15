@@ -1,5 +1,6 @@
 import { Env } from '../config/Env';
 import { Log } from '../utility/Log';
+import { LogLevel } from '@pnp/logging';
 import { Migration } from '../migrate/Migration';
 import { Status } from './Status';
 
@@ -23,17 +24,27 @@ export class Install {
 
     // Engineer already installed
     if (status.installed) {
-      Log.warning({ key: 'install.already' });
+      Log.warning({
+        level: LogLevel.Warning,
+        key: 'install.already',
+      });
       return true;
     }
 
     // Installing
-    Log.info({ key: 'install.begin' });
-    Log.indent();
+    Log.info({
+      level: LogLevel.Warning,
+      key: 'install.begin',
+    });
 
     // Run install migration
     const installMigration = new Migration(Env.install);
     await installMigration.migrate().catch(error => Log.responseError(error));
+
+    Log.info({
+      level: LogLevel.Warning,
+      key: 'install.end',
+    });
 
     return true;
   }

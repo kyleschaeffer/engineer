@@ -62,8 +62,8 @@ exports.en_us = {
     install: {
         already: 'Engineer is already installed.',
         begin: 'Installing Engineer...',
-        complete: '[c=green]Engineer installed.[/c]',
         description: 'Install Engineer tracking lists on SharePoint',
+        end: '[c=green]Engineer installed.[/c]',
     },
     list: {
         add: 'Add list **<%= list %>** to **<%= target %>**',
@@ -121,8 +121,8 @@ exports.en_us = {
     uninstall: {
         already: 'Engineer is already uninstalled.',
         begin: 'Uninstalling Engineer...',
-        complete: '[c=green]Engineer uninstalled.[/c]',
         description: 'Delete Engineer tracking lists from SharePoint',
+        end: '[c=green]Engineer uninstalled.[/c]',
     },
     view: {
         add: 'Add view **<%= view %>**',

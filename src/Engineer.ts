@@ -1,7 +1,12 @@
+#! /usr/bin/env node
+
 import _ from 'lodash';
 import program from 'commander';
+import { Browse } from './commands/Browse';
 import { Env } from './config/Env';
 import { File } from './utility/File';
+import { Guid } from './commands/Guid';
+import { Init } from './commands/Init';
 import { Install } from './commands/Install';
 import { Log } from './utility/Log';
 import { LogLevel } from '@pnp/logging';
@@ -14,10 +19,6 @@ import { Uninstall } from './commands/Uninstall';
 const config = function(): void {
   // Load config file
   const path = program.config || 'env.js';
-  Log.info({
-    key: 'config.using',
-    tokens: { path: File.path(path) },
-  });
   const options = File.load(path);
 
   // No config file found
@@ -36,6 +37,13 @@ const config = function(): void {
   if (program.info) Env.logLevel = LogLevel.Info;
   if (program.verbose) Env.logLevel = LogLevel.Verbose;
 
+  // Using
+  Log.info({
+    level: LogLevel.Info,
+    key: 'config.using',
+    tokens: { path: File.path(path) },
+  });
+
   // Subscribe to @pnp/logging
   Log.subscribe();
 };
@@ -47,27 +55,29 @@ program.version('2.0.0')
   .option('-i, --info', Log.translate('config.info'))
   .option('-v, --verbose', Log.translate('config.verbose'));
 
-// // Browse SharePoint
-// program.command('browse [list]')
-//   .description(Log.translate('browse.description'))
-//   .action(list => {
-//     config().then(Engineer.commands.browse.run(list));
-//   });
+// Browse SharePoint
+program.command('browse [url]')
+  .description(Log.translate('browse.description'))
+  .action(url => {
+    config();
+    Browse.run(url);
+  });
 
-// // Create GUID
-// program.command('guid')
-//   .description(Log.translate('guid.description'))
-//   .option('-s, --simple', Log.translate('guid.simple'))
-//   .action(options => {
-//     Engineer.commands.guid.run(options);
-//   });
+// Create GUID
+program.command('guid')
+  .description(Log.translate('guid.description'))
+  .option('-s, --simple', Log.translate('guid.simple'))
+  .action(options => {
+    config();
+    Guid.run(options.simple);
+  });
 
-// // Init
-// program.command('init')
-//   .description(Log.translate('init.description'))
-//   .action(() => {
-//     Engineer.commands.init.run();
-//   });
+// Init
+program.command('init')
+  .description(Log.translate('init.description'))
+  .action(() => {
+    Init.run();
+  });
 
 // Install
 program.command('install')
@@ -82,13 +92,6 @@ program.command('install')
 //   .description(Log.translate('make.description'))
 //   .action(name => {
 //     config().then(Engineer.commands.make.run(name));
-//   });
-
-// // Manifest
-// program.command('manifest')
-//   .description(Log.translate('manifest.description'))
-//   .action(() => {
-//     config().then(Engineer.commands.manifest.run());
 //   });
 
 // // Migrate

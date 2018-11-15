@@ -85,7 +85,10 @@ export class File {
    * @param flag File write flag for fs utility
    */
   public static write(path: string, cwd: boolean = true, contents: string | Buffer, flag: string = 'wx+'): void {
-    return writeFileSync(this.path(path, cwd), contents, flag);
+    return writeFileSync(this.path(path, cwd), contents, {
+      encoding: 'utf8',
+      flag,
+    });
   }
 
   /**

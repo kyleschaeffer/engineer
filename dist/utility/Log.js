@@ -4,11 +4,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const lodash_1 = __importDefault(require("lodash"));
-const safe_1 = __importDefault(require("colors/safe"));
 const logging_1 = require("@pnp/logging");
 const Env_1 = require("../config/Env");
 const Lang_1 = require("../lang/Lang");
 const LogMessage_1 = require("./LogMessage");
+const chalk = require('chalk');
 const Table = require('cli-table');
 /**
  * Engineer logging utilities
@@ -50,7 +50,7 @@ class Log {
      * @param options Message configuration
      */
     static info(options) {
-        const message = new LogMessage_1.LogMessage(options, 1 /* Info */);
+        const message = new LogMessage_1.LogMessage(options);
         if (message.level < Env_1.Env.logLevel)
             return;
         if (message.content && typeof (message.content) !== 'string')
@@ -63,12 +63,12 @@ class Log {
      * @param options Message configuration
      */
     static warning(options) {
-        const message = new LogMessage_1.LogMessage(options, 2 /* Warning */);
+        const message = new LogMessage_1.LogMessage(options);
         if (message.level < Env_1.Env.logLevel)
             return;
         if (message.content && typeof (message.content) !== 'string')
             return this.dump(message.content);
-        this.print(message.key ? safe_1.default.yellow(this.translate(message.key, message.tokens)) : safe_1.default.yellow(message.content), message.nl);
+        this.print(message.key ? chalk.yellow(this.translate(message.key, message.tokens)) : chalk.yellow(message.content), message.nl);
     }
     /**
      * Log an error message
@@ -76,12 +76,12 @@ class Log {
      * @param options Message configuration
      */
     static error(options) {
-        const message = new LogMessage_1.LogMessage(options, 3 /* Error */);
+        const message = new LogMessage_1.LogMessage(options);
         if (message.level < Env_1.Env.logLevel)
             return;
         if (message.content && typeof (message.content) !== 'string')
             return this.dump(message.content);
-        this.print(message.key ? safe_1.default.red(this.translate(message.key, message.tokens)) : safe_1.default.red(message.content), message.nl);
+        this.print(message.key ? chalk.red(this.translate(message.key, message.tokens)) : chalk.red(message.content), message.nl);
     }
     /**
      * Handle response error messages
@@ -115,7 +115,7 @@ class Log {
         }
         // Unknown error
         else
-            this.dump(safe_1.default.red(`UNKOWN RESPONSE ERROR: (${typeof (response)})`), response);
+            this.dump(chalk.red(`UNKOWN RESPONSE ERROR: (${typeof (response)})`), response);
     }
     /**
      * Increase indentation
@@ -156,11 +156,10 @@ class Log {
      * @param message String that may contain markdown
      */
     static md(message) {
-        const c = safe_1.default;
         // **bold**
-        message = c.bold(message.replace(/\*\*(.*?)\*\*/g, '$1'));
+        message = message.replace(/\*\*(.*?)\*\*/g, chalk.bold('$1'));
         // [c=color]...[/c]
-        message = message.replace(/\[c=(\w+)\](.*?)\[\/c\]/g, (match, $1, $2) => c[$1]($2));
+        message = message.replace(/\[c=(\w+)\](.*?)\[\/c\]/g, (match, $1, $2) => chalk[$1]($2));
         return message;
     }
     /**

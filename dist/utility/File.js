@@ -81,7 +81,10 @@ class File {
      * @param flag File write flag for fs utility
      */
     static write(path, cwd = true, contents, flag = 'wx+') {
-        return fs_1.writeFileSync(this.path(path, cwd), contents, flag);
+        return fs_1.writeFileSync(this.path(path, cwd), contents, {
+            encoding: 'utf8',
+            flag,
+        });
     }
     /**
      * Create a new file from template

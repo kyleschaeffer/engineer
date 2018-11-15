@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import colors from 'colors/safe';
 import {
   ConsoleListener,
   Logger,
@@ -9,6 +8,7 @@ import { Env } from '../config/Env';
 import { ILogMessage } from './ILogMessage';
 import { Lang } from '../lang/Lang';
 import { LogMessage } from './LogMessage';
+const chalk = require('chalk');
 const Table = require('cli-table');
 
 /**
@@ -53,7 +53,7 @@ export class Log {
    * @param options Message configuration
    */
   public static info(options: ILogMessage | string): void {
-    const message = new LogMessage(options, LogLevel.Info);
+    const message = new LogMessage(options);
     if (message.level < Env.logLevel) return;
     if (message.content && typeof(message.content) !== 'string') return this.dump(message.content);
     this.print(message.key ? this.translate(message.key, message.tokens) : message.content, message.nl);
@@ -65,10 +65,10 @@ export class Log {
    * @param options Message configuration
    */
   public static warning(options: ILogMessage | string): void {
-    const message = new LogMessage(options, LogLevel.Warning);
+    const message = new LogMessage(options);
     if (message.level < Env.logLevel) return;
     if (message.content && typeof(message.content) !== 'string') return this.dump(message.content);
-    this.print(message.key ? colors.yellow(this.translate(message.key, message.tokens)) : colors.yellow(message.content), message.nl);
+    this.print(message.key ? chalk.yellow(this.translate(message.key, message.tokens)) : chalk.yellow(message.content), message.nl);
   }
 
   /**
@@ -77,10 +77,10 @@ export class Log {
    * @param options Message configuration
    */
   public static error(options: ILogMessage | string): void {
-    const message = new LogMessage(options, LogLevel.Error);
+    const message = new LogMessage(options);
     if (message.level < Env.logLevel) return;
     if (message.content && typeof(message.content) !== 'string') return this.dump(message.content);
-    this.print(message.key ? colors.red(this.translate(message.key, message.tokens)) : colors.red(message.content), message.nl);
+    this.print(message.key ? chalk.red(this.translate(message.key, message.tokens)) : chalk.red(message.content), message.nl);
   }
 
   /**
@@ -109,7 +109,7 @@ export class Log {
     }
 
     // Unknown error
-    else this.dump(colors.red(`UNKOWN RESPONSE ERROR: (${typeof(response)})`), response);
+    else this.dump(chalk.red(`UNKOWN RESPONSE ERROR: (${typeof(response)})`), response);
   }
 
   // Indentation
@@ -157,13 +157,11 @@ export class Log {
    * @param message String that may contain markdown
    */
   public static md(message: string): string {
-    const c = colors as any;
-
     // **bold**
-    message = c.bold(message.replace(/\*\*(.*?)\*\*/g, '$1'));
+    message = message.replace(/\*\*(.*?)\*\*/g, chalk.bold('$1'));
 
     // [c=color]...[/c]
-    message = message.replace(/\[c=(\w+)\](.*?)\[\/c\]/g, (match, $1, $2) => c[$1]($2));
+    message = message.replace(/\[c=(\w+)\](.*?)\[\/c\]/g, (match, $1, $2) => chalk[$1]($2));
 
     return message;
   }

@@ -33,15 +33,24 @@ class Uninstall {
             const status = yield Status_1.Status.get();
             // Already uninstalled
             if (!status.installed) {
-                Log_1.Log.warning({ key: 'uninstall.already' });
+                Log_1.Log.warning({
+                    level: 2 /* Warning */,
+                    key: 'uninstall.already',
+                });
                 return true;
             }
             // Uninstalling
-            Log_1.Log.info({ key: 'uninstall.begin' });
-            Log_1.Log.indent();
+            Log_1.Log.info({
+                level: 2 /* Warning */,
+                key: 'uninstall.begin',
+            });
             // Roll back install migration
             const installMigration = new Migration_1.Migration(Env_1.Env.install);
             yield installMigration.rollback().catch(error => Log_1.Log.responseError(error));
+            Log_1.Log.info({
+                level: 2 /* Warning */,
+                key: 'uninstall.end',
+            });
             return true;
         });
     }
