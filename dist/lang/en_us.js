@@ -73,6 +73,7 @@ exports.en_us = {
     make: {
         begin: 'Create migration **<%= name %>**...',
         description: 'Create a new migration file',
+        file: '+ **[c=cyan]<%= path %>[/c]**',
     },
     manifest: {
         delete: 'Deleting manifest <%= contentType %>...',

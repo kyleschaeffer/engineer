@@ -13,6 +13,7 @@ const Guid_1 = require("./commands/Guid");
 const Init_1 = require("./commands/Init");
 const Install_1 = require("./commands/Install");
 const Log_1 = require("./utility/Log");
+const Make_1 = require("./commands/Make");
 const Status_1 = require("./commands/Status");
 const Uninstall_1 = require("./commands/Uninstall");
 /**
@@ -81,12 +82,13 @@ commander_1.default.command('install')
     config();
     Install_1.Install.run();
 });
-// // Make migration
-// program.command('make <name>')
-//   .description(Log.translate('make.description'))
-//   .action(name => {
-//     config().then(Engineer.commands.make.run(name));
-//   });
+// Make migration
+commander_1.default.command('make <name>')
+    .description(Log_1.Log.translate('make.description'))
+    .action(name => {
+    config();
+    Make_1.Make.run(name);
+});
 // // Migrate
 // program.command('migrate')
 //   .description(Log.translate('migrate.description'))

@@ -16,7 +16,6 @@
     }
   },
   "include": [
-    "src/Engineer.ts",
-    "templates/*.ts"
+    "src/Engineer.ts"
   ]
 }

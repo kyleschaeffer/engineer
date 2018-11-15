@@ -85,6 +85,7 @@ export const en_us: ILang = {
   make: {
     begin: 'Create migration **<%= name %>**...',
     description: 'Create a new migration file',
+    file: '+ **[c=cyan]<%= path %>[/c]**',
   },
 
   manifest: {

@@ -83,6 +83,7 @@ export interface ILang {
   make: {
     begin: string;
     description: string;
+    file: string;
   },
 
   manifest: {

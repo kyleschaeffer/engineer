@@ -10,6 +10,7 @@ import { Init } from './commands/Init';
 import { Install } from './commands/Install';
 import { Log } from './utility/Log';
 import { LogLevel } from '@pnp/logging';
+import { Make } from './commands/Make';
 import { Status } from './commands/Status';
 import { Uninstall } from './commands/Uninstall';
 
@@ -87,12 +88,13 @@ program.command('install')
     Install.run();
   });
 
-// // Make migration
-// program.command('make <name>')
-//   .description(Log.translate('make.description'))
-//   .action(name => {
-//     config().then(Engineer.commands.make.run(name));
-//   });
+// Make migration
+program.command('make <name>')
+  .description(Log.translate('make.description'))
+  .action(name => {
+    config();
+    Make.run(name);
+  });
 
 // // Migrate
 // program.command('migrate')
