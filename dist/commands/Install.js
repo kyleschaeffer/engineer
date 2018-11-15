@@ -30,9 +30,9 @@ class Install {
     static install() {
         return __awaiter(this, void 0, void 0, function* () {
             // Get migration status
-            const status = yield Status_1.Status.get();
+            yield Status_1.Status.get();
             // Engineer already installed
-            if (status.installed) {
+            if (Status_1.Status.status.installed) {
                 Log_1.Log.warning({
                     level: 2 /* Warning */,
                     key: 'install.already',

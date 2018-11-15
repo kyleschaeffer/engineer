@@ -20,10 +20,10 @@ export class Install {
    */
   public static async install(): Promise<boolean> {
     // Get migration status
-    const status = await Status.get();
+    await Status.get();
 
     // Engineer already installed
-    if (status.installed) {
+    if (Status.status.installed) {
       Log.warning({
         level: LogLevel.Warning,
         key: 'install.already',

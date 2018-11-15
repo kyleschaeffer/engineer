@@ -20,10 +20,10 @@ export class Uninstall {
    */
   public static async uninstall(): Promise<boolean> {
     // Get status
-    const status = await Status.get();
+    await Status.get();
 
     // Already uninstalled
-    if (!status.installed) {
+    if (!Status.status.installed) {
       Log.warning({
         level: LogLevel.Warning,
         key: 'uninstall.already',

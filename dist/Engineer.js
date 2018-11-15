@@ -14,6 +14,7 @@ const Init_1 = require("./commands/Init");
 const Install_1 = require("./commands/Install");
 const Log_1 = require("./utility/Log");
 const Make_1 = require("./commands/Make");
+const Migrate_1 = require("./commands/Migrate");
 const Status_1 = require("./commands/Status");
 const Uninstall_1 = require("./commands/Uninstall");
 /**
@@ -89,16 +90,17 @@ commander_1.default.command('make <name>')
     config();
     Make_1.Make.run(name);
 });
-// // Migrate
-// program.command('migrate')
-//   .description(Log.translate('migrate.description'))
-//   .option('-t, --to <file>', Log.translate('migrate.to'))
-//   .option('-o, --only <file>', Log.translate('migrate.only'))
-//   .option('-s, --step <number>', Log.translate('migrate.step'))
-//   .option('-f, --force', Log.translate('migrate.force'))
-//   .action(options => {
-//     config().then(Engineer.commands.migrate.run(options));
-//   });
+// Migrate
+commander_1.default.command('migrate')
+    .description(Log_1.Log.translate('migrate.description'))
+    .option('-t, --to <file>', Log_1.Log.translate('migrate.to'))
+    .option('-o, --only <file>', Log_1.Log.translate('migrate.only'))
+    .option('-s, --step <number>', Log_1.Log.translate('migrate.step'))
+    .option('-f, --force', Log_1.Log.translate('migrate.force'))
+    .action(options => {
+    config();
+    Migrate_1.Migrate.run(options);
+});
 // // Rollback
 // program.command('rollback')
 //   .description(Log.translate('rollback.description'))

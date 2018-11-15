@@ -11,6 +11,7 @@ import { Install } from './commands/Install';
 import { Log } from './utility/Log';
 import { LogLevel } from '@pnp/logging';
 import { Make } from './commands/Make';
+import { Migrate } from './commands/Migrate';
 import { Status } from './commands/Status';
 import { Uninstall } from './commands/Uninstall';
 
@@ -96,16 +97,17 @@ program.command('make <name>')
     Make.run(name);
   });
 
-// // Migrate
-// program.command('migrate')
-//   .description(Log.translate('migrate.description'))
-//   .option('-t, --to <file>', Log.translate('migrate.to'))
-//   .option('-o, --only <file>', Log.translate('migrate.only'))
-//   .option('-s, --step <number>', Log.translate('migrate.step'))
-//   .option('-f, --force', Log.translate('migrate.force'))
-//   .action(options => {
-//     config().then(Engineer.commands.migrate.run(options));
-//   });
+// Migrate
+program.command('migrate')
+  .description(Log.translate('migrate.description'))
+  .option('-t, --to <file>', Log.translate('migrate.to'))
+  .option('-o, --only <file>', Log.translate('migrate.only'))
+  .option('-s, --step <number>', Log.translate('migrate.step'))
+  .option('-f, --force', Log.translate('migrate.force'))
+  .action(options => {
+    config();
+    Migrate.run(options);
+  });
 
 // // Rollback
 // program.command('rollback')
