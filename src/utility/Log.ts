@@ -168,7 +168,6 @@ export class Log {
 
   // Temporary storage for suppressed logging
   private static oldLogLevel: LogLevel;
-  private static oldStopOnError: boolean;
 
   /**
    * Suppress logging
@@ -176,11 +175,9 @@ export class Log {
   public static supress(): void {
     // Save current logging configuration
     this.oldLogLevel = Env.logLevel;
-    this.oldStopOnError = Env.stopOnError;
 
     // Disable logging
     Env.logLevel = LogLevel.Off;
-    Env.stopOnError = false;
     Logger.activeLogLevel = LogLevel.Off;
   }
 
@@ -189,7 +186,6 @@ export class Log {
    */
   public static restore(): void {
     Env.logLevel = this.oldLogLevel;
-    Env.stopOnError = this.oldStopOnError;
     Logger.activeLogLevel = this.oldLogLevel;
   }
 

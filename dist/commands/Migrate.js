@@ -124,17 +124,10 @@ class Migrate {
                 key: 'migrate.begin',
                 tokens: { name: migration.name },
             });
-            Log_1.Log.indent();
             // Migrate
-            try {
-                yield migration.migration.migrate();
-            }
-            catch (e) {
-                Log_1.Log.fail(e);
-            }
+            yield migration.migration.migrate().catch(() => { });
             // Update status
             yield Status_1.Status.update(migration.name, true);
-            Log_1.Log.outdent();
             // Migrate to
             if (this.migrateTo && this.migrateTo === migration.name) {
                 this.stop = true;

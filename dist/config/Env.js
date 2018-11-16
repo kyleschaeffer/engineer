@@ -11,5 +11,4 @@ exports.Env = {
     lists: { migrations: 'EngineerMigrations' },
     logLevel: 2 /* Warning */,
     site: '',
-    stopOnError: false,
 };

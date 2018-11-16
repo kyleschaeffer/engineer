@@ -126,10 +126,6 @@ class Status {
                     if (newItem && newItem.data && newItem.data.Id) {
                         this.migrations[name].migrationId = newItem.data.Id;
                     }
-                    Log_1.Log.info({
-                        level: 2 /* Warning */,
-                        key: 'success.done',
-                    });
                     return true;
                 }
                 catch (e) {
@@ -147,10 +143,6 @@ class Status {
                     // Update migration list item
                     yield SharePoint_1.SharePoint.pnp().web.lists.getByTitle(Env_1.Env.lists.migrations).items.getById(this.migrations[name].migrationId).update({
                         Migrated: migrated,
-                    });
-                    Log_1.Log.info({
-                        level: 2 /* Warning */,
-                        key: 'success.done',
                     });
                     return true;
                 }

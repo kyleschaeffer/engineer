@@ -12,5 +12,4 @@ export const Env: IEnvironmentConfiguration = {
   lists: { migrations: 'EngineerMigrations' },
   logLevel: LogLevel.Warning,
   site: '',
-  stopOnError: false,
 };

@@ -144,11 +144,6 @@ export class Status {
           this.migrations[name].migrationId = newItem.data.Id;
         }
 
-        Log.info({
-          level: LogLevel.Warning,
-          key: 'success.done',
-        });
-
         return true;
       } catch (e) {
         // Failed to create new list item
@@ -166,11 +161,6 @@ export class Status {
         // Update migration list item
         await SharePoint.pnp().web.lists.getByTitle(Env.lists.migrations).items.getById(this.migrations[name].migrationId).update({
           Migrated: migrated,
-        });
-
-        Log.info({
-          level: LogLevel.Warning,
-          key: 'success.done',
         });
 
         return true;

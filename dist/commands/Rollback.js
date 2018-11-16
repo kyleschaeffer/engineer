@@ -132,17 +132,10 @@ class Rollback {
                 key: 'rollback.begin',
                 tokens: { name: migration.name },
             });
-            Log_1.Log.indent();
             // Roll back
-            try {
-                yield migration.migration.rollback();
-            }
-            catch (e) {
-                Log_1.Log.fail(e);
-            }
+            yield migration.migration.rollback().catch(() => { });
             // Update status
             yield Status_1.Status.update(migration.name, false);
-            Log_1.Log.outdent();
             // Next!
             return this.next();
         });

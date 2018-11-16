@@ -39,9 +39,4 @@ export interface IEnvironmentConfiguration {
    * SharePoint site URL
    */
   site?: string;
-
-  /**
-   * Halt tasks on error
-   */
-  stopOnError?: boolean;
 }

@@ -168,10 +168,8 @@ class Log {
     static supress() {
         // Save current logging configuration
         this.oldLogLevel = Env_1.Env.logLevel;
-        this.oldStopOnError = Env_1.Env.stopOnError;
         // Disable logging
         Env_1.Env.logLevel = 99 /* Off */;
-        Env_1.Env.stopOnError = false;
         logging_1.Logger.activeLogLevel = 99 /* Off */;
     }
     /**
@@ -179,7 +177,6 @@ class Log {
      */
     static restore() {
         Env_1.Env.logLevel = this.oldLogLevel;
-        Env_1.Env.stopOnError = this.oldStopOnError;
         logging_1.Logger.activeLogLevel = this.oldLogLevel;
     }
     /**

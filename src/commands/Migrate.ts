@@ -146,18 +146,12 @@ export class Migrate {
       key: 'migrate.begin',
       tokens: { name: migration.name },
     });
-    Log.indent();
 
     // Migrate
-    try {
-      await migration.migration.migrate();
-    } catch (e) {
-      Log.fail(e);
-    }
+    await migration.migration.migrate().catch(() => {});
 
     // Update status
     await Status.update(migration.name, true);
-    Log.outdent();
 
     // Migrate to
     if (this.migrateTo && this.migrateTo === migration.name) {

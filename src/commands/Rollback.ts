@@ -156,18 +156,12 @@ export class Rollback {
       key: 'rollback.begin',
       tokens: { name: migration.name },
     });
-    Log.indent();
 
     // Roll back
-    try {
-      await migration.migration.rollback();
-    } catch (e) {
-      Log.fail(e);
-    }
+    await migration.migration.rollback().catch(() => {});
 
     // Update status
     await Status.update(migration.name, false);
-    Log.outdent();
 
     // Next!
     return this.next();

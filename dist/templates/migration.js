@@ -12,7 +12,7 @@ module.exports = {
    */
   async up(sp) {
     // Create new list
-    await sp.web.lists.add('New List', 'A new list');
+    await sp.web.lists.add('New List', 'A new list').catch(() => {});
   },
 
   /**
@@ -23,6 +23,6 @@ module.exports = {
    */
   async down(sp) {
     // Delete migrations list
-    await sp.web.lists.getByTitle('New List').delete();
+    await sp.web.lists.getByTitle('New List').delete().catch(() => {});
   },
 };
