@@ -23,7 +23,7 @@ export class Uninstall {
     await Status.get();
 
     // Already uninstalled
-    if (!Status.status.installed) {
+    if (!Status.installed) {
       Log.warning({
         level: LogLevel.Warning,
         key: 'uninstall.already',

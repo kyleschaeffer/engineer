@@ -13,9 +13,9 @@ const Log_1 = require("../utility/Log");
 const Migration_1 = require("../migrate/Migration");
 const Status_1 = require("./Status");
 /**
- * Run migrations
+ * Roll back migrations
  */
-class Migrate {
+class Rollback {
     /**
      * Run the command
      * @param options Migration options
@@ -28,17 +28,17 @@ class Migrate {
             if (!files || !files.length) {
                 Log_1.Log.warning({
                     level: 3 /* Error */,
-                    key: 'migrate.empty',
+                    key: 'rollback.empty',
                 });
                 Log_1.Log.fail();
             }
             // Migrate to
             if (options.to) {
-                this.migrateTo = File_1.File.fileName(options.to, false);
-                if (!File_1.File.exists(`migrations/${this.migrateTo}.js`)) {
+                this.rollbackTo = File_1.File.fileName(options.to, false);
+                if (!File_1.File.exists(`migrations/${this.rollbackTo}.js`)) {
                     Log_1.Log.fail({
                         key: 'migrate.exist',
-                        tokens: { file: this.migrateTo },
+                        tokens: { file: this.rollbackTo },
                     });
                 }
             }
@@ -76,8 +76,8 @@ class Migrate {
                 const name = File_1.File.fileName(file, false);
                 // Get migrated status
                 const fileStatus = Status_1.Status.migrations[name];
-                // Not already migrated?
-                if ((options.force || !fileStatus || !fileStatus.migrated) && (!this.step || this.queue.length < this.step)) {
+                // Not already rolled back?
+                if (options.force || (fileStatus && fileStatus.migrated)) {
                     // Load migration file
                     try {
                         const data = require(`${process.cwd()}/migrations/${file}`);
@@ -93,53 +93,56 @@ class Migrate {
                     }
                 }
             });
-            // Nothing to migrate
+            // Truncate when stepping
+            if (this.step)
+                this.queue = this.queue.slice(this.queue.length - this.step);
+            // Nothing to roll back
             if (!this.queue.length) {
                 Log_1.Log.warning({
                     level: 2 /* Warning */,
-                    key: 'migrate.upToDate',
+                    key: 'rollback.upToDate',
                 });
                 Log_1.Log.fail();
             }
-            // Run migrations
+            // Run rollbacks
             yield this.next();
             Log_1.Log.info({
                 level: 2 /* Warning */,
-                key: 'migrate.complete',
+                key: 'rollback.complete',
             });
         });
     }
     /**
-     * Run next migration in queue
+     * Run next rollback in queue
      */
     static next() {
         return __awaiter(this, void 0, void 0, function* () {
             // No migrations in queue
             if (!this.queue.length || this.stop)
                 return;
-            // Run next migration
-            const migration = this.queue.shift();
+            // Run next rollback
+            const migration = this.queue.pop();
+            // Roll back to
+            if (this.rollbackTo && this.rollbackTo === migration.name) {
+                this.stop = true;
+                return;
+            }
             Log_1.Log.info({
                 level: 2 /* Warning */,
-                key: 'migrate.begin',
+                key: 'rollback.begin',
                 tokens: { name: migration.name },
             });
             Log_1.Log.indent();
-            // Migrate
+            // Roll back
             try {
-                yield migration.migration.migrate();
+                yield migration.migration.rollback();
             }
             catch (e) {
                 Log_1.Log.fail(e);
             }
             // Update status
-            yield Status_1.Status.update(migration.name, true);
+            yield Status_1.Status.update(migration.name, false);
             Log_1.Log.outdent();
-            // Migrate to
-            if (this.migrateTo && this.migrateTo === migration.name) {
-                this.stop = true;
-                return;
-            }
             // Next!
             return this.next();
         });
@@ -148,6 +151,6 @@ class Migrate {
 /**
  * Migration queue
  */
-Migrate.queue = [];
-exports.Migrate = Migrate;
+Rollback.queue = [];
+exports.Rollback = Rollback;
 ;

@@ -32,7 +32,7 @@ class Install {
             // Get migration status
             yield Status_1.Status.get();
             // Engineer already installed
-            if (Status_1.Status.status.installed) {
+            if (Status_1.Status.installed) {
                 Log_1.Log.warning({
                     level: 2 /* Warning */,
                     key: 'install.already',

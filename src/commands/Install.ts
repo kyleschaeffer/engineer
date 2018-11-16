@@ -23,7 +23,7 @@ export class Install {
     await Status.get();
 
     // Engineer already installed
-    if (Status.status.installed) {
+    if (Status.installed) {
       Log.warning({
         level: LogLevel.Warning,
         key: 'install.already',

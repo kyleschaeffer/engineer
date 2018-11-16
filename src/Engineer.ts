@@ -12,6 +12,7 @@ import { Log } from './utility/Log';
 import { LogLevel } from '@pnp/logging';
 import { Make } from './commands/Make';
 import { Migrate } from './commands/Migrate';
+import { Rollback } from './commands/Rollback';
 import { Status } from './commands/Status';
 import { Uninstall } from './commands/Uninstall';
 
@@ -109,16 +110,17 @@ program.command('migrate')
     Migrate.run(options);
   });
 
-// // Rollback
-// program.command('rollback')
-//   .description(Log.translate('rollback.description'))
-//   .option('-t, --to <file>', Log.translate('rollback.to'))
-//   .option('-o, --only <file>', Log.translate('rollback.only'))
-//   .option('-s, --step <number>', Log.translate('rollback.step'))
-//   .option('-f, --force', Log.translate('rollback.force'))
-//   .action(options => {
-//     config().then(Engineer.commands.rollback.run(options));
-//   });
+// Rollback
+program.command('rollback')
+  .description(Log.translate('rollback.description'))
+  .option('-t, --to <file>', Log.translate('rollback.to'))
+  .option('-o, --only <file>', Log.translate('rollback.only'))
+  .option('-s, --step <number>', Log.translate('rollback.step'))
+  .option('-f, --force', Log.translate('rollback.force'))
+  .action(options => {
+    config();
+    Rollback.run(options);
+  });
 
 // Status
 program.command('status')

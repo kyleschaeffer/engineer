@@ -32,7 +32,7 @@ class Uninstall {
             // Get status
             yield Status_1.Status.get();
             // Already uninstalled
-            if (!Status_1.Status.status.installed) {
+            if (!Status_1.Status.installed) {
                 Log_1.Log.warning({
                     level: 2 /* Warning */,
                     key: 'uninstall.already',

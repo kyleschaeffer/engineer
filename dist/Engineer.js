@@ -15,6 +15,7 @@ const Install_1 = require("./commands/Install");
 const Log_1 = require("./utility/Log");
 const Make_1 = require("./commands/Make");
 const Migrate_1 = require("./commands/Migrate");
+const Rollback_1 = require("./commands/Rollback");
 const Status_1 = require("./commands/Status");
 const Uninstall_1 = require("./commands/Uninstall");
 /**
@@ -101,16 +102,17 @@ commander_1.default.command('migrate')
     config();
     Migrate_1.Migrate.run(options);
 });
-// // Rollback
-// program.command('rollback')
-//   .description(Log.translate('rollback.description'))
-//   .option('-t, --to <file>', Log.translate('rollback.to'))
-//   .option('-o, --only <file>', Log.translate('rollback.only'))
-//   .option('-s, --step <number>', Log.translate('rollback.step'))
-//   .option('-f, --force', Log.translate('rollback.force'))
-//   .action(options => {
-//     config().then(Engineer.commands.rollback.run(options));
-//   });
+// Rollback
+commander_1.default.command('rollback')
+    .description(Log_1.Log.translate('rollback.description'))
+    .option('-t, --to <file>', Log_1.Log.translate('rollback.to'))
+    .option('-o, --only <file>', Log_1.Log.translate('rollback.only'))
+    .option('-s, --step <number>', Log_1.Log.translate('rollback.step'))
+    .option('-f, --force', Log_1.Log.translate('rollback.force'))
+    .action(options => {
+    config();
+    Rollback_1.Rollback.run(options);
+});
 // Status
 commander_1.default.command('status')
     .description(Log_1.Log.translate('status.description'))

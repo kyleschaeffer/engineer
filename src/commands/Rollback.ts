@@ -5,18 +5,18 @@ import { Migration } from '../migrate/Migration';
 import { Status } from './Status';
 
 /**
- * Run migrations
+ * Roll back migrations
  */
-export class Migrate {
+export class Rollback {
   /**
    * Migration queue
    */
   private static queue: QueuedMigration[] = [];
 
   /**
-   * Migrate to this file name
+   * Roll back to this file name
    */
-  private static migrateTo: string;
+  private static rollbackTo: string;
 
   /**
    * Steps
@@ -40,18 +40,18 @@ export class Migrate {
     if (!files || !files.length) {
       Log.warning({
         level: LogLevel.Error,
-        key: 'migrate.empty',
+        key: 'rollback.empty',
       });
       Log.fail();
     }
 
     // Migrate to
     if (options.to) {
-      this.migrateTo = File.fileName(options.to, false);
-      if (!File.exists(`migrations/${this.migrateTo}.js`)) {
+      this.rollbackTo = File.fileName(options.to, false);
+      if (!File.exists(`migrations/${this.rollbackTo}.js`)) {
         Log.fail({
           key: 'migrate.exist',
-          tokens: { file: this.migrateTo },
+          tokens: { file: this.rollbackTo },
         });
       }
     }
@@ -95,8 +95,8 @@ export class Migrate {
       // Get migrated status
       const fileStatus = Status.migrations[name];
 
-      // Not already migrated?
-      if ((options.force || !fileStatus || !fileStatus.migrated) && (!this.step || this.queue.length < this.step)) {
+      // Not already rolled back?
+      if (options.force || (fileStatus && fileStatus.migrated)) {
         // Load migration file
         try {
           const data = require(`${process.cwd()}/migrations/${file}`);
@@ -114,56 +114,60 @@ export class Migrate {
       }
     });
 
-    // Nothing to migrate
+    // Truncate when stepping
+    if (this.step) this.queue = this.queue.slice(this.queue.length - this.step);
+
+    // Nothing to roll back
     if (!this.queue.length) {
       Log.warning({
         level: LogLevel.Warning,
-        key: 'migrate.upToDate',
+        key: 'rollback.upToDate',
       });
       Log.fail();
     }
 
-    // Run migrations
+    // Run rollbacks
     await this.next();
 
     Log.info({
       level: LogLevel.Warning,
-      key: 'migrate.complete',
+      key: 'rollback.complete',
     });
   }
 
   /**
-   * Run next migration in queue
+   * Run next rollback in queue
    */
   private static async next(): Promise<void> {
     // No migrations in queue
     if (!this.queue.length || this.stop) return;
 
-    // Run next migration
-    const migration = this.queue.shift();
+    // Run next rollback
+    const migration = this.queue.pop();
+
+    // Roll back to
+    if (this.rollbackTo && this.rollbackTo === migration.name) {
+      this.stop = true;
+      return;
+    }
+
     Log.info({
       level: LogLevel.Warning,
-      key: 'migrate.begin',
+      key: 'rollback.begin',
       tokens: { name: migration.name },
     });
     Log.indent();
 
-    // Migrate
+    // Roll back
     try {
-      await migration.migration.migrate();
+      await migration.migration.rollback();
     } catch (e) {
       Log.fail(e);
     }
 
     // Update status
-    await Status.update(migration.name, true);
+    await Status.update(migration.name, false);
     Log.outdent();
-
-    // Migrate to
-    if (this.migrateTo && this.migrateTo === migration.name) {
-      this.stop = true;
-      return;
-    }
 
     // Next!
     return this.next();

@@ -24,7 +24,7 @@ class Status {
             // Get status
             yield this.get();
             // Not installed
-            if (!this.status.installed) {
+            if (!this.installed) {
                 Log_1.Log.warning({
                     level: 2 /* Warning */,
                     key: 'status.uninstalled',
@@ -32,9 +32,9 @@ class Status {
                 return Log_1.Log.fail();
             }
             // Show migrations
-            const rows = Object.keys(this.status.migrations).map(file => [
-                File_1.File.fileName(this.status.migrations[file].file, false),
-                this.status.migrations[file].migrated ? Log_1.Log.translate('status.migrated') : Log_1.Log.translate('status.pending'),
+            const rows = Object.keys(this.migrations).map(file => [
+                File_1.File.fileName(this.migrations[file].file, false),
+                this.migrations[file].migrated ? Log_1.Log.translate('status.migrated') : Log_1.Log.translate('status.pending'),
             ]);
             Log_1.Log.table(rows);
         });
@@ -44,8 +44,8 @@ class Status {
      */
     static get() {
         return __awaiter(this, void 0, void 0, function* () {
-            // Status is cached
-            if (this.status)
+            // Status has already been retrieved
+            if (this.haveStatus)
                 return;
             // Get migration files
             Log_1.Log.info({
@@ -60,7 +60,7 @@ class Status {
                     level: 2 /* Warning */,
                     key: 'migrate.empty',
                 });
-                this.status = { installed: false };
+                return;
             }
             // Getting status
             Log_1.Log.info({
@@ -71,41 +71,37 @@ class Status {
             try {
                 // Get migration list items
                 const migrationListItems = yield SharePoint_1.SharePoint.pnp().web.lists.getByTitle(Env_1.Env.lists.migrations).items.get();
-                // Create new status collection
-                const migrations = {};
                 // Find intersection between migration files and list items
                 files.forEach(file => {
                     // New file status
                     const fileStatus = {
+                        name: File_1.File.fileName(file, false),
                         file,
                         migrated: false,
                         migrationId: null,
                     };
                     // Get migrated status from migrations list
-                    const fileListItem = migrationListItems.filter(listItem => listItem.Title == File_1.File.fileName(file, false));
+                    const fileListItem = migrationListItems.filter(listItem => listItem.Title === fileStatus.name);
                     // Update file status
                     if (fileListItem.length) {
                         fileStatus.migrated = fileListItem[0].Migrated;
                         fileStatus.migrationId = fileListItem[0].Id;
                     }
                     // Save file status
-                    migrations[file] = fileStatus;
+                    this.migrations[fileStatus.name] = fileStatus;
                 });
-                // Set status
-                this.status = {
-                    installed: true,
-                    migrations,
-                };
+                // Save status
+                this.installed = true;
+                this.haveStatus = true;
             }
             catch (e) {
-                // Problem getting status
-                this.status = { installed: false };
+                return;
             }
         });
     }
     /**
      * Update the Engineer migrations list
-     * @param name The migration file name
+     * @param name The migration name
      * @param migrated New migrated status
      */
     static update(name, migrated) {
@@ -119,7 +115,7 @@ class Status {
             // Get migration status
             yield this.get();
             // Create new status
-            if (!this.status.migrations[name] || !this.status.migrations[name].migrationId) {
+            if (!this.migrations[name] || !this.migrations[name].migrationId) {
                 try {
                     // New migration list item
                     const newItem = yield SharePoint_1.SharePoint.pnp().web.lists.getByTitle(Env_1.Env.lists.migrations).items.add({
@@ -128,7 +124,7 @@ class Status {
                     });
                     // Update migration list item id
                     if (newItem && newItem.data && newItem.data.Id) {
-                        this.status.migrations[name] = newItem.data.Id;
+                        this.migrations[name].migrationId = newItem.data.Id;
                     }
                     Log_1.Log.info({
                         level: 2 /* Warning */,
@@ -149,7 +145,7 @@ class Status {
             else {
                 try {
                     // Update migration list item
-                    yield SharePoint_1.SharePoint.pnp().web.lists.getByTitle(Env_1.Env.lists.migrations).items.getById(this.status.migrations[name].migrationId).update({
+                    yield SharePoint_1.SharePoint.pnp().web.lists.getByTitle(Env_1.Env.lists.migrations).items.getById(this.migrations[name].migrationId).update({
                         Migrated: migrated,
                     });
                     Log_1.Log.info({
@@ -170,5 +166,17 @@ class Status {
         });
     }
 }
+/**
+ * Has status been retrieved?
+ */
+Status.haveStatus = false;
+/**
+ * Has Engineer been installed?
+ */
+Status.installed = false;
+/**
+ * Migration file status
+ */
+Status.migrations = {};
 exports.Status = Status;
 ;
