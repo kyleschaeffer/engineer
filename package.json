@@ -30,6 +30,7 @@
     "@pnp/logging": "^1.2.5",
     "@pnp/odata": "^1.2.5",
     "@pnp/sp": "^1.2.5",
+    "@pnp/sp-taxonomy": "^1.2.5",
     "chalk": "^2.4.1",
     "cli-table": "^0.3.1",
     "commander": "^2.19.0",

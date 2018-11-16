@@ -24,6 +24,13 @@
   dependencies:
     tslib "1.9.3"
 
+"@pnp/sp-taxonomy@^1.2.5":
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/@pnp/sp-taxonomy/-/sp-taxonomy-1.2.5.tgz#6a6e81e36bd8c036d53c33a7b6f22e22a129c043"
+  integrity sha512-Q3zMX7j0CzWpdqAbY5p7LiDJU3iJXGIF206NsrEazBOBEEqWTIfwnVxRUM2pcnIZuzwC4igbokEQDiyoWHQNgw==
+  dependencies:
+    tslib "1.9.3"
+
 "@pnp/sp@^1.2.5":
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/@pnp/sp/-/sp-1.2.5.tgz#b86ba4883b65b876241ed2218a5363353dd9afda"
